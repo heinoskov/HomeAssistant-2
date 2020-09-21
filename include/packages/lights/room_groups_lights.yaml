@@ -143,6 +143,12 @@ room_groups_lights:
 
   homeassistant:
     customize:
+      light.hjaltes_nanoleaf:
+        icon: mdi:triangle
+      light.colins_manelampe:
+        icon: mdi:weather-night
+      light.emilios_stjernelampe:
+        icon: mdi:star-face
       light.legevaerelse_gulvlampe:
         friendly_name: Gulvlampe
         icon: mdi:floor-lamp-dual

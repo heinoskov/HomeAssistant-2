@@ -18,41 +18,35 @@ media_players:
       state_template: "{{ states('binary_sensor.vestel_tv') }}"
       commands:
         turn_on:
-          service: script.turn_on
+          service: script.power_with_remote
           data:
-            entity_id: script.power_with_remote
-            variables:
-              remote: remote.rm_mini_3_stuen
-              device: Vestel TV
-              ping_sensor: binary_sensor.vestel_tv
+            remote: remote.stuen_rm_mini
+            device: Vestel TV
+            ping_sensor: binary_sensor.vestel_tv
         turn_off:
-          service: script.turn_on
+          service: script.power_with_remote
           data:
-            entity_id: script.power_with_remote
-            variables:
-              remote: remote.rm_mini_3_stuen
-              device: Vestel TV
-              ping_sensor: binary_sensor.vestel_tv
+            remote: remote.stuen_rm_mini
+            device: Vestel TV
+            ping_sensor: binary_sensor.vestel_tv
         volume_up:
           service: remote.send_command
           data:
-            entity_id: remote.rm_mini_3_stuen
+            entity_id: remote.stuen_rm_mini
             device: Vestel TV
             command: Volume Up
         volume_down:
           service: remote.send_command
           data:
-            entity_id: remote.rm_mini_3_stuen
+            entity_id: remote.stuen_rm_mini
             device: Vestel TV
             command: Volume Down
         volume_mute:
-          service: script.turn_on
+          service: script.mute_with_remote
           data:
-            entity_id: script.mute_with_remote
-            variables:
-              remote: remote.rm_mini_3_stuen
-              device: Vestel TV
-              boolean: input_boolean.vestel_tv_on_mute
+            remote: remote.stuen_rm_mini
+            device: Vestel TV
+            boolean: input_boolean.vestel_tv_on_mute
       attributes:
         is_volume_muted: input_boolean.vestel_tv_on_mute
 
@@ -63,41 +57,35 @@ media_players:
       state_template: "{{ states('binary_sensor.lg_tv') }}"
       commands:
         turn_on:
-          service: script.turn_on
+          service: script.power_with_remote
           data:
-            entity_id: script.power_with_remote
-            variables:
-              remote: remote.rm_mini_3_ungdomsstue
-              device: LG TV
-              ping_sensor: binary_sensor.lg_tv
+            remote: remote.pigernes_stue_rm_mini
+            device: LG TV
+            ping_sensor: binary_sensor.lg_tv
         turn_off:
-          service: script.turn_on
+          service: script.power_with_remote
           data:
-            entity_id: script.power_with_remote
-            variables:
-              remote: remote.rm_mini_3_ungdomsstue
-              device: LG TV
-              ping_sensor: binary_sensor.lg_tv
+            remote: remote.pigernes_stue_rm_mini
+            device: LG TV
+            ping_sensor: binary_sensor.lg_tv
         volume_up:
           service: remote.send_command
           data:
-            entity_id: remote.rm_mini_3_ungdomsstue
+            entity_id: remote.pigernes_stue_rm_mini
             device: LG TV
             command: Volume Up
         volume_down:
           service: remote.send_command
           data:
-            entity_id: remote.rm_mini_3_ungdomsstue
+            entity_id: remote.pigernes_stue_rm_mini
             device: LG TV
             command: Volume Down
         volume_mute:
-          service: script.turn_on
+          service: script.mute_with_remote
           data:
-            entity_id: script.mute_with_remote
-            variables:
-              remote: remote.rm_mini_3_ungdomsstue
-              device: LG TV
-              boolean: input_boolean.lg_tv_on_mute
+            remote: remote.pigernes_stue_rm_mini
+            device: LG TV
+            boolean: input_boolean.lg_tv_on_mute
       attributes:
         is_volume_muted: input_boolean.lg_tv_on_mute
 

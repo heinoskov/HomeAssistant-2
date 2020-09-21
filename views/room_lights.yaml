@@ -18,18 +18,18 @@
 # "ROOM": [[ROW 1 of Lights], [ROW 2 of Lights]]
 {% set rooms = {
 "Køkken":[ ["light.spisebord", "light.maleri", "light.legekokken"], ["light.kaffebar", "light.kokkenskabe", "light.kokkenbord"] ],
-"Stuen":[ ["light.gulvlampe", "light.stuelampe", "light.laeselampe"] ],
-"Legeværelse": [ ["light.uplight", "light.gulvlampe_i_legevaerelse"] ],
+"Stuen":[ ["light.stuen_gulvlampe", "light.stuelampe", "light.laeselampe"] ],
+"Legeværelse": [ ["light.legevaerelse_uplight", "light.legevaerelse_gulvlampe"] ],
 "Gangen": [ ["light.gangen"] ],
-"Hjalte": [ ["light.hjaltes_loftslampe", "light.nanoleaf_hjalte"] ],
-"Emilio": [ ["light.loftlampe_emilio"] ],
-"Colin": [ ["light.lampe_colin", "light.loftlampe_colin", "light.colins_manelampe"] ],
+"Hjalte": [ ["light.hjaltes_loftlampe", "light.hjaltes_nanoleaf"] ],
+"Emilio": [ ["light.emilios_loftlampe", "light.emilios_stjernelampe"] ],
+"Colin": [ ["light.colins_lampe", "light.colins_loftlampe", "light.colins_manelampe"] ],
 "Pigernes stue": [ ["light.lys_i_reol_pigernes_stue"] ],
-"Cornelie": [ ["light.gulvlampe_cornelie"] ],
-"Nathalie": [ ["light.nathalies_loftslamper", "light.nathalies_sengelamper"] ],
-"Badeværelser": [ ["light.badevaerelse_lille", "light.badevaerelse_stort"] ],
-"Indgang": [ ["light.loftlampe_i_indgang", "", "light.lys_over_skabe"] ],
-"Havegang": [ ["light.havegang"] ]
+"Cornelie": [ ["light.cornelies_gulvlampe"] ],
+"Nathalie": [ ["light.nathalies_loftlamper", "light.nathalies_sengelamper"] ],
+"Badeværelser": [ ["light.lille_badevarelse", "light.stort_badevarelse"] ],
+"Indgang": [ ["light.indgang_loftlampe"] ],
+"Havegang": [ ["light.havegangen"] ]
 } %}
 
 title: Lys
