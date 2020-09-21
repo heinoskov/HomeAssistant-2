@@ -30,5 +30,6 @@ home-assistant_v2.db
 .uuid
 google_calendars.yaml
 edgeos.key
-.ps4-games.json
+.ps4-games*
+.sonoff.json
 library_users.txt
