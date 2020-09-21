@@ -1,0 +1,86 @@
+uv_index:
+  sensor:
+    - platform: template
+      sensors:
+        uv_sun:
+          friendly_name: "UV sensor med UV grænse og sol info"
+          value_template: 3.5
+          attribute_templates:
+            protection_start_time: >-
+              {{ state_attr('binary_sensor.protection_window', 'start_time').timestamp() | timestamp_custom('%R') }}
+            protection_end_time: >-
+              {{ state_attr('binary_sensor.protection_window', 'end_time').timestamp() | timestamp_custom('%R') }}
+            next_rising: >-
+              {{ (strptime(state_attr('sun.sun', 'next_rising').replace('+00:00',''), '%Y-%m-%dT%H:%M:%S').timestamp() + 7200)  | timestamp_custom('%R') }}
+            next_setting: >-
+              {{ (strptime(state_attr('sun.sun', 'next_setting').replace('+00:00',''), '%Y-%m-%dT%H:%M:%S').timestamp() + 7200) | timestamp_custom('%R') }}
+            uv_max_natural: >-
+              {%- set ts = state_attr('sensor.max_uv_index', 'time') %}
+              {%- set H = ts.strftime("%-I") | int %}
+              {%- set M = ts.strftime("%-M") | int %}
+              
+              {%- if M == 0 -%}
+                {{ H }}
+              {%- elif M == 15 -%}
+                kvart over {{ H }}
+              {%- elif M == 45 -%}
+                kvart i {{ 1 if H == 12 else H + 1 }}
+              {%- elif M == 30 -%}
+                halv {{ 1 if H == 12 else H + 1 }}
+              {%- elif M <= 35 -%}
+                {{ M }} minut{{ "ter" if M > 1 }} over {{ H }}
+              {%- elif M > 35 -%}
+                {{ 60 - M }} minut{{ "ter" if 60 - M > 1 }} i {{ 1 if H == 12 else H + 1 }}
+              {%- endif -%}
+            protection_start_time_natural: >-
+              {%- set ts = state_attr('binary_sensor.protection_window', 'start_time') %}
+              {%- set H = ts.strftime("%-I") | int %}
+              {%- set M = ts.strftime("%-M") | int %}
+              
+              {%- if M == 0 -%}
+                {{ H }}
+              {%- elif M == 15 -%}
+                kvart over {{ H }}
+              {%- elif M == 45 -%}
+                kvart i {{ 1 if H == 12 else H + 1 }}
+              {%- elif M == 30 -%}
+                halv {{ 1 if H == 12 else H + 1 }}
+              {%- elif M <= 35 -%}
+                {{ M }} minut{{ "ter" if M > 1 }} over {{ H }}
+              {%- elif M > 35 -%}
+                {{ 60 - M }} minut{{ "ter" if 60 - M > 1 }} i {{ 1 if H == 12 else H + 1 }}
+              {%- endif -%}
+            protection_end_time_natural: >-
+              {%- set ts = state_attr('binary_sensor.protection_window', 'end_time') %}
+              {%- set H = ts.strftime("%-I") | int %}
+              {%- set M = ts.strftime("%-M") | int %}
+              
+              {%- if M == 0 -%}
+                {{ H }}
+              {%- elif M == 15 -%}
+                kvart over {{ H }}
+              {%- elif M == 45 -%}
+                kvart i {{ 1 if H == 12 else H + 1 }}
+              {%- elif M == 30 -%}
+                halv {{ 1 if H == 12 else H + 1 }}
+              {%- elif M <= 35 -%}
+                {{ M }} minut{{ "ter" if M > 1 }} over {{ H }}
+              {%- elif M > 35 -%}
+                {{ 60 - M }} minut{{ "ter" if 60 - M > 1 }} i {{ 1 if H == 12 else H + 1 }}
+              {%- endif -%}
+
+  automation:
+    - alias: Opdater OpenUV halve time
+      trigger:
+        platform: time_pattern
+        minutes: "/30"
+      condition: "{{ is_state('sun.sun', 'above_horizon') }}"
+      action:
+        service: openuv.update_uv_index_data
+
+    - alias: Opdater OpenUV beskyttelsesvindue
+      trigger:
+        platform: time
+        at: "02:12:00"
+      action:
+        service: openuv.update_protection_data

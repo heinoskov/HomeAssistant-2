@@ -1,0 +1,50 @@
+havegang:
+  input_datetime:
+    patio_off_time:
+      name: Hvornår skal lyset slukkes
+      icon: mdi:clock
+      has_date: false
+      has_time: true
+    
+    patio_morning_time:
+      name: Tænding af havegangen
+      icon: mdi:clock
+      initial: "06:00"
+      has_date: false
+      has_time: true
+    
+    patio_morning_duration:
+      name: Hvor lang tid skal lyset være tændt
+      icon: mdi:timer-sand
+      initial: "00:20"
+      has_date: false
+      has_time: true
+    
+    patio_timeout_day:
+      name: Timeout for hvornår lyset skal slukkes om dagen
+      icon: mdi:timer-sand
+      initial: "00:01"
+      has_date: false
+      has_time: true
+
+  automation:
+    - alias: "Sluk havegangen når det er dag"
+      trigger:
+        - platform: state
+          entity_id:
+            - light.havegang
+          from: "off"
+          to: "on"
+      action:
+        - service: "homeassistant.turn_{{ 'off' if is_state('binary_sensor.night', 'off') else 'on' }}"
+          entity_id:
+            - light.havegang
+
+    - alias: Husnummer tændes om natten
+      trigger:
+        - platform: state
+          entity_id: sun.sun
+      action:
+        - service: "homeassistant.turn_{{ 'on' if is_state('sun.sun', 'below_horizon') else 'off' }}"
+          entity_id:
+            - light.husnummer

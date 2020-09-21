@@ -1,0 +1,115 @@
+light_control:
+  input_number:
+    timeout_forgotten_light:
+      name: Sluk glemt lys
+      icon: mdi:timer
+      initial: 10
+      min: 1
+      max: 15
+      step: 1
+    
+    timeout_arrived_night:
+      name: Sluk lyset ved ankomst
+      icon: mdi:timer
+      initial: 5
+      min: 1
+      max: 15
+      step: 1
+
+    sun_elevation_light:
+      name: Under horisonten
+      initial: 4
+      min: 0
+      max: 6
+      step: 1
+      icon: mdi:weather-sunset-down
+
+    dim_high:
+      name: Normal lysstyrke
+      icon: mdi:car-light-high
+      initial: 254
+      min: 0
+      max: 254
+      step: 1
+    
+    dim_low:
+      name: Laveste lysstyrke
+      icon: mdi:car-light-dimmed
+      initial: 10
+      min: 0
+      max: 254
+      step: 1
+
+  input_datetime:
+    dim_time:
+      name: Dæmp lyset tidligst
+      icon: mdi:clock
+      has_date: false
+      has_time: true
+    
+    night_start_time:
+      name: Natten starter tidligst kl.
+      icon: mdi:weather-sunset-down
+      has_date: false
+      has_time: true
+    
+    night_end_time:
+      name: Natten slutter
+      icon: mdi:clock
+      has_date: false
+      has_time: true
+
+  input_select:
+    room_light:
+      name: "Vælg rum"
+      icon: mdi:floor-plan
+      options:
+        - Køkken
+        - Stuen
+        - Legeværelse
+        - Gangen
+        - Hjalte
+        - Emilio
+        - Colin
+        - Pigernes stue
+        - Cornelie
+        - Nathalie
+        - Badeværelser
+        - Indgang
+        - Havegang
+        - Husnummer
+
+  binary_sensor:
+    - platform: template
+      sensors:
+        night:
+          friendly_name: "Det er nat"
+          value_template: >-
+            {{
+              state_attr('sun.sun', 'elevation') <= (0 - states('input_number.sun_elevation_light') | float )
+              and
+              (
+                states('sensor.time') >= state_attr("input_datetime.dim_time", "timestamp") | int | timestamp_custom('%H:%M', false)
+                or
+                states('sensor.time') <= "12:00"
+              )
+            }}
+
+  automation:
+    - alias: "Sluk glemt lys på værelser"
+      trigger:
+        # Trigger - state of the group of lights i the wanted rooms
+        - platform: state
+          entity_id:
+            - group.colins_vaerelse
+            - group.emilios_vaerelse
+          from: "off"
+          to: "on"
+          # Timeout value
+          for:
+            minutes: "{{ states('input_number.timeout_forgotten_light') | int }}"
+      action:
+        service: light.turn_off
+        # Turn the entity that was the trigger
+        data:
+          entity_id: "{{ trigger.entity_id }}"

@@ -1,0 +1,21 @@
+computers:
+  switch:
+    - platform: wake_on_lan
+      name: PC-J-Lindvig-Windows
+      host: !secret PC_J_LINDVIG_WINDOWS_HOST
+      mac: !secret PC_J_LINDVIG_WINDOWS_MAC
+      turn_off:
+        service: hassio.addon_stdin
+        data:
+          addon: core_rpc_shutdown
+          input: PC-J-Lindvig-Windows
+
+    - platform: wake_on_lan
+      name: PC-H-Lindvig
+      host: !secret PC_H_LINDVIG_HOST
+      mac: ! secret PC_H_LINDVIG_MAC
+      turn_off:
+        service: hassio.addon_stdin
+        data:
+          addon: core_rpc_shutdown
+          input: PC-H-Lindvig

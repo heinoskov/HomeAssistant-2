@@ -1,0 +1,174 @@
+flagdays_dk:
+############################################################
+####                Flagday by J-Lindvig                ####
+############################################################
+
+  shell_command:
+    flagdays_update: "source /config/shell/flagdays_dk.sh"
+
+  # Placeholder for half mast
+  input_boolean:
+    half_mast:
+      name: "Der flages på halvt"
+
+  sensor:
+    - platform: template
+      sensors:
+        # Template for automations and Lovelace card
+        flag_day:
+          entity_id: sensor.flagday_dk
+          # The name of the event
+          friendly_name_template: "{{ state_attr('sensor.flagday_dk','friendly_name') }}"
+          value_template: >-
+            {%- set days = states('sensor.flagday_dk') | int %}
+            {% if days > 0 %}
+              {%- if days > 1 -%}
+                om {{ days }} dage
+              {% else %}
+                i morgen
+              {% endif -%}
+            {% else %}
+              i dag...!!!
+            {% endif %}
+          icon_template: "{{ state_attr('sensor.flagday_dk','icon') }}"
+          entity_picture_template: "{{ state_attr('sensor.flagday_dk','entity_picture') }}"
+          attribute_templates:
+            days: "{{ states('sensor.flagday_dk') }}"
+
+            flag_up_time: >-
+              {% set sunrise_ts = as_timestamp(state_attr('sun.sun', 'next_rising')) | int %}
+              {% set sunrise_min = ( sunrise_ts | timestamp_custom('%-H', true) | int * 60 ) + (sunrise_ts | timestamp_custom('%-H', true) | int) %}
+              {%- if sunrise_min <= 480 %}
+                08:00
+              {% else %}
+                {{ sunrise_ts | timestamp_custom('%H:%M', true) }}
+              {% endif -%}
+
+            flag_down_time: >-
+              {{ as_timestamp(state_attr('sun.sun', 'next_setting')) | int | timestamp_custom('%H:%M', true) }}
+
+            half_mast: >-
+              {%- if is_state_attr('sensor.flagday_dk', 'half_mast_all_day', true) %}
+                true
+              {% elif is_state_attr('sensor.flagday_dk', 'half_mast_end_time', false) %}
+                false
+              {% else %}
+                {{ state_attr('sensor.flagday_dk', 'half_mast_end_time') }}
+              {% endif %}
+
+  automation:
+    - alias: Opdater flagdage
+      description: Opdater nedtællingen til næste officielle flagdag
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: time
+          at: "05:00:00"
+        - platform: homeassistant
+          event: start
+      action:
+        service: shell_command.flagdays_update
+
+    # It is flagday
+    - alias: Flaget skal hejses
+      description: Reminder om at hejse flaget
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: template
+          value_template: "{{ states('sensor.time') == state_attr('sensor.flag_day', 'flag_up_time') }}"
+      condition: "{{ ( state_attr('sensor.flag_day', 'days') | int ) == 0 }}"
+      action:
+
+        # Update the boolean switch whether it is a half mast
+        - service: >-
+            {%- if is_state_attr('sensor.flagday_dk', 'half_mast_all_day', true) %}
+              input_boolean.turn_on
+            {% elif is_state_attr('sensor.flagday_dk', 'half_mast_end_time', false) %}
+              input_boolean.turn_off
+            {% else %}
+              input_boolean.turn_on
+            {% endif %}
+          data:
+            entity_id: input_boolean.half_mast
+
+        # Send a actionable notification to my phone
+        - service: notify.mobile_app_motorola_one_action
+          data:
+            title: "Besked fra din flagstang"
+            message: >
+              Husk at hejse flaget i anledning af {{ state_attr('sensor.flag_day', 'friendly_name') }}.
+              {%- if not is_state_attr('sensor.flag_day', 'half_mast', 'false') %}
+                HUSK: Flaget skal være på halv {{ 'hele dagen.' if is_state_attr('sensor.flag_day', 'half_mast', 'true') else 'indtil ' + state_attr('sensor.flag_day', 'half_mast') + ' hvorefter det skal hejses til tops.' }}
+              {% endif %}
+            data:
+              channel: Flagstang
+              importance: high
+              actions:
+                - action: "flag_toggle"
+                  title: "OK, flaget er hejst"
+
+    # On a half mast day  with a end time
+    - alias: Flaget skal helt til tops
+      description: Reminder om at hejse flaget helt til tops
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: template
+          value_template: "{{ states('sensor.time') == state_attr('sensor.flag_day', 'half_mast') }}"
+      action:
+
+        - service: input_boolean.turn_off
+          data:
+            entity_id: input_boolean.half_mast
+
+        - service: notify.mobile_app_motorola_one_action
+          data:
+            title: "Besked fra din flagstang"
+            message: >
+              Det er nu tid til at flaget skal helt til tops.
+            data:
+              channel: Flagstang
+              importance: high
+
+    # Time to take the flag down
+    - alias: Flaget er hejst
+      description: Reminder om at tage flaget ned
+      mode: single
+      trigger:
+        - platform: sun
+          event: sunset
+          offset: "-00:10:00"
+      action:
+
+        - service: notify.mobile_app_motorola_one_action
+          data:
+            title: "Besked fra din flagstang"
+            message: >
+              Husk at tage flaget ned. Solen går ned kl. {{ state_attr('sensor.flag_day', 'flag_down_time') }}.
+              {{ 'OBS: Hejs først flaget helt til tops inden det tages ned.' if is_state('input_boolean.half_mast', 'on') }}
+            data:
+              channel: Flagstang
+              importance: high
+              actions:
+                - action: "flag_toggle"
+                  title: "OK, flaget er taget ned"
+
+        - service: input_boolean.turn_off
+          data:
+            entity_id: input_boolean.half_mast
+
+    # Receiver of the actions from the phone
+    - alias: Opdater flagets status
+      description: Modtager af kommandoer fra notifikationer
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: event
+          event_type: mobile_app_notification_action
+          event_data:
+            action: flag_toggle
+      action:
+        - service: automation.toggle
+          data:
+            entity_id: automation.flaget_er_hejst

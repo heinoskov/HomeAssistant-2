@@ -1,0 +1,106 @@
+tools:
+
+  shell_command:
+    shell_test: "source /config/shell/tools.sh; shell_test"
+
+  rest_command:
+    set_options_fix:
+      url: !secret DYNAMIC_LIST_URL
+      method: POST
+      headers:
+        authorization: !secret API_TOKEN
+        accept: "application/json"
+        content-type: "application/json"
+      payload: '{{ payload }}'
+
+    set_state:
+      url: "http://192.168.0.12:8123/api/states/{{ entity }}"
+      method: POST
+      headers:
+        authorization: !secret API_TOKEN
+        accept: "application/json"
+        content-type: "application/json"
+      payload: "{{ payload }}"
+
+  script:
+    store_volume:
+      alias: "Save old volume and set a new"
+      sequence:
+        - service: var.set
+          data:
+            entity_id: var.prev_volume
+            value: >-
+              {{ state_attr(entity_id, 'volume_level') }}
+        - service: media_player.volume_set
+          data:
+            entity_id: "{{ entity_id }}"
+            volume_level: "{{ volume | float }}"
+
+    reset_volume:
+      alias: "Restore old volume"
+      sequence:
+        - service: media_player.volume_set
+          data:
+            entity_id: "{{ entity_id}}"
+            volume_level: >-
+              {{ states('var.prev_volume') | float }}
+  
+    # Find selected value and selects the value at same index in another list
+    # Variables: haystack and result_list
+    
+    # Haystack: A,B,C
+    # Result_List: A1, B1, C1
+    # Selection: B
+    # Selectin in Result_List: B1
+    vlookup:
+      alias: "VLOOKUP-gen"
+      sequence:
+        - service: input_select.select_option
+          data:
+            # From which list should we select the new value
+            entity_id: "{{ result_list }}"
+            # Go through every options (needles) in the haystack
+            # If the current needle is equal the selected option - we have found the right element
+            # Select the option in result_list at the same index 
+            option: >-
+              {% for needle in state_attr(haystack, "options") %}
+                {% if needle == states(haystack) %}
+                  {{ state_attr(result_list, "options")[loop.index0] }}
+                {% endif %}
+              {%- endfor %}
+
+    # Find given value in a given list and selects the value at same index in another list
+    # Variables: needle, haystack and result_list
+
+    # Haystack: A,B,C
+    # Result_List: A1, B1, C1
+    # Needle: B
+    # Selectin in Result_List: B1
+    vlookup_needle:
+      alias: "VLOOKUP-needle"
+      sequence:
+        - service: input_select.select_option
+          data:
+            # From which list should we select the new value
+            entity_id: "{{ result_list }}"
+            # Go through every options (needles) in the haystack
+            # If the current needle is equal the selected option - we have found the right element
+            # Select the option in result_list at the same index 
+            option: >-
+              {% for a_needle in state_attr(haystack, "options") %}
+                {% if a_needle == states(needle) %}
+                  {{ state_attr(result_list, "options")[loop.index0] }}
+                {% endif %}
+              {%- endfor %}
+
+    # Generic loop
+    loop:
+      alias: "Generic Loop"
+      sequence:
+        - service: system_log.write
+          data:
+            message: 'Generic loop: {{ delay }}'
+            level: error
+        - delay: >-
+            {{ delay }}
+        - service: "{{ caller }}"

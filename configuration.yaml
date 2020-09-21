@@ -1,0 +1,144 @@
+#      __  __                        ___              _      __              __ 
+#     / / / /___  ____ ___  ___     /   |  __________(_)____/ /_____ _____  / /_
+#    / /_/ / __ \/ __ `__ \/ _ \   / /| | / ___/ ___/ / ___/ __/ __ `/ __ \/ __/
+#   / __  / /_/ / / / / / /  __/  / ___ |(__  |__  ) (__  ) /_/ /_/ / / / / /_  
+#  /_/ /_/\____/_/ /_/ /_/\___/  /_/  |_/____/____/_/____/\__/\__,_/_/ /_/\__/  
+#                                                                  by J-Lindvig
+
+#      ___ 
+#     /   |
+#    / /| |
+#   / ___ |
+#  /_/  |_|
+#
+automation: !include automations.yaml
+automation old: !include_dir_merge_list include/automations/
+
+#     ______
+#    / ____/
+#   / /     
+#  / /___   
+#  \____/   
+#
+config:
+camera: !include include/cameras.yaml
+
+#      ____ 
+#     / __ \
+#    / / / /
+#   / /_/ / 
+#  /_____/  
+#
+default_config:
+device_tracker: !include include/device_trackers.yaml
+
+#      ______
+#     / ____/
+#    / /_    
+#   / __/    
+#  /_/       
+#
+ffmpeg:
+frontend:
+  themes: !include_dir_merge_named themes
+
+#     ______
+#    / ____/
+#   / / __  
+#  / /_/ /  
+#  \____/   
+#
+google:
+  client_id: !secret GOOGLE_CLIENT_ID
+  client_secret: !secret GOOGLE_CLIENT_SECRET
+
+#      __  __
+#     / / / /
+#    / /_/ / 
+#   / __  /  
+#  /_/ /_/   
+#
+homeassistant:
+  customize: !include_dir_merge_named include/customize/
+  packages: !include_dir_merge_named include/packages/
+
+#      __ 
+#     / / 
+#    / /  
+#   / /___
+#  /_____/
+#
+logger:
+  default: error
+  logs:
+    homeassistant.components.script: error
+    homeassistant.components.automation: error
+    homeassistant.core: fatal
+    homeassistant.helpers.service: critical
+
+lovelace:
+  mode: yaml
+  resources: !include_dir_merge_list include/resources/
+
+lovelace_gen:
+
+#      ____ 
+#     / __ \
+#    / /_/ /
+#   / _, _/ 
+#  /_/ |_|  
+# 
+recorder:
+  db_url: !secret MYSQL_URL
+  purge_keep_days: 7
+  auto_purge: true
+
+rest_command: !include_dir_merge_named include/rest_commands/
+
+#     _____
+#    / ___/
+#    \__ \ 
+#   ___/ / 
+#  /____/  
+# 
+sensor:
+  - platform: seventeentrack
+    username: !secret 17TRACK_USER
+    password: !secret 17TRACK_PASSWORD
+    show_archived: true
+    show_delivered: true
+shell_command: !include_dir_merge_named include/shell_commands/
+
+sonoff:
+  username: jacob@lindvig-henriksen.dk
+  password: Kar2ffel!
+
+spotify:
+  client_id: !secret SPOTIFY_CLIENT_ID
+  client_secret: !secret SPOTIFY_CLIENT_SECRET
+
+#    ______
+#   /_  __/
+#    / /   
+#   / /    
+#  /_/     
+#
+tts:
+  - platform: google_translate
+    language: "da"
+
+#   _    __
+#  | |  / /
+#  | | / / 
+#  | |/ /  
+#  |___/   
+#
+var: !include_dir_merge_named include/variables/
+
+#   _       __
+#  | |     / /
+#  | | /| / / 
+#  | |/ |/ /  
+#  |__/|__/   
+#
+wake_on_lan:

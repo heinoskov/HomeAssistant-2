@@ -1,0 +1,67 @@
+# lovelace_gen
+#      ____  _      __  __        __                                   __
+#     / __ )(_)____/ /_/ /_  ____/ /___ ___  __   _________ __________/ /
+#    / __  / / ___/ __/ __ \/ __  / __ `/ / / /  / ___/ __ `/ ___/ __  / 
+#   / /_/ / / /  / /_/ / / / /_/ / /_/ / /_/ /  / /__/ /_/ / /  / /_/ /  
+#  /_____/_/_/   \__/_/ /_/\__,_/\__,_/\__, /   \___/\__,_/_/   \__,_/   
+#                                     /____/                             
+#                                                             by J-Lindvig
+#     ___                _                        __    
+#    / _ \___ ___ ___ __(_)______ __ _  ___ ___  / /____
+#   / , _/ -_) _ `/ // / / __/ -_)  ' \/ -_) _ \/ __(_-<
+#  /_/|_|\__/\_, /\_,_/_/_/  \__/_/_/_/\__/_//_/\__/___/
+#             /_/                                       
+# Lovelace Gen, https://github.com/thomasloven/hass-lovelace_gen
+# State Attribute Element, https://github.com/custom-cards/state-attribute-element
+
+{% macro element_style(top, left, fontsize) -%}
+      top: {{ top }}
+      left: {{ left }}
+      font-size: {{ fontsize }}
+      color: white
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black
+      font-weight: bold
+{%- endmacro %}
+
+type: picture-elements
+image: /local/images/backgrounds/birthday_5x2.jpg
+elements:
+  - type: custom:state-attribute-element
+    entity: sensor.next_birthday
+    attribute: friendly_name
+    style:
+      {{ element_style("15%", "50%", "1.8vw") }}
+
+  - type: custom:state-attribute-element
+    entity: sensor.next_birthday
+    attribute: years_at_next_anniversary
+    suffix: " år"
+    style:
+      {{ element_style("45%", "50%", "5vh") }}
+
+  - type: state-label
+    entity: sensor.next_birthday
+    style:
+      {{ element_style("70%", "50%", "5vh") }}
+    tap_action:
+      action: call-service
+      service: browser_mod.popup
+      service_data:
+        title: Kommende begivenheder
+        style:
+          border-radius: 20px
+          --ha-card-border-radius: 20px
+        card:
+          type: custom:auto-entities
+          card:
+            type: entities
+            show_header_toggle: false
+          filter:
+            include:
+              - domain: sensor
+                name: "*dag"
+          sort:
+            method: state
+            numeric: true
+            first: 1
+            count: 8

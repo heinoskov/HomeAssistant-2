@@ -1,0 +1,63 @@
+greentel:
+  sensor:
+    - platform: template
+      sensors:
+        talk_hours_used:
+          friendly_name: "Taletid"
+          entity_id: sensor.greentel
+          value_template: >-
+            {{ state_attr("sensor.greentel", "talk_hours_used") }}
+          icon_template: mdi:phone-in-talk
+
+        talk_hours_max:
+          friendly_name: "Taletid, max"
+          entity_id: sensor.greentel
+          value_template: >-
+            {{ state_attr("sensor.greentel", "talk_hours_max") }}
+
+        data_used:
+          friendly_name: "Data"
+          entity_id: sensor.greentel
+          value_template: >-
+            {{ state_attr("sensor.greentel", "data_used") }}
+          icon_template: mdi:signal-cellular-3
+
+        data_max:
+          friendly_name: "Data, max"
+          entity_id: sensor.greentel
+          value_template: >-
+            {{ state_attr("sensor.greentel", "data_max") }}
+
+        modem_used_percent:
+          friendly_name: "Modem"
+          entity_id: sensor.greentel
+          value_template: >-
+            {{ state_attr("sensor.greentel", "modem_used") }}
+          icon_template: mdi:signal-4g
+
+  shell_command:
+    greentel_scrape: "source /config/shell/greentel.sh; greentel_scrape"
+    greentel_get: "source /config/shell/greentel.sh; greentel_get"
+
+  automation:
+    - alias: "Greentel hent værdier"
+      description: Udtræk taletid m.m. fra scraping af Greentel
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: time_pattern
+          minutes: "/52"
+        - platform: homeassistant
+          event: start
+      action:
+        - service: shell_command.greentel_get
+
+    - alias: "Greentel scrape"
+      description: Scrape data fra Greentel
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: time_pattern
+          minutes: "/42"
+      action:
+        - service: shell_command.greentel_scrape
