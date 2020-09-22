@@ -1,11 +1,22 @@
 honeywell_fan:
+  input_number:
+    honeywell_timer:
+      name: Honeywell sleep
+      initial: 0
+      min: 0
+      max: 7.5
+      step: 0.5
+
   input_boolean:
-    honeywell_fan_state:
+    private_honeywell_fan_state:
       name: Honeywell state
       icon: mdi:power
 
-    honeywell_osc_state:
+    private_honeywell_osc_state:
       name: Honeywell oscillating
+
+    private_honeywell_cooling_state:
+      name: Honeywell cooling
 
   input_select:
     honeywell_fan_speed:
@@ -18,46 +29,117 @@ honeywell_fan:
       initial: Low
       icon: mdi:fan
 
+  automation:
+    - alias: "Honeywell fan speed"
+      trigger:
+        platform: state
+        entity_id: input_select.honeywell_fan_speed
+      action:
+        - service: remote.send_command
+          data:
+            entity_id: remote.hjaltes_rm_mini
+            device: Honeywell Air Con
+            command: Fan Speed
+            num_repeats: >-
+              {%- set ns = namespace(current_speed_idx = 0, new_speed_idx = 3) -%}
+              
+              {%- for needle in state_attr('input_select.honeywell_fan_speed', 'options') %}
+                {%- if needle == trigger.to_state.state %}
+                  {%- set ns.new_speed_idx = loop.index0 -%}
+                {% endif %}
+              {%- endfor %}
+              
+              {%- for needle in state_attr('input_select.honeywell_fan_speed', 'options') %}
+                {%- if needle == trigger.from_state.state %}
+                  {%- set ns.current_speed_idx = loop.index0 -%}
+                {% endif %}
+              {%- endfor %}
+  
+              {%- if ns.new_speed_idx < ns.current_speed_idx %}
+                {{- (state_attr('input_select.honeywell_fan_speed', 'options') | length) - ns.current_speed_idx + ns.new_speed_idx }}
+              {% else %}
+                {{- ns.new_speed_idx - ns.current_speed_idx }}
+              {% endif %}
+
+    - alias: "Honeywell timer"
+      trigger:
+        platform: state
+        entity_id: input_number.honeywell_timer
+      action:
+        - service: remote.send_command
+          data:
+            entity_id: remote.hjaltes_rm_mini
+            device: Honeywell Air Con
+            command: Timer
+            num_repeats: >-
+              {%- set from = trigger.from_state.state | float %}
+              {%- set to = trigger.to_state.state | float %}
+              {%- set max = state_attr('input_number.honeywell_timer', 'max') %}
+              {%- set step = state_attr('input_number.honeywell_timer', 'step') %}
+
+              {%- if to < from %}
+                {{ ( ( max - from ) / step + to / step + 1 ) | int }}
+              {% else %}
+                {{ ( ( to - from ) / step ) | int }}
+              {% endif %}
+
   switch:
     - platform: template
       switches:
         honeywell_fan:
-          value_template: "{{ is_state('input_boolean.honeywell_fan_state', 'on') }}"
+          value_template: "{{ is_state('input_boolean.private_honeywell_fan_state', 'on') }}"
           turn_on:
             service: script.honeywell_fan_command_boolean
             data:
               remote: remote.hjaltes_rm_mini
               device: Honeywell Air Con
               command: Power
-              boolean: input_boolean.honeywell_fan_state
+              boolean: input_boolean.private_honeywell_fan_state
           turn_off:
             service: script.honeywell_fan_command_boolean
             data:
               remote: remote.hjaltes_rm_mini
               device: Honeywell Air Con
               command: Power
-              boolean: input_boolean.honeywell_fan_state
-        honeywell_fan_osc:
-          value_template: "{{ is_state('input_boolean.honeywell_osc_state', 'on') }}"
-          turn_on:
-            service: script.honeywell_fan_command_boolean
-            data:
-              remote: remote.hjaltes_rm_mini
-              device: Honeywell Air Con
-              command: Fan Swing
-              boolean: input_boolean.honeywell_osc_state
-          turn_off:
-            service: script.honeywell_fan_command_boolean
-            data:
-              remote: remote.hjaltes_rm_mini
-              device: Honeywell Air Con
-              command: Fan Swing
-              boolean: input_boolean.honeywell_osc_state
+              boolean: input_boolean.private_honeywell_fan_state
 
+        honeywell_fan_osc:
+          value_template: "{{ is_state('input_boolean.private_honeywell_osc_state', 'on') }}"
+          turn_on:
+            service: script.honeywell_fan_command_boolean
+            data:
+              remote: remote.hjaltes_rm_mini
+              device: Honeywell Air Con
+              command: Fan Swing
+              boolean: input_boolean.private_honeywell_osc_state
+          turn_off:
+            service: script.honeywell_fan_command_boolean
+            data:
+              remote: remote.hjaltes_rm_mini
+              device: Honeywell Air Con
+              command: Fan Swing
+              boolean: input_boolean.private_honeywell_osc_state
+
+        honeywell_fan_cool:
+          value_template: "{{ is_state('input_boolean.private_honeywell_cooling_state', 'on') }}"
+          turn_on:
+            service: script.honeywell_fan_command_boolean
+            data:
+              remote: remote.hjaltes_rm_mini
+              device: Honeywell Air Con
+              command: Cooling
+              boolean: input_boolean.private_honeywell_cooling_state
+          turn_off:
+            service: script.honeywell_fan_command_boolean
+            data:
+              remote: remote.hjaltes_rm_mini
+              device: Honeywell Air Con
+              command: Cooling
+              boolean: input_boolean.private_honeywell_cooling_state
 
   script:
     honeywell_fan_command_boolean:
-      alias: "Tænd/Sluk for Honeywell"
+      alias: "Send kommando til Honeywell og opdater boolske input m.m."
       icon: mdi:power
       sequence:
         - service: remote.send_command
@@ -68,6 +150,23 @@ honeywell_fan:
         - service: input_boolean.toggle
           data:
             entity_id: "{{ boolean }}"
+        - condition: state
+          entity_id: input_boolean.private_honeywell_fan_state
+          state: 'off'
+        - service: input_select.select_option
+          data:
+            entity_id: input_select.honeywell_fan_speed
+            option: "{{ state_attr('input_select.honeywell_fan_speed', 'options')[0] }}"
+        - service: input_boolean.turn_off
+          data:
+            entity_id: input_boolean.private_honeywell_osc_state
+        - service: input_boolean.turn_off
+          data:
+            entity_id: input_boolean.private_honeywell_cooling_state
+        - service: input_number.set_value
+          data:
+            entity_id: input_number.honeywell_timer
+            value: "{{ state_attr('input_number.honeywell_timer', 'min') }}"
 
     honeywell_fan_speed:
       alias: "Blæser for Honeywell"
@@ -98,64 +197,3 @@ honeywell_fan:
               {% else %}
                 {{- ns.new_speed_idx - ns.current_speed_idx }}
               {% endif %}
-        - service: input_select.select_option
-          data:
-            entity_id: "{{ speed_list }}"
-            option: "{{ speed }}"
-
-  # fan:
-  #   - platform: template
-  #     fans:
-  #       honeywell_fan_old:
-  #         friendly_name: "Honeywell"
-  #         value_template: "{{ states('input_boolean.honeywell_fan_state') }}"
-  #         speed_template: "{{ states('input_select.honeywell_fan_speed') }}"
-  #         oscillating_template: "{{ states('input_boolean.honeywell_osc_state') }}"
-  #         turn_on:
-  #           service: script.turn_on
-  #           data:
-  #             entity_id: script.honeywell_fan_command_boolean
-  #             variables:
-  #               remote: remote.rm_mini_3_hjalte
-  #               device: Honeywell Air Con
-  #               command: Power
-  #               boolean: input_boolean.honeywell_fan_state
-  #         turn_off:
-  #           service: script.turn_on
-  #           data:
-  #             entity_id: script.honeywell_fan_command_boolean
-  #             variables:
-  #               remote: remote.rm_mini_3_hjalte
-  #               device: Honeywell Air Con
-  #               command: Power
-  #               boolean: input_boolean.honeywell_fan_state
-  #         set_speed:
-  #           service: remote.send_command
-  #           data:
-  #             entity_id: remote.rm_mini_3_hjalte
-  #             device: Honeywell Air Con
-  #             command: Fan Speed
-  #             num_repeats: >-
-  #               {%- for current_speed in state_attr('input_select.honeywell_fan_speed', 'options') %}
-  #                 {%- if current_speed == states('input_select.honeywell_fan_speed') %}
-  #                   {%- if speed < loop.index0 %}
-  #                     {{- (state_attr('input_select.honeywell_fan_speed', 'options') | length) - loop.index0 + speed }}
-  #                   {% else %}
-  #                     {{- speed -  loop.index0 }}
-  #                   {% endif %}
-  #                 {% endif %}
-  #               {%- endfor %}
-  #         set_oscillating:
-  #           service: script.turn_on
-  #           data:
-  #             entity_id: script.honeywell_fan_command_boolean
-  #             variables:
-  #               remote: remote.rm_mini_3_hjalte
-  #               device: Honeywell Air Con
-  #               command: Fan Swing
-  #               boolean: input_boolean.honeywell_osc_state
-  #         speeds:
-  #           - 0
-  #           - 1
-  #           - 2
-  #           - 3
