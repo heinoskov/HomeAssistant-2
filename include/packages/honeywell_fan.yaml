@@ -7,17 +7,6 @@ honeywell_fan:
       max: 7.5
       step: 0.5
 
-  input_boolean:
-    private_honeywell_fan_state:
-      name: Honeywell state
-      icon: mdi:power
-
-    private_honeywell_osc_state:
-      name: Honeywell oscillating
-
-    private_honeywell_cooling_state:
-      name: Honeywell cooling
-
   input_select:
     honeywell_fan_speed:
       name: Honeywell speed
@@ -28,6 +17,16 @@ honeywell_fan:
         - Sleep
       initial: Low
       icon: mdi:fan
+
+  input_boolean:
+    private_honeywell_fan_state:
+      name: Honeywell state
+
+    private_honeywell_osc_state:
+      name: Honeywell oscillating
+
+    private_honeywell_cooling_state:
+      name: Honeywell cooling
 
   automation:
     - alias: "Honeywell fan speed"
@@ -41,7 +40,7 @@ honeywell_fan:
             device: Honeywell Air Con
             command: Fan Speed
             num_repeats: >-
-              {%- set ns = namespace(current_speed_idx = 0, new_speed_idx = 3) -%}
+              {%- set ns = namespace(current_speed_idx = -1, new_speed_idx = -1) -%}
               
               {%- for needle in state_attr('input_select.honeywell_fan_speed', 'options') %}
                 {%- if needle == trigger.to_state.state %}
