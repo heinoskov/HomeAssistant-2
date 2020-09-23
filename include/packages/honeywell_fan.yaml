@@ -166,33 +166,3 @@ honeywell_fan:
           data:
             entity_id: input_number.honeywell_timer
             value: "{{ state_attr('input_number.honeywell_timer', 'min') }}"
-
-    honeywell_fan_speed:
-      alias: "Blæser for Honeywell"
-      icon: mdi:fan
-      sequence:
-        - service: remote.send_command
-          data:
-            entity_id: "{{ remote }}"
-            device: "{{ device }}"
-            command: Fan Speed
-            num_repeats: >-
-              {%- set ns = namespace(current_speed_idx = 0, new_speed_idx = 3) -%}
-              
-              {%- for needle in state_attr(speed_list, 'options') %}
-                {%- if needle == speed %}
-                  {%- set ns.new_speed_idx = loop.index0 -%}
-                {% endif %}
-              {%- endfor %}
-              
-              {%- for needle in state_attr(speed_list, 'options') %}
-                {%- if needle == states(speed_list) %}
-                  {%- set ns.current_speed_idx = loop.index0 -%}
-                {% endif %}
-              {%- endfor %}
-
-              {%- if ns.new_speed_idx < ns.current_speed_idx %}
-                {{- (state_attr(speed_list, 'options') | length) - ns.current_speed_idx + ns.new_speed_idx }}
-              {% else %}
-                {{- ns.new_speed_idx - ns.current_speed_idx }}
-              {% endif %}
