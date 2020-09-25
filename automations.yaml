@@ -1,1 +1,15 @@
-[]
+- id: '1600896445706'
+  alias: Test af MQTT
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: tele/tasmota/RESULT
+  condition:
+  - condition: template
+    value_template: '{{ (trigger.payload_json["RfReceived"]["Data"] == "42AAA9") or
+      (trigger.payload_json["RfReceived"]["Data"] == "44004A") }}'
+  action:
+  - service: light.toggle
+    data: {}
+    entity_id: light.sandbox_bulb
+  mode: single

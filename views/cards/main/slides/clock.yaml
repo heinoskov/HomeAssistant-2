@@ -57,22 +57,22 @@ elements:
     style:
       {{ element_style("20%", "95%", "1vw") }}
 
-  - type: icon
-    icon: mdi:sunglasses
-    style:
-      {{ element_style("10%", "50%", "1vw") }}
+  # - type: icon
+  #   icon: mdi:sunglasses
+  #   style:
+  #     {{ element_style("10%", "50%", "1vw") }}
 
-  - type: custom:state-attribute-element
-    entity: sensor.uv_sun
-    attribute: protection_start_time
-    style:
-      {{ element_style("20%", "42%", "1vw") }}
-  - type: custom:text-element
-    text: "til"
-    style:
-      {{ element_style("20%", "50%", "1vw") }}
-  - type: custom:state-attribute-element
-    entity: sensor.uv_sun
-    attribute: protection_end_time
-    style:
-      {{ element_style("20%", "58%", "1vw") }}
+  # - type: custom:state-attribute-element
+  #   entity: sensor.uv_sun
+  #   attribute: protection_start_time
+  #   style:
+  #     {{ element_style("20%", "42%", "1vw") }}
+  # - type: custom:text-element
+  #   text: "til"
+  #   style:
+  #     {{ element_style("20%", "50%", "1vw") }}
+  # - type: custom:state-attribute-element
+  #   entity: sensor.uv_sun
+  #   attribute: protection_end_time
+  #   style:
+  #     {{ element_style("20%", "58%", "1vw") }}

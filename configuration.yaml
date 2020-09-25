@@ -109,10 +109,6 @@ sensor:
     show_delivered: true
 shell_command: !include_dir_merge_named include/shell_commands/
 
-sonoff:
-  username: jacob@lindvig-henriksen.dk
-  password: Kar2ffel!
-
 spotify:
   client_id: !secret SPOTIFY_CLIENT_ID
   client_secret: !secret SPOTIFY_CLIENT_SECRET

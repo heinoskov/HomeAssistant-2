@@ -96,7 +96,63 @@ light_control:
             }}
 
   automation:
-    - alias: "Sluk glemt lys på værelser"
+
+    - alias: "Havegang - autosluk dag"
+      description: "Der er nogen som har tændt lyset i havegangen, hvis det er dag - så sluk det"
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: state
+          entity_id:
+            - light.havegang
+          from: "off"
+          to: "on"
+      action:
+        - service: "light.turn_{{ 'off' if is_state('binary_sensor.night', 'off') else 'on' }}"
+          entity_id:
+            - light.havegang
+
+    - alias: "Husnummer - tænd/sluk"
+      description: "Tænd lyset ved husnummeret når solen er unde "
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: state
+          entity_id: sun.sun
+      action:
+        - service: "light.turn_{{ 'on' if is_state('sun.sun', 'below_horizon') else 'off' }}"
+          entity_id:
+            - light.husnummer
+
+    - alias: "Havelåge/hoveddør - tænd lys"
+      description: "Tænd lyset ved husnummeret og havegangen når havelågen eller døren åbnes når det er mørkt"
+      initial_state: true
+      mode: restart
+      trigger:
+        - platform: state
+          entity_id:
+            - binary_sensor.havelage
+            - binary_sensor.hoveddor
+          from: "off"
+          to: "on"
+      condition: "{{ is_state('sun.sun', 'below_horizon') }}"
+      action:
+        - service: light.turn_on
+          data:
+            entity_id:
+              - light.havegangen
+              - light.husnummer
+            brightness: '255'
+        - delay: "{{ states('input_number.timeout_arrived_night') | multiply(60) | int }}"
+        - service: light.turn_off
+          data:
+            entity_id:
+              - light.havegangen
+
+    - alias: "Værelser - autosluk"
+      description: "Sluk lyset på værelser efter timeout"
+      initial_state: true
+      mode: parallel
       trigger:
         # Trigger - state of the group of lights i the wanted rooms
         - platform: state

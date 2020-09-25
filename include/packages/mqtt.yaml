@@ -1,0 +1,60 @@
+mqtt:
+
+  binary_sensor:
+    - platform: mqtt
+      name: "B button"
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{% if value_json.RfReceived.Data == '42AAAA' -%}ON{%- else -%}OFF{%- endif %}"
+      off_delay: 15
+
+    - platform: mqtt
+      name: "C button"
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ 'ON' if value_json.RfReceived.Data == '42AAAB' else 'OFF' }}"
+      off_delay: 15
+
+
+  # MAGNET SENSORS
+    # HAVELÅGE
+    - platform: mqtt
+      name: "Havelåge"
+      state_topic: "tele/tasmota/RESULT"
+      device_class: door
+      value_template: "{{ 'ON' if value_json.RfReceived.Data == '0D48CA' else 'OFF' }}"
+      off_delay: 15
+
+    # HOVEDDØR
+    - platform: mqtt
+      name: "Hoveddør"
+      state_topic: "tele/tasmota/RESULT"
+      device_class: door
+      value_template: "{{ 'ON' if value_json.RfReceived.Data == 'C0E3DA' else 'OFF' }}"
+      off_delay: 15
+
+    # POSTKASSE
+    - platform: mqtt
+      name: "Postkasse"
+      device_class: vibration
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ 'ON' if value_json.RfReceived.Data == '44004A' else 'OFF' }}"
+      off_delay: 15
+
+    - platform: mqtt
+      name: "Magnetsensor 1-way 5D81DA"
+      device_class: opening
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ 'ON' if value_json.RfReceived.Data == '5D81DA' else 'OFF' }}"
+      off_delay: 15
+
+    - platform: mqtt
+      name: "Magnetsensor 1-way 3C003A"
+      state_topic: "tele/tasmota/RESULT"
+      device_class: opening
+      value_template: "{{ 'ON' if value_json.RfReceived.Data == '3C003A' else 'OFF' }}"
+      off_delay: 15
+
+    - platform: mqtt
+      name: "Magnetsensor 2-way 45400"
+      device_class: opening
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{% if value_json.RfReceived.Data == '45400A' -%}ON{%- elif value_json.RfReceived.Data == '45400E' -%}OFF{%- endif %}"
