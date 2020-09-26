@@ -26,7 +26,7 @@ doorbell:
               image: "https://ha.skovtrolden.duckdns.org/{{ state_attr('camera.indgang_sd', 'entity_picture') }}"
         - service: script.store_volume
           data:
-            entity_id: media_player.kokken
+            entity_id: media_player.kokken_skaerm
             volume: 1
         - service: camera.play_stream
           data:

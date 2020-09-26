@@ -1,7 +1,7 @@
 honeywell_fan:
   input_number:
     honeywell_timer:
-      name: Honeywell sleep
+      name: Sluk efter
       icon: mdi:timer
       unit_of_measurement: timer
       initial: 0
@@ -11,14 +11,14 @@ honeywell_fan:
 
   input_select:
     honeywell_fan_speed:
-      name: Honeywell speed
+      name: Hastighed
       icon: mdi:fan
       options:
-        - Low
+        - Lav
         - Medium
-        - High
-        - Sleep
-      initial: Low
+        - Høj
+        - Sovefunktion
+      initial: Lav
 
   input_boolean:
     private_honeywell_state:
@@ -94,6 +94,7 @@ honeywell_fan:
     - platform: template
       switches:
         honeywell_fan:
+          friendly_name: "Ventilator"
           value_template: "{{ is_state('input_boolean.private_honeywell_state', 'on') }}"
           turn_on:
             service: script.honeywell_fan_command_boolean
@@ -124,8 +125,8 @@ honeywell_fan:
               {%- endfor %}
             {% endif %}
 
-
         honeywell_fan_osc:
+          friendly_name: "Vifte"
           value_template: "{{ is_state('input_boolean.private_honeywell_osc_state', 'on') }}"
           turn_on:
             service: script.honeywell_fan_command_boolean
@@ -143,6 +144,7 @@ honeywell_fan:
               boolean: input_boolean.private_honeywell_osc_state
 
         honeywell_fan_cool:
+          friendly_name: "Køling"
           value_template: "{{ is_state('input_boolean.private_honeywell_cooling_state', 'on') }}"
           turn_on:
             service: script.honeywell_fan_command_boolean

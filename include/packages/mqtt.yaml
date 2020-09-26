@@ -31,10 +31,9 @@ mqtt:
       value_template: "{{ 'ON' if value_json.RfReceived.Data == 'C0E3DA' else 'OFF' }}"
       off_delay: 15
 
-    # POSTKASSE
     - platform: mqtt
-      name: "Postkasse"
-      device_class: vibration
+      name: "Magnetsensor 1-way 44004A"
+      device_class: door
       state_topic: "tele/tasmota/RESULT"
       value_template: "{{ 'ON' if value_json.RfReceived.Data == '44004A' else 'OFF' }}"
       off_delay: 15

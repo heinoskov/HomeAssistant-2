@@ -9,11 +9,12 @@ toilet_alert:
     - alias: "Toilet"
       description: "Colin er færdig på toilletet"
       initial_state: true
-      mode: queued
+      mode: single
       trigger:
         - platform: event
           event_type: deconz_event
           event_data:
+            id: toiletknap
             unique_id: 00:15:8d:00:02:8f:43:b9
             event: 1002
       condition: "{{ is_state('sun.sun', 'above_horizon') }}"
