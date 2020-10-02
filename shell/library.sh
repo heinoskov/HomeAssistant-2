@@ -60,15 +60,15 @@ source /config/shell_secrets.txt
 library_update() {
   while read line; do
     if [[ ! ${line:0:1} == "#" ]]; then
-      TEMP_CREDENTIALS=$(echo $line | awk -F',' '/.*/{ print "{\"mail\":\"" $1 "\",\"password\":\"" $2 "\"}"}')
+      TEMP_CREDENTIALS=$(echo $line | awk -F',' '/.*/{ print "{\"mail\":\"" $1 "\",\"password\":\"" $2 "\",\"friendly_name\":\"" $3 "\",\"entity_id\":\"" $4 "\"}"}')
       TEMP_FRIENDLY_NAME=$(echo $line | awk -F',' '/.*/{ print $3}')
       TEMP_ENTITY_ID=$(echo $line | awk -F',' '/.*/{ print $4}')
 
       library_scrape "$TEMP_CREDENTIALS"
 
-      sleep $PARSEHUB_LIBRARY_SLEEP
+#      sleep $PARSEHUB_LIBRARY_SLEEP
 
-      library_get "$TEMP_FRIENDLY_NAME" "$TEMP_ENTITY_ID"
+#      library_get "$TEMP_FRIENDLY_NAME" "$TEMP_ENTITY_ID"
     fi
   done < "$PARSEHUB_USERS_FILE"
 }
@@ -80,6 +80,39 @@ library_scrape() {
   # PARSEHUB_LIBRARY_TOKEN
   # CREDENTIALS
   _parsehub_start_scrape $PARSEHUB_LIBRARY_URL $PARSEHUB_LIBRARY_TOKEN $1
+}
+
+# Get the library loans and send it to HA
+# 1: Friendly_name for sensor in HA
+# 2: Entity_id for sensor
+new_library_get() {
+
+  # Initial cleanup - just in case
+  rm -f "$TEMP_PATH/parsehub_edit_$2.json"
+
+  # Call the generic script for fetching the last run and ready scraping
+  # Takes the following variables:
+  # PARSEHUB_LIBRARY_TOKEN
+  # Path and filename of the output
+  _parsehub_get_data "$PARSEHUB_LIBRARY_TOKEN" "$TEMP_PATH/parsehub_$2.json"
+
+  AMOUNT_LOANS=$(grep "Amount_Loans" "$TEMP_PATH/parsehub_$2.json" | cut -d'"' -f4)
+
+  if [[ $AMOUNT_LOANS -ge 1 ]]; then
+    # Parsehub is limited in manipulating the extracted data
+    # Here we search for the date in the "Due_In" field and calculate the amount
+    # of days to the expiration date of the loan
+    # Output is saved in a new file
+    sed 's/.*\([0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}\).*/|\1/' "$TEMP_PATH/parsehub_$2.json" | while read d; do if [[ ${d:0:1} == "|" ]]; then echo '"Due_In" :"'$(( ($(date -d ${d#?} +%s) - $(date +%s) ) / 86400 ))'",'; else echo $d; fi; done > "$TEMP_PATH/parsehub_edit_$2.json"
+  
+    # Set the state to the Due_In value of the loan with the lowest value.
+    # Append the attributes: summary, list of loans and friendly_name
+    # Use the generic function and send it to Home Assistant
+    _send_data "{\"state\": \""$(grep "Due_In" "$TEMP_PATH/parsehub_edit_$2.json" | sort -t\" -k4n | head -n 1 | cut -d'"' -f4)"\", \"attributes\": $(cat "$TEMP_PATH/parsehub_edit_$2.json"), \"unit_of_measurement\": \"dage til aflevering\", \"friendly_name\": \"$1\", \"icon\": \"mdi:bookshelf\", \"last_update\": \"$(date)\", \"last_update_timestamp\": \"$(date +%s)\"}}" "$BASE_URL$API_STATES_PATH/sensor.library_$2"
+  fi
+
+  # Cleanup on exit
+  rm -f "$TEMP_PATH/parsehub_edit_$2.json" "$TEMP_PATH/parsehub_$2.json"
 }
 
 # Get the library loans and send it to HA

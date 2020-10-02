@@ -1,11 +1,194 @@
 systemmonitor:
 
+  group:
+    access_points:
+      name: Access Points
+      icon: mdi:access-point-network
+      all: true
+      entities:
+        - binary_sensor.ap_hjalte
+        - binary_sensor.ap_kokken
+        - binary_sensor.ap_pigernes_stue
+        - binary_sensor.ap_stuen
+
+    sonoff_rf:
+      name: RF Bridges
+      icon: mdi:radio-tower
+      all: true
+      entities:
+        - binary_sensor.sonoff_1
+        - binary_sensor.sonoff_2
+        - binary_sensor.sonoff_3
+
+    rm_mini_3:
+      name: IR Bridges
+      icon: mdi:radio-tower
+      all: true
+      entities:
+        - binary_sensor.private_rm_mini_3_1
+        - binary_sensor.private_rm_mini_3_2
+        - binary_sensor.private_rm_mini_3_3
+
   binary_sensor:
     - platform: ping
-      name: Router
+      name: PRIVATE Router
       host: 192.168.0.1
       count: 1
       scan_interval: 60
+
+    - platform: ping
+      name: PRIVATE Main switch
+      host: 192.168.0.3
+
+    - platform: ping
+      name: PRIVATE AP Hjalte
+      host: 192.168.0.6
+
+    - platform: ping
+      name: PRIVATE AP Pigernes stue
+      host: 192.168.0.7
+
+    - platform: ping
+      name: PRIVATE AP Køkken
+      host: 192.168.0.8
+
+    - platform: ping
+      name: PRIVATE AP Stuen
+      host: 192.168.0.9
+
+    - platform: ping
+      name: PRIVATE NAS
+      host: 192.168.0.10
+
+    - platform: ping
+      name: PRIVATE Proxy
+      host: 192.168.0.11
+
+    - platform: ping
+      name: PRIVATE Sonoff RF 1
+      host: 192.168.0.31
+
+    - platform: ping
+      name: PRIVATE Sonoff RF 2
+      host: 192.168.0.32
+
+    - platform: ping
+      name: PRIVATE Sonoff RF 3
+      host: 192.168.0.33
+
+    - platform: ping
+      name: PRIVATE RM mini 3 1
+      host: 192.168.0.34
+
+    - platform: ping
+      name: PRIVATE RM mini 3 2
+      host: 192.168.0.35
+
+    - platform: ping
+      name: PRIVATE RM mini 3 3
+      host: 192.168.0.36
+
+    - platform: template
+      sensors:
+        router:
+          friendly_name: "Router"
+          unique_id: "lortegnu"
+          value_template: "{{ states('binary_sensor.private_router') }}"
+          icon_template: "mdi:server-network{{ '-off' if is_state('binary_sensor.private_router', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_router', 'device_class') }}"
+
+        main_switch:
+          friendly_name: "Main Switch"
+          value_template: "{{ states('binary_sensor.private_main_switch') }}"
+          icon_template: "mdi:server-network{{ '-off' if is_state('binary_sensor.private_main_switch', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_main_switch', 'device_class') }}"
+
+        ap_hjalte:
+          friendly_name: "Hjalte"
+          value_template: "{{ states('binary_sensor.private_ap_hjalte') }}"
+          icon_template: "mdi:access-point-network{{ '-off' if is_state('binary_sensor.private_ap_hjalte', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_ap_hjalte', 'device_class') }}"
+
+        ap_pigernes_stue:
+          friendly_name: "Pigerne"
+          value_template: "{{ states('binary_sensor.private_ap_pigernes_stue') }}"
+          icon_template: "mdi:access-point-network{{ '-off' if is_state('binary_sensor.private_ap_pigernes_stue', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_ap_pigernes_stue', 'device_class') }}"
+
+        ap_kokken:
+          friendly_name: "Køkken"
+          value_template: "{{ states('binary_sensor.private_ap_kokken') }}"
+          icon_template: "mdi:access-point-network{{ '-off' if is_state('binary_sensor.private_ap_kokken', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_ap_kokken', 'device_class') }}"
+
+        ap_stuen:
+          friendly_name: "Stuen"
+          value_template: "{{ states('binary_sensor.private_ap_stuen') }}"
+          icon_template: "mdi:access-point-network{{ '-off' if is_state('binary_sensor.private_ap_stuen', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_ap_stuen', 'device_class') }}"
+
+        nas:
+          friendly_name: "NAS"
+          value_template: "{{ states('binary_sensor.private_nas') }}"
+          icon_template: "mdi:server-network{{ '-off' if is_state('binary_sensor.private_nas', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_nas', 'device_class') }}"
+
+        proxy:
+          friendly_name: "Proxy"
+          value_template: "{{ states('binary_sensor.private_proxy') }}"
+          icon_template: "mdi:server-network{{ '-off' if is_state('binary_sensor.private_proxy', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_proxy', 'device_class') }}"
+
+        sonoff_1:
+          friendly_name: "Sonoff RF 1"
+          value_template: "{{ states('binary_sensor.private_sonoff_rf_1') }}"
+          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_sonoff_rf_1', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_sonoff_rf_1', 'device_class') }}"
+
+        sonoff_2:
+          friendly_name: "Sonoff RF 2"
+          value_template: "{{ states('binary_sensor.private_sonoff_rf_2') }}"
+          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_sonoff_rf_2', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_sonoff_rf_2', 'device_class') }}"
+
+        sonoff_3:
+          friendly_name: "Sonoff RF 3"
+          value_template: "{{ states('binary_sensor.private_sonoff_rf_3') }}"
+          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_sonoff_rf_3', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_sonoff_rf_3', 'device_class') }}"
+
+        rm_mini_3_1:
+          friendly_name: "RM mini 3 - 1"
+          value_template: "{{ states('binary_sensor.private_rm_mini_3_1') }}"
+          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_rm_mini_3_1', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_rm_mini_3_1', 'device_class') }}"
+
+        rm_mini_3_2:
+          friendly_name: "RM mini 3 - 2"
+          value_template: "{{ states('binary_sensor.private_rm_mini_3_2') }}"
+          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_rm_mini_3_2', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_rm_mini_3_2', 'device_class') }}"
+
+        rm_mini_3_3:
+          friendly_name: "RM mini 3 - 3"
+          value_template: "{{ states('binary_sensor.private_rm_mini_3_3') }}"
+          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_rm_mini_3_3', 'off') }}"
+          attribute_templates:
+            device_class: "{{ state_attr('binary_sensor.private_rm_mini_3_3', 'device_class') }}"
+
 
   sensor:
     - platform: systemmonitor

@@ -40,7 +40,7 @@ card:
             {{ state_attr('sensor.flagday_dk', 'default_flag') }}
           {% endif %}
         style:
-          top_template: "{{ '32%' if is_state('input_boolean.half_mast', 'off') else '55%' }}"
+          top_template: "{{ '32%' if is_state('input_boolean.private_half_mast', 'off') else '55%' }}"
           left: 44%
           max-width: 10%
           height: auto
@@ -49,5 +49,5 @@ card:
 entities:
   - sensor.flagday_dk
   - sensor.flag_day
-  - input_boolean.half_mast
+  - input_boolean.private_half_mast
   - automation.flaget_er_hejst

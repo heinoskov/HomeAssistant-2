@@ -46,38 +46,6 @@ light_control:
       icon: mdi:clock
       has_date: false
       has_time: true
-    
-    night_start_time:
-      name: Natten starter tidligst kl.
-      icon: mdi:weather-sunset-down
-      has_date: false
-      has_time: true
-    
-    night_end_time:
-      name: Natten slutter
-      icon: mdi:clock
-      has_date: false
-      has_time: true
-
-  input_select:
-    room_light:
-      name: "Vælg rum"
-      icon: mdi:floor-plan
-      options:
-        - Køkken
-        - Stuen
-        - Legeværelse
-        - Gangen
-        - Hjalte
-        - Emilio
-        - Colin
-        - Pigernes stue
-        - Cornelie
-        - Nathalie
-        - Badeværelser
-        - Indgang
-        - Havegang
-        - Husnummer
 
   binary_sensor:
     - platform: template
@@ -136,6 +104,9 @@ light_control:
           from: "off"
           to: "on"
       condition: "{{ is_state('sun.sun', 'below_horizon') }}"
+      variables:
+        husnummer_state: "{{ states('light.husnummer') }}"
+        indgang_state: "{{ states('light.indgang') }}"
       action:
         - service: light.turn_on
           data:
@@ -143,11 +114,32 @@ light_control:
               - light.havegangen
               - light.husnummer
             brightness: '255'
+
+        - choose:
+            - conditions:
+                - condition: state
+                  entity_id: light.indgang
+                  state: "off"
+              sequence:
+                - service: light.turn_on
+                  data:
+                    entity_id: light.indgang
+
         - delay: "{{ states('input_number.timeout_arrived_night') | multiply(60) | int }}"
+
         - service: light.turn_off
           data:
             entity_id:
               - light.havegangen
+
+        - service: "light.turn_{{ husnummer_state }}"
+          data:
+            entity_id:
+              - light.havegangen
+        - service: "light.turn_{{ indgang_state }}"
+          data:
+            entity_id:
+              - light.indgang
 
     - alias: "Værelser - autosluk"
       description: "Sluk lyset på værelser efter timeout"

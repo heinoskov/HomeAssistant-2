@@ -1,15 +1,32 @@
-- id: '1600896445706'
-  alias: Test af MQTT
+- id: '1601206498993'
+  alias: webhook
   description: ''
   trigger:
-  - platform: mqtt
-    topic: tele/tasmota/RESULT
-  condition:
-  - condition: template
-    value_template: '{{ (trigger.payload_json["RfReceived"]["Data"] == "42AAA9") or
-      (trigger.payload_json["RfReceived"]["Data"] == "44004A") }}'
+  - platform: webhook
+    webhook_id: parsehub_library
+  condition: []
   action:
-  - service: light.toggle
-    data: {}
-    entity_id: light.sandbox_bulb
+  - service: persistent_notification.create
+    data:
+      message: '{{ trigger.data.status }}
+
+        {{ trigger.data.run_token }}
+
+        {{ trigger.data.data_ready }}
+
+
+        {% set start_value = trigger.data.start_value | from_json %}
+
+        {{ start_value.mail }}
+
+
+        {{ trigger.data }}
+
+        '
+  - service: shell_command.library_get
+    data:
+      friendly_name: '{%- set start_value = trigger.data.start_value | from_json %}
+        {{ start_value.mail }}'
+      entity_id: '{%- set start_value = trigger.data.start_value | from_json %} {{
+        start_value.name }}'
   mode: single

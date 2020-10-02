@@ -1,0 +1,53 @@
+type: custom:stack-in-card
+cards:
+  - type: entities
+    entities:
+      - input_select.room_light
+
+  # KØKKEN
+  - type: conditional
+    conditions:
+      - entity: input_select.room_light
+        state: "Køkken"
+    card:
+      type: custom:auto-entities
+      card:
+        type: glance
+      filter:
+        include:
+          - area: "Køkken"
+            options:
+              show_state: false
+              tap_action:
+                action: call-service
+                service: light.toggle
+                service_data:
+                  entity_id: this.entity_id
+        exclude:
+          - domain: "sensor"
+          - domain: "media_player"
+          - domain: "remote"
+          - entity_id: "light.stuen_gulvlampe_group"
+
+  - type: conditional
+    conditions:
+      - entity: input_select.room_light
+        state: "Stuen"
+    card:
+      type: custom:auto-entities
+      card:
+        type: glance
+      filter:
+        include:
+          - area: "Stue"
+            options:
+              show_state: false
+              tap_action:
+                action: call-service
+                service: light.toggle
+                service_data:
+                  entity_id: this.entity_id
+        exclude:
+          - domain: "sensor"
+          - domain: "media_player"
+          - domain: "remote"

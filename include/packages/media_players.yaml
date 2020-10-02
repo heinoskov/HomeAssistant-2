@@ -136,20 +136,3 @@ media_players:
     - platform: ping
       host: 192.168.0.170
       name: LG TV
-
-  switch:
-    - platform: template
-      switches:
-        cctv:
-          friendly_name: "CCTV"
-          value_template: "{{ is_state('media_player.kokken_skaerm', 'playing') }}"
-          turn_on:
-            service: camera.play_stream
-            data:
-              entity_id: camera.indgang_sd
-              media_player: media_player.kokken_skaerm
-              format: hls
-          turn_off:
-            service: media_player.turn_off
-            data:
-              entity_id: media_player.kokken_skaerm

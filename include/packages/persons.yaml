@@ -1,17 +1,4 @@
 persons:
-  # homeassistant:
-  #   customize:
-  #     person.jacob:
-  #       entity_picture: /local/images/persons/Jacob.jpg
-  #     person.rikke:
-  #       entity_picture: /local/images/persons/Rikke.jpg
-  #     person.cornelie:
-  #       entity_picture: /local/images/persons/Cornelie.jpg
-  #     person.nathalie:
-  #       entity_picture: /local/images/persons/Nathalie.jpg
-  #     person.hjalte:
-  #       entity_picture: /local/images/persons/Hjalte.jpg
-  
   group:
     family:
       name: Familie
@@ -24,7 +11,7 @@ persons:
         - person.hjalte
 
   automation:
-    - alias: "Sluk lys på et værelse når personen er gået"  
+    - alias: "Sluk lys tomt værelse"
       trigger:
         platform: state
         entity_id:
@@ -48,7 +35,7 @@ persons:
                 group.hjaltes_vaerelse
               {% endif %}
 
-    - alias: "Sluk lys m.m. når huset er tomt"
+    - alias: "Sluk lys tomt hus"
       trigger:
         - platform: state
           entity_id: group.family
@@ -70,3 +57,10 @@ persons:
                 entity_id:
                   - switch.pump
                   - light.touchpanel
+
+  homeassistant:
+    customize:
+      automation.sluk_lys_tomt_vaerelse:
+        icon: mdi:account-multiple-minus
+      automation.sluk_lys_tomt_hus:
+        icon: mdi:home-floor-0

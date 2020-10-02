@@ -1,17 +1,20 @@
 browsers:
   input_number:
     default_view_timeout:
-      name: Timeout før der skal skiftes til default view
+      name: Timeout i sek.
       icon: mdi:timer-sand
-      unit_of_measurement: "sekunder"
       initial: 30
       min: 10
       max: 120
       step: 10
 
+  input_text:
+    default_view_path:
+      name: Sti til default view
+      icon: mdi:file-link
+      initial: "/lovelace/0"
+
   var:
-    main_path_touchpanel:
-      initial_value: "/lovelace/0"
     prev_path_touchpanel:
       initial_value: ""
 
@@ -48,7 +51,7 @@ browsers:
           value: >-
             {{ state_attr('sensor.touchpanel', 'path') }}
 
-    - alias: "PRIVATE Go to default tab touchpanel"
+    - alias: "Retur til default view"
       description: "Gå til default view på touchpanel efter timeout"
       mode: single
       initial_state: true
@@ -63,4 +66,11 @@ browsers:
         data:
           deviceID: TouchPanel
           navigation_path: >-
-            {{ states('var.main_path_touchpanel') }}
+            {{ states('input_text.default_view_path') }}
+
+  homeassistant:
+    customize:
+      automation.private_update_prev_path_touchpanel:
+        icon: mdi:do-not-disturb
+      automation.retur_til_default_view:
+        icon: mdi:home-heart

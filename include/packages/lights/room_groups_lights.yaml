@@ -1,12 +1,26 @@
 room_groups_lights:
-  light:
-    - platform: group
-      name: Legeværelse Gulvlampe
-      entities:
-        - light.gulvlampe_nederst
-        - light.gulvlampe_midterst
-        - light.gulvlampe_overst
 
+  input_select:
+    room_light:
+      name: "Vælg rum"
+      icon: mdi:floor-plan
+      options:
+        - Køkken
+        - Stuen
+        - Legeværelse
+        - Gangen
+        - Hjalte
+        - Emilio
+        - Colin
+        - Pigernes stue
+        - Cornelie
+        - Nathalie
+        - Badeværelser
+        - Indgang
+        - Havegang
+        - Husnummer
+
+  light:
     - platform: switch
       name: Colins månelampe
       entity_id: switch.colins_maanelampe
@@ -22,6 +36,10 @@ room_groups_lights:
     - platform: switch
       name: Nathalies sengelamper
       entity_id: switch.nathalies_sengelamper
+      
+    - platform: switch
+      name: Bloklys
+      entity_id: switch.bloklys
 
   group:
     alle_rum:
@@ -59,15 +77,15 @@ room_groups_lights:
     stuen:
       name: Stuen
       entities:
-        - light.stuelampe
+        - light.sofalamper
+        - light.stuelamper
         - light.stuen_gulvlampe
-        - light.laeselampe
 
-    legevaerelse:
-      name: Legeværelse
+    williams_vaerelse:
+      name: Williams værelse
       entities:
-        - light.legevaerelse_gulvlampe
-        - light.legevaerelse_uplight
+        - light.williams_gulvlampe
+        - light.williams_uplight
 
     gangen:
       name: Gangen
@@ -79,7 +97,7 @@ room_groups_lights:
       name: Indgang
       icon: mdi:track-light
       entities:
-        - light.indgang_loftlampe
+        - light.indgang
 
     hjaltes_vaerelse:
       name: Hjaltes værelse
@@ -143,12 +161,14 @@ room_groups_lights:
 
   homeassistant:
     customize:
+      light.sofalamper:
+        icon: mdi:floor-lamp
       light.hjaltes_nanoleaf:
         icon: mdi:triangle
       light.colins_manelampe:
         icon: mdi:weather-night
       light.emilios_stjernelampe:
         icon: mdi:star-face
-      light.legevaerelse_gulvlampe:
+      light.williams_gulvlampe:
         friendly_name: Gulvlampe
         icon: mdi:floor-lamp-dual

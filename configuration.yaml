@@ -75,6 +75,8 @@ logger:
     homeassistant.components.automation: error
     homeassistant.core: fatal
     homeassistant.helpers.service: critical
+    homeassistant.components.websocket_api.http.connection: critical
+    homeassistant.components.automation.webhook: critical
 
 lovelace:
   mode: yaml

@@ -13,32 +13,140 @@
 
 title: System
 icon: mdi:test-tube
-panel: false
+panel: true
 cards:
-
-  - type: custom:stack-in-card
-    title: Honeywell Blæser
+  - type: custom:layout-card
+    layout: auto
+    max_columns: 3
+    min_width: 33%
+    max_width: 99%
     cards:
+    
+      - type: custom:auto-entities
+        card:
+          type: glance
+        filter:
+          template: |
+            {% for light in state_attr('group.koekken', 'entity_id') %}
+                {{ light }}
+            {% endfor %}
+
+
+
+      # Default view
       - type: entities
         show_header_toggle: false
         entities:
-          - switch.honeywell_fan
+          - type: custom:fold-entity-row
+            head: automation.retur_til_default_view
+            entities:
+              - input_text.default_view_path
+              - type: custom:slider-entity-row
+                entity: input_number.default_view_timeout
     
-      - type: conditional
-        conditions:
-          - entity: switch.honeywell_fan
-            state: "on"
+      # Computers
+      - type: entities
+        title: Computers
+        icon: mdi:desktop-tower
+        show_header_toggle: true
+        entities:
+          - switch.pc_j_lindvig_windows
+          - switch.pc_h_lindvig
+    
+      # Presence light
+      - type: entities
+        title: Lysstying/personer
+        icon: mdi:location-exit
+        show_header_toggle: false
+        entities:
+          - automation.sluk_lys_tomt_hus
+          - automation.sluk_lys_tomt_vaerelse
+    
+    
+      # Toilet
+      - type: entities
+        entities:
+          - type: custom:fold-entity-row
+            head: automation.toilet_meddelse
+            entities:
+              - input_text.toilet_string
+              - type: custom:slider-entity-row
+                entity: input_number.toilet_volume
+    
+      # Network
+      - type: custom:auto-entities
         card:
           type: entities
-          show_header_toggle: false
-          entities:
-            - switch.honeywell_fan_osc
-            - switch.honeywell_fan_cool
-            - input_select.honeywell_fan_speed
-            - input_number.honeywell_timer
+          show_state: false
+        entities:
+          - binary_sensor.router
+          - binary_sensor.main_switch
+        filter:
+          include:
+            - entity_id: "group.access_points"
+              options:
+                type: custom:fold-entity-row
+            - entity_id: "group.sonoff_rf"
+              options:
+                type: custom:fold-entity-row
+            - entity_id: "group.rm_mini_3"
+              options:
+                type: custom:fold-entity-row
+    
+      # Night/Light control
+      - type: entities
+        title: Nat
+        entities:
+          - type: custom:slider-entity-row
+            entity: input_number.sun_elevation_light
+            hide_state: false
+          - type: custom:fold-entity-row
+            head: input_datetime.dim_time
+            entities:
+              - type: 'custom:time-picker-card'
+                entity: input_datetime.dim_time
+                name: Vælg klokkeslæt
+                link_values: true
+                layout:
+                  name: inside
+                  align_controls: right
+    
+      # Lysstyrker
+      - type: entities
+        title: Lysstyring
+        entities:
+          - type: custom:fold-entity-row
+            head:
+              type: section
+              label: Nat
+            entities:
+              - type: custom:slider-entity-row
+                entity: input_number.sun_elevation_light
+                hide_state: false
+              - type: custom:fold-entity-row
+                head: input_datetime.dim_time
+                entities:
+                  - type: 'custom:time-picker-card'
+                    entity: input_datetime.dim_time
+                    name: Vælg klokkeslæt
+                    link_values: true
+                    layout:
+                      name: inside
+                      align_controls: right
+          - type: custom:fold-entity-row
+            head:
+              type: section
+              label: Lysstyrker
+            entities:
+              - type: custom:slider-entity-row
+                entity: input_number.dim_high
+                hide_state: false
+              - type: custom:slider-entity-row
+                entity: input_number.dim_low
+                hide_state: false
 
-  - type: custom:clock-card
-
-  - !include cards/test/flag_card.yaml
-
-  - type: custom:gui-sandbox
+      - type: custom:clock-card
+    
+      - !include cards/test/flag_card.yaml
+    
+      - type: custom:gui-sandbox

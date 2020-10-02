@@ -8,7 +8,7 @@ flagdays_dk:
 
   # Placeholder for half mast
   input_boolean:
-    half_mast:
+    private_half_mast:
       name: "Der flages på halvt"
 
   sensor:
@@ -90,7 +90,7 @@ flagdays_dk:
               input_boolean.turn_on
             {% endif %}
           data:
-            entity_id: input_boolean.half_mast
+            entity_id: input_boolean.private_half_mast
 
         # Send a actionable notification to my phone
         - service: notify.mobile_app_motorola_one_action
@@ -120,7 +120,7 @@ flagdays_dk:
 
         - service: input_boolean.turn_off
           data:
-            entity_id: input_boolean.half_mast
+            entity_id: input_boolean.private_half_mast
 
         - service: notify.mobile_app_motorola_one_action
           data:
@@ -146,7 +146,7 @@ flagdays_dk:
             title: "Besked fra din flagstang"
             message: >
               Husk at tage flaget ned. Solen går ned kl. {{ state_attr('sensor.flag_day', 'flag_down_time') }}.
-              {{ 'OBS: Hejs først flaget helt til tops inden det tages ned.' if is_state('input_boolean.half_mast', 'on') }}
+              {{ 'OBS: Hejs først flaget helt til tops inden det tages ned.' if is_state('input_boolean.private_half_mast', 'on') }}
             data:
               channel: Flagstang
               importance: high
@@ -156,7 +156,7 @@ flagdays_dk:
 
         - service: input_boolean.turn_off
           data:
-            entity_id: input_boolean.half_mast
+            entity_id: input_boolean.private_half_mast
 
     # Receiver of the actions from the phone
     - alias: Opdater flagets status

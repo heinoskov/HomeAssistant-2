@@ -1,0 +1,57 @@
+candles:
+
+  input_boolean:
+    private_bloklys_state:
+      name: Bloklys state
+
+  switch:
+    - platform: template
+      switches:
+        bloklys:
+          value_template: "{{ is_state('input_boolean.private_bloklys_state', 'on') }}"
+          icon_template: mdi:candle
+          turn_on:
+            service: script.bloklys_on_off
+            data:
+              remote: remote.stuen_rm_mini
+              device: Bloklys
+              command: Turn on
+              boolean: input_boolean.private_bloklys_state
+          turn_off:
+            service: script.bloklys_on_off
+            data:
+              remote: remote.stuen_rm_mini
+              device: Bloklys
+              command: Turn off
+              boolean: input_boolean.private_bloklys_state
+  script:
+    bloklys_on_off:
+      alias: "Send kommando til Honeywell og opdater boolske input m.m."
+      icon: mdi:remote
+      description: "Sender en given kommando fra en given remote til en given blæser og ændrer en given boolean"
+      fields:
+        remote:
+          description: "Fjernbetjeningen som kommandoen skal sendes fra"
+          example: "remote.hjaltes_rm_mini"
+        device:
+          description: "Enheden som kommandoen skal sendes til"
+          example: "Bloklys"
+        command:
+          description: "Kommandoen som skal sendes"
+          example: "Turn on"
+        boolean:
+          description: "Den booleske kontakt som skal ændres"
+          example: "input_boolean.private_bloklys_state"
+      mode: single
+      sequence:
+        - service: >-
+            input_boolean.turn_{{ 'on' if command == 'Turn on' else 'off' }}
+          data:
+            entity_id: "{{ boolean }}"
+
+        - service: remote.send_command
+          data:
+            entity_id: "{{ remote }}"
+            device: "{{ device }}"
+            command: "{{ command }}"
+            num_repeats: 5

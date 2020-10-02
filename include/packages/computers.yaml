@@ -19,3 +19,12 @@ computers:
         data:
           addon: core_rpc_shutdown
           input: PC-H-Lindvig
+
+  homeassistant:
+    customize:
+      switch.pc_j_lindvig_windows:
+        friendly_name: "Jacobs Windows PC"
+        icon: mdi:desktop-tower
+      switch.pc_h_lindvig:
+        friendly_name: "Hjaltes PC"
+        icon: mdi:desktop-tower

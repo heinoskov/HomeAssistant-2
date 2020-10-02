@@ -16,12 +16,13 @@ hal_9000:
       initial: "09:00"
 
   input_number:
-    announce_volume:
-      name: Lydstyrke ved oplæsning
-      initial: 0.4
-      min: 0.1
-      max: 1
-      step: 0.1
+    hal9000_volume:
+      name: Lydstyrke
+      icon: mdi:volume-high
+      initial: 40
+      min: 10
+      max: 100
+      step: 10
 
   automation:
     - alias: "Godmorgen"
@@ -29,24 +30,20 @@ hal_9000:
       initial_state: true
       mode: single
       trigger:
-        - platform: template
-          value_template: "{{ states('sensor.time') == states('input_datetime.announce_at_time' ) }}"
+        - platform: time
+          at: input_datetime.announce_at_time
+      variables:
+        saved_volume: "{{ state_attr('media_player.kokken', 'volume_level') }}"
       action:
         - service: homeassistant.update_entity
           data:
             entity_id:
               - sensor.tid_naturlig
 
-        - service: script.store_volume
+        - service: media_player.volume_set
           data:
-            entity_id: media_player.kokken
-            volume: "{{ states('input_number.announce_volume') }}"
-
-        - service: media_player.play_media
-          entity_id: media_player.kokken
-          data:
-            media_content_id: 'http://soundbible.com/grab.php?id=1510&type=mp3'
-            media_content_type: music
+            entity_id:  media_player.kokken
+            volume: "{{ states('input_number.hal9000_volume') | float / 100 }}"
 
         - service: tts.google_translate_say
           entity_id: media_player.kokken
@@ -71,6 +68,7 @@ hal_9000:
                 {{ states('var.reminder').split("|")[ran_idx] }} {{ states('var.recycle') }}
               {% endif -%}
 
-        - service: script.reset_volume
+        - service: media_player.volume_set
           data:
             entity_id: media_player.kokken
+            volume_level: "{{ saved_volume | float }}"
