@@ -18,7 +18,7 @@ all_in_one_remote:
         group: >-
           {% if trigger.event.data.unique_id == "d0:cf:5e:ff:fe:05:c0:dd" %}
             group.stuen
-          {% elif trigger.event.data.unique_id == "OTHER_UNIQUE_ID"
+          {% elif trigger.event.data.unique_id == "OTHER_UNIQUE_ID" %}
             group.other_remote
           {% endif %}
 
@@ -26,12 +26,12 @@ all_in_one_remote:
         idx_holder: >-
           {% if trigger.event.data.unique_id == "d0:cf:5e:ff:fe:05:c0:dd" %}
             input_text.private_stuen_remote_idx
-          {% elif trigger.event.data.unique_id == "OTHER_UNIQUE_ID"
+          {% elif trigger.event.data.unique_id == "OTHER_UNIQUE_ID" %}
             input_text.private_other_remote_idx
           {% endif %}
 
         # Step up or step down in the index of lights
-        x: "{{ '1' if trigger.event.data.event == 5002 else '-1' }}"
+        up_down: "{{ '1' if trigger.event.data.event == 5002 else '-1' }}"
 
         # Short press dim up or down
         dim_step_pct: "{{ '20' if trigger.event.data.event == 2002 else '-20' }}"
@@ -52,9 +52,9 @@ all_in_one_remote:
                     entity_id: "{{ idx_holder }}"
                     value: >-
                       {% set len0 = state_attr(group, 'entity_id') | length - 1 %}
-                      {% set new_idx = (states(idx_holder) | int) + (x | int) %}
+                      {% set new_idx = (states(idx_holder) | int) + (up_down | int) %}
           
-                      {% if (x | int) < 0 %}
+                      {% if (up_down | int) < 0 %}
                         {{ new_idx if new_idx >= 0 else (len0) }}
                       {% else %}
                         {{ new_idx if new_idx <= len0 else (0) }}
