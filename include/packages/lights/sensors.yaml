@@ -14,7 +14,7 @@ gangen:
         - platform: state
           entity_id:
             - binary_sensor.sandbox_sensor
-            - binary_sensor.lillebadevarelse_sensor
+            - binary_sensor.lille_badevarelse_sensor
             - binary_sensor.stort_badevarelse_sensor
             - group.sensors_gangen
             - binary_sensor.camera_indgang
@@ -29,7 +29,7 @@ gangen:
               light: >-
                 {%- if trigger.entity_id == "binary_sensor.sandbox_sensor" %}
                   light.sandbox_bulb
-                {%- elif trigger.entity_id == "binary_sensor.lillebadevarelse_sensor" %}
+                {%- elif trigger.entity_id == "binary_sensor.lille_badevarelse_sensor" %}
                   light.lille_badevarelse
                 {%- elif trigger.entity_id == "binary_sensor.stort_badevarelse_sensor" %}
                   light.stort_badevarelse
@@ -56,7 +56,7 @@ gangen:
             transition: 1
         - wait_template: "{{ is_state(sensor, 'off') }}"
         - delay:
-            seconds: "{{ 1800 if is_state('binary_sensor.night', 'off') else 300 }}"
+            seconds: "{{ 600 if is_state('binary_sensor.night', 'off') else 300 }}"
         - service: light.turn_off
           data:
             entity_id: "{{ light }}"

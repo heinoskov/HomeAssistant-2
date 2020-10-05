@@ -29,8 +29,11 @@ all_in_one_remote:
         # Step up or step down in the index of lights
         x: "{{ '1' if trigger.event.data.event == 5002 else '-1' }}"
 
-        # Dim up or down
+        # Short press dim up or down
         dim_step_pct: "{{ '20' if trigger.event.data.event == 2002 else '-20' }}"
+        
+        # Transition
+        transition: 0.5
 
       action:
         - choose:
@@ -39,7 +42,7 @@ all_in_one_remote:
             # Flash the choosen light
             - conditions:
                 - condition: template
-                  value_template: "{{ (trigger.event.data.event == 4002) or (trigger.event.data.event == 5002) }}"
+                  value_template: "{{ trigger.event.data.event in (4002, 5002) }}"
               sequence:
                 - service: input_text.set_value
                   data:
@@ -66,14 +69,59 @@ all_in_one_remote:
                 - service: light.toggle
                   data:
                     entity_id: "{{ state_attr(group, 'entity_id')[states(idx_holder) | int] }}"
+                    transition: "{{ transition }}"
+
+            # Long press power
+            - conditions:
+                - condition: template
+                  value_template: "{{ trigger.event.data.event == 1001 }}"
+              sequence:
+                - service: light.turn_on
+                  data:
+                    entity_id: "{{ group }}"
+                    brightness: 64
+                    transition: "{{ transition }}"
 
             # Dim the choosen light up or down
             - conditions:
                 - condition: template
-                  value_template: "{{ (trigger.event.data.event == 2002) or (trigger.event.data.event == 3002) }}"
+                  value_template: "{{ trigger.event.data.event in (2002, 3002) }}"
               sequence:
                 - service: light.turn_on
                   data:
                     entity_id: "{{ state_attr(group, 'entity_id')[states(idx_holder) | int] }}"
                     brightness_step_pct: "{{ dim_step_pct }}"
-                    transition: 0.5
+                    transition: "{{ transition }}"
+
+            # Long press dim up
+            - conditions:
+                - condition: template
+                  value_template: "{{ trigger.event.data.event == 2001 }}"
+              sequence:
+                - service: deconz.configure
+                  data_template:
+                    entity: "{{ state_attr(group, 'entity_id')[states(idx_holder) | int] }}"
+                    field: "{{ '/action' if is_state_attr(state_attr(group, 'entity_id')[states(idx_holder) | int], 'is_deconz_group', true) else '/state' }}"
+                    data: {"on": true, "bri_inc":254, "transitiontime": 30}
+
+            # Long press dim down
+            - conditions:
+                - condition: template
+                  value_template: "{{ trigger.event.data.event == 3001 }}"
+              sequence:
+                - service: deconz.configure
+                  data_template:
+                    entity: "{{ state_attr(group, 'entity_id')[states(idx_holder) | int] }}"
+                    field: "{{ '/action' if is_state_attr(state_attr(group, 'entity_id')[states(idx_holder) | int], 'is_deconz_group', true) else '/state' }}"
+                    data: {"on": true, "bri_inc":-254, "transitiontime": 30}
+
+            # Long press dim up/down end
+            - conditions:
+                - condition: template
+                  value_template: "{{ trigger.event.data.event in (2003, 3003) }}"
+              sequence:
+                - service: deconz.configure
+                  data:
+                    entity: "{{ state_attr(group, 'entity_id')[states(idx_holder) | int] }}"
+                    field: "{{ '/action' if is_state_attr(state_attr(group, 'entity_id')[states(idx_holder) | int], 'is_deconz_group', true) else '/state' }}"
+                    data: {"bri_inc":0}

@@ -1,14 +1,25 @@
 candles:
 
   input_boolean:
-    private_bloklys_state:
-      name: Bloklys state
+    private_bloklys_stue_state:
+      name: Bloklys stue state
+    private_bloklys_kokken_state:
+      name: Bloklys køkken state
+
+  light:
+    - platform: switch
+      name: Bloklys stue
+      entity_id: switch.bloklys_stue
+
+    - platform: switch
+      name: Bloklys køkken
+      entity_id: switch.bloklys_kokken
 
   switch:
     - platform: template
       switches:
-        bloklys:
-          value_template: "{{ is_state('input_boolean.private_bloklys_state', 'on') }}"
+        bloklys_stue:
+          value_template: "{{ is_state('input_boolean.private_bloklys_stue_state', 'on') }}"
           icon_template: mdi:candle
           turn_on:
             service: script.bloklys_on_off
@@ -16,14 +27,33 @@ candles:
               remote: remote.stuen_rm_mini
               device: Bloklys
               command: Turn on
-              boolean: input_boolean.private_bloklys_state
+              boolean: input_boolean.private_bloklys_stue_state
           turn_off:
             service: script.bloklys_on_off
             data:
               remote: remote.stuen_rm_mini
               device: Bloklys
               command: Turn off
-              boolean: input_boolean.private_bloklys_state
+              boolean: input_boolean.private_bloklys_stue_state
+
+        bloklys_kokken:
+          value_template: "{{ is_state('input_boolean.private_bloklys_kokken_state', 'on') }}"
+          icon_template: mdi:candle
+          turn_on:
+            service: script.bloklys_on_off
+            data:
+              remote: remote.kokken_rm_mini
+              device: Bloklys
+              command: Turn on
+              boolean: input_boolean.private_bloklys_kokken_state
+          turn_off:
+            service: script.bloklys_on_off
+            data:
+              remote: remote.kokken_rm_mini
+              device: Bloklys
+              command: Turn off
+              boolean: input_boolean.private_bloklys_kokken_state
+
   script:
     bloklys_on_off:
       alias: "Send kommando til Honeywell og opdater boolske input m.m."
@@ -41,7 +71,7 @@ candles:
           example: "Turn on"
         boolean:
           description: "Den booleske kontakt som skal ændres"
-          example: "input_boolean.private_bloklys_state"
+          example: "input_boolean.private_bloklys_stue_state"
       mode: single
       sequence:
         - service: >-
@@ -55,3 +85,10 @@ candles:
             device: "{{ device }}"
             command: "{{ command }}"
             num_repeats: 5
+
+  homeassistant:
+    customize:
+      light.bloklys_kokken:
+        icon: mdi:candle
+      light.bloklys_stue:
+        icon: mdi:candle

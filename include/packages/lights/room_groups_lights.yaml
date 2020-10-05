@@ -37,10 +37,6 @@ room_groups_lights:
       name: Nathalies sengelamper
       entity_id: switch.nathalies_sengelamper
       
-    - platform: switch
-      name: Bloklys
-      entity_id: switch.bloklys
-
   group:
     alle_rum:
       name: Alle rum
@@ -79,7 +75,7 @@ room_groups_lights:
       entities:
         - light.sofalamper
         - light.stuelamper
-        - light.stuen_gulvlampe
+        - light.lille_sofa
 
     williams_vaerelse:
       name: Williams værelse

@@ -25,9 +25,9 @@ systemmonitor:
       icon: mdi:radio-tower
       all: true
       entities:
-        - binary_sensor.private_rm_mini_3_1
-        - binary_sensor.private_rm_mini_3_2
-        - binary_sensor.private_rm_mini_3_3
+        - binary_sensor.gangen_rm_mini_3
+        - binary_sensor.kokken_rm_mini_3
+        - binary_sensor.stuen_rm_mini_3
 
   binary_sensor:
     - platform: ping
@@ -75,18 +75,6 @@ systemmonitor:
     - platform: ping
       name: PRIVATE Sonoff RF 3
       host: 192.168.0.33
-
-    - platform: ping
-      name: PRIVATE RM mini 3 1
-      host: 192.168.0.34
-
-    - platform: ping
-      name: PRIVATE RM mini 3 2
-      host: 192.168.0.35
-
-    - platform: ping
-      name: PRIVATE RM mini 3 3
-      host: 192.168.0.36
 
     - platform: template
       sensors:
@@ -168,26 +156,26 @@ systemmonitor:
           attribute_templates:
             device_class: "{{ state_attr('binary_sensor.private_sonoff_rf_3', 'device_class') }}"
 
-        rm_mini_3_1:
-          friendly_name: "RM mini 3 - 1"
-          value_template: "{{ states('binary_sensor.private_rm_mini_3_1') }}"
-          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_rm_mini_3_1', 'off') }}"
+        kokken_rm_mini_3:
+          friendly_name: "Hjaltes RM mini 3"
+          value_template: "{{ 'off' if is_state('remote.kokken_rm_mini', 'unavailable') else states('remote.kokken_rm_mini') }}"
+          icon_template: "mdi:remote{{ '-off' if not is_state('remote.kokken_rm_mini', 'on') }}"
           attribute_templates:
-            device_class: "{{ state_attr('binary_sensor.private_rm_mini_3_1', 'device_class') }}"
+            device_class: "connectivity"
 
-        rm_mini_3_2:
-          friendly_name: "RM mini 3 - 2"
-          value_template: "{{ states('binary_sensor.private_rm_mini_3_2') }}"
-          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_rm_mini_3_2', 'off') }}"
+        gangen_rm_mini_3:
+          friendly_name: "Gangen RM mini 3"
+          value_template: "{{ 'off' if is_state('remote.gangen_rm_mini', 'unavailable') else states('remote.gangen_rm_mini') }}"
+          icon_template: "mdi:remote{{ '-off' if not is_state('remote.gangen_rm_mini', 'on') }}"
           attribute_templates:
-            device_class: "{{ state_attr('binary_sensor.private_rm_mini_3_2', 'device_class') }}"
+            device_class: "connectivity"
 
-        rm_mini_3_3:
-          friendly_name: "RM mini 3 - 3"
-          value_template: "{{ states('binary_sensor.private_rm_mini_3_3') }}"
-          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_rm_mini_3_3', 'off') }}"
+        stuen_rm_mini_3:
+          friendly_name: "Stuen RM mini 3"
+          value_template: "{{ 'off' if is_state('remote.stuen_rm_mini', 'unavailable') else states('remote.stuen_rm_mini') }}"
+          icon_template: "mdi:remote{{ '-off' if not is_state('remote.stuen_rm_mini', 'on') }}"
           attribute_templates:
-            device_class: "{{ state_attr('binary_sensor.private_rm_mini_3_3', 'device_class') }}"
+            device_class: "connectivity"
 
 
   sensor:
