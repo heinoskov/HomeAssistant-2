@@ -19,6 +19,8 @@ candles:
     - platform: template
       switches:
         bloklys_stue:
+          friendly_name: "LED Bloklys i stuen"
+          unique_id: c1cd94ec2ad44aeb9f52cf4a35a4dfaa
           value_template: "{{ is_state('input_boolean.private_bloklys_stue_state', 'on') }}"
           icon_template: mdi:candle
           turn_on:
@@ -37,6 +39,8 @@ candles:
               boolean: input_boolean.private_bloklys_stue_state
 
         bloklys_kokken:
+          friendly_name: "LED Bloklys i køkkenet"
+          unique_id: ef9eec5b0b7249828f85b4a2869a9545
           value_template: "{{ is_state('input_boolean.private_bloklys_kokken_state', 'on') }}"
           icon_template: mdi:candle
           turn_on:

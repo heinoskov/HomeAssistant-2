@@ -72,7 +72,18 @@ cards:
               - input_text.toilet_string
               - type: custom:slider-entity-row
                 entity: input_number.toilet_volume
-    
+
+      # Windows
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_state: false
+        filter:
+          include:
+            - entity_id: "group.open_close_sensors"
+              options:
+                type: custom:fold-entity-row
+
       # Network
       - type: custom:auto-entities
         card:

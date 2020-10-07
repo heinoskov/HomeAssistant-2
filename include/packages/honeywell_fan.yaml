@@ -95,6 +95,7 @@ honeywell_fan:
       switches:
         honeywell_fan:
           friendly_name: "Ventilator"
+          unique_id: 65c978e9e6254d1cb3e3e1ec54d61866
           value_template: "{{ is_state('input_boolean.private_honeywell_state', 'on') }}"
           turn_on:
             service: script.honeywell_fan_command_boolean
@@ -127,6 +128,7 @@ honeywell_fan:
 
         honeywell_fan_osc:
           friendly_name: "Vifte"
+          unique_id: cf9c58f97a424c4cb3ee8b1a083703ea
           value_template: "{{ is_state('input_boolean.private_honeywell_osc_state', 'on') }}"
           turn_on:
             service: script.honeywell_fan_command_boolean
@@ -145,6 +147,7 @@ honeywell_fan:
 
         honeywell_fan_cool:
           friendly_name: "Køling"
+          unique_id: 9a2ebe4f99c24bf3843a2b2be439af48
           value_template: "{{ is_state('input_boolean.private_honeywell_cooling_state', 'on') }}"
           turn_on:
             service: script.honeywell_fan_command_boolean

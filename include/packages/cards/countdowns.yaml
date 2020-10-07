@@ -55,8 +55,6 @@ countdowns:
     - platform: template
       sensors:
         next_birthday:
-          # Update once a day
-          entity_id: sensor.date
           friendly_name_template: >-
             {% set ns = namespace(entity_id="", prev=1000) -%}
             {% for birthday in states.group.birthdays.attributes.entity_id -%}
@@ -66,6 +64,7 @@ countdowns:
               {% endif -%}
             {% endfor %}
             {{ state_attr(ns.entity_id, "friendly_name")[:-11] -}}
+          unique_id: 3bb6f91db9db486eb0d6be44bc6e3f3e
           value_template: >-
             {%- set ns = namespace(entity_id="", prev=1000) -%}
             {% for birthday in states.group.birthdays.attributes.entity_id -%}

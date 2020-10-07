@@ -119,6 +119,48 @@ media_players:
           data:
             entity_id: "{{ boolean }}"
 
+    vestel_tv_settop:
+      alias: "Skift til TV-boks"
+      description: "Tryk på input og dernæst tast 1"
+      icon: mdi:set-top-box
+      sequence:
+        - service: remote.send_command
+          data:
+            entity_id: remote.stuen_rm_mini
+            device: Vestel TV
+            delay_secs: 1
+            command:
+              - Input
+              - 1
+
+    vestel_tv_chromecast:
+      alias: "Skift til Chromecast"
+      description: "Tryk på input og dernæst tast 2"
+      icon: mdi:google-chrome
+      sequence:
+        - service: remote.send_command
+          data:
+            entity_id: remote.stuen_rm_mini
+            device: Vestel TV
+            delay_secs: 1
+            command:
+              - Input
+              - 2
+
+    vestel_tv_wii:
+      alias: "Skift til Wii"
+      description: "Tryk på input og dernæst tast 5"
+      icon: mdi:nintendo-wii
+      sequence:
+        - service: remote.send_command
+          data:
+            entity_id: remote.stuen_rm_mini
+            device: Vestel TV
+            delay_secs: 1
+            command:
+              - Input
+              - 5
+
   input_boolean:
     vestel_tv_on_mute:
       name: Vestel TV er på mute via remote

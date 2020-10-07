@@ -80,7 +80,7 @@ systemmonitor:
       sensors:
         router:
           friendly_name: "Router"
-          unique_id: "lortegnu"
+          unique_id: d0efc406169b4ce982d4fc98d8fc7f3c
           value_template: "{{ states('binary_sensor.private_router') }}"
           icon_template: "mdi:server-network{{ '-off' if is_state('binary_sensor.private_router', 'off') }}"
           attribute_templates:
@@ -88,6 +88,7 @@ systemmonitor:
 
         main_switch:
           friendly_name: "Main Switch"
+          unique_id: 4206cf3f56c540c78805378386c4192f
           value_template: "{{ states('binary_sensor.private_main_switch') }}"
           icon_template: "mdi:server-network{{ '-off' if is_state('binary_sensor.private_main_switch', 'off') }}"
           attribute_templates:
@@ -95,6 +96,7 @@ systemmonitor:
 
         ap_hjalte:
           friendly_name: "Hjalte"
+          unique_id: b9378db95801415db93f00a7b3b125bb
           value_template: "{{ states('binary_sensor.private_ap_hjalte') }}"
           icon_template: "mdi:access-point-network{{ '-off' if is_state('binary_sensor.private_ap_hjalte', 'off') }}"
           attribute_templates:
@@ -102,6 +104,7 @@ systemmonitor:
 
         ap_pigernes_stue:
           friendly_name: "Pigerne"
+          unique_id: c6a2848fe4f94657b36d154a0939d75e
           value_template: "{{ states('binary_sensor.private_ap_pigernes_stue') }}"
           icon_template: "mdi:access-point-network{{ '-off' if is_state('binary_sensor.private_ap_pigernes_stue', 'off') }}"
           attribute_templates:
@@ -109,6 +112,7 @@ systemmonitor:
 
         ap_kokken:
           friendly_name: "Køkken"
+          unique_id: d074b53bf9914a0e989f306802e62af6
           value_template: "{{ states('binary_sensor.private_ap_kokken') }}"
           icon_template: "mdi:access-point-network{{ '-off' if is_state('binary_sensor.private_ap_kokken', 'off') }}"
           attribute_templates:
@@ -116,6 +120,7 @@ systemmonitor:
 
         ap_stuen:
           friendly_name: "Stuen"
+          unique_id: d7e723d3312a48d58917d527e0fc7dae
           value_template: "{{ states('binary_sensor.private_ap_stuen') }}"
           icon_template: "mdi:access-point-network{{ '-off' if is_state('binary_sensor.private_ap_stuen', 'off') }}"
           attribute_templates:
@@ -123,6 +128,7 @@ systemmonitor:
 
         nas:
           friendly_name: "NAS"
+          unique_id: e5a927e871b84b7cbcafb1ad3081eedb
           value_template: "{{ states('binary_sensor.private_nas') }}"
           icon_template: "mdi:server-network{{ '-off' if is_state('binary_sensor.private_nas', 'off') }}"
           attribute_templates:
@@ -130,6 +136,7 @@ systemmonitor:
 
         proxy:
           friendly_name: "Proxy"
+          unique_id: 75084252c7844cb18aca370293155344
           value_template: "{{ states('binary_sensor.private_proxy') }}"
           icon_template: "mdi:server-network{{ '-off' if is_state('binary_sensor.private_proxy', 'off') }}"
           attribute_templates:
@@ -137,6 +144,7 @@ systemmonitor:
 
         sonoff_1:
           friendly_name: "Sonoff RF 1"
+          unique_id: c1c59c112efa42579e7507084ff33ff2
           value_template: "{{ states('binary_sensor.private_sonoff_rf_1') }}"
           icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_sonoff_rf_1', 'off') }}"
           attribute_templates:
@@ -144,6 +152,7 @@ systemmonitor:
 
         sonoff_2:
           friendly_name: "Sonoff RF 2"
+          unique_id: b6b26b2485e04e87a2293c9c678c827b
           value_template: "{{ states('binary_sensor.private_sonoff_rf_2') }}"
           icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_sonoff_rf_2', 'off') }}"
           attribute_templates:
@@ -151,6 +160,7 @@ systemmonitor:
 
         sonoff_3:
           friendly_name: "Sonoff RF 3"
+          unique_id: 99fdcac6a1234a82ab186a0401a441b5
           value_template: "{{ states('binary_sensor.private_sonoff_rf_3') }}"
           icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_sonoff_rf_3', 'off') }}"
           attribute_templates:
@@ -158,6 +168,7 @@ systemmonitor:
 
         kokken_rm_mini_3:
           friendly_name: "Hjaltes RM mini 3"
+          unique_id: d914fee5979e47789f9d4e2c8f796297
           value_template: "{{ 'off' if is_state('remote.kokken_rm_mini', 'unavailable') else states('remote.kokken_rm_mini') }}"
           icon_template: "mdi:remote{{ '-off' if not is_state('remote.kokken_rm_mini', 'on') }}"
           attribute_templates:
@@ -165,6 +176,7 @@ systemmonitor:
 
         gangen_rm_mini_3:
           friendly_name: "Gangen RM mini 3"
+          unique_id: 5af3f3ffa7f54f72bcf28c2b7a6c3f1f
           value_template: "{{ 'off' if is_state('remote.gangen_rm_mini', 'unavailable') else states('remote.gangen_rm_mini') }}"
           icon_template: "mdi:remote{{ '-off' if not is_state('remote.gangen_rm_mini', 'on') }}"
           attribute_templates:
@@ -172,11 +184,11 @@ systemmonitor:
 
         stuen_rm_mini_3:
           friendly_name: "Stuen RM mini 3"
+          unique_id: bb0c1d10c4104865b1948a9705a5fd11
           value_template: "{{ 'off' if is_state('remote.stuen_rm_mini', 'unavailable') else states('remote.stuen_rm_mini') }}"
           icon_template: "mdi:remote{{ '-off' if not is_state('remote.stuen_rm_mini', 'on') }}"
           attribute_templates:
             device_class: "connectivity"
-
 
   sensor:
     - platform: systemmonitor

@@ -16,9 +16,9 @@ flagdays_dk:
       sensors:
         # Template for automations and Lovelace card
         flag_day:
-          entity_id: sensor.flagday_dk
           # The name of the event
           friendly_name_template: "{{ state_attr('sensor.flagday_dk','friendly_name') }}"
+          unique_id: bfe66582a1354fd2aa15c19a156fa8ca
           value_template: >-
             {%- set days = states('sensor.flagday_dk') | int %}
             {% if days > 0 %}

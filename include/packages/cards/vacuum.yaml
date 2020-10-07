@@ -48,19 +48,21 @@
 vacuum:
   vacuum:
     - platform: xiaomi_miio
-      host: !secret S50_IP
-      token: !secret S50_TOKEN
+      host: !secret S6_IP
+      token: !secret S6_TOKEN
+      # host: !secret S50_IP
+      # token: !secret S50_TOKEN
       name: R2-D2
 
   var:
     # String with room numbers sychronized with the list of roomnames
     vacuum_room_ids:
-      initial_value: "17,18,16,22,23,21,25,26,28,27,19,24,29,30"
+      initial_value: "22,20,24,26,23,19,18,16,21,17"
       restore: false
 
     # String with room sizes sychronized with the list of roomnames
     vacuum_room_size:
-      initial_value: "33,13,14,37,28,26,6,8,9,9,9,15,4,4"
+      initial_value: "33,13,14,37,28,26,6,8,9,9"
       restore: true
 
     # ID of the room being cleaned - MUST be 'null' if idle
@@ -79,7 +81,7 @@ vacuum:
       icon: mdi:floor-plan
       options:
         - Køkken
-        - Legeværelse
+        - Williams værelse
         - Soveværelse
         - Stuen
         - Indgang
@@ -87,11 +89,7 @@ vacuum:
         - Lille badeværelse
         - Stort badeværelse
         - Colins værelse
-        - Emilios værelse
-        - Williams værelse
-        - Pigernes stue m.m.
-        - Nathalies værelse
-        - Cornelies værelse
+        - Emilios værelse      
 
     vacuum_power:
       name: "Vælg sugestyrke"
@@ -99,8 +97,8 @@ vacuum:
       options:
         - Stille
         - Standard
-        - Medium
         - Turbo
+        - Max
 
   sensor:
     # Template sensors to aid in the use of the vacuum
@@ -108,11 +106,12 @@ vacuum:
       sensors:
         # How far along is the cleaning
         clean_room_progress:
-          entity_id:
-            - vacuum.r2_d2
-            - var.cleaning_room_id
+          # entity_id:
+          #   - vacuum.r2_d2
+          #   - var.cleaning_room_id
           friendly_name_template: >-
             {{ state_attr('input_select.vacuum_room', 'options')[states('var.cleaning_room_id') | int] }}
+          unique_id: dd13309c9bc545bca7b4f1d028031b48
           value_template: >-
             {%- set cleaned_area = state_attr('vacuum.r2_d2', 'cleaned_area') | int %}
             {%- set room_size = ( states('var.vacuum_room_size').split(',')[states('var.cleaning_room_id') | int] ) | int %}
@@ -127,8 +126,8 @@ vacuum:
 
         # Placeholder for the battery level and icon
         vacuum_battery:
-          entity_id: vacuum.r2_d2
           friendly_name: Batteri
+          unique_id: f0434768ecbc46158dae30600e0882c1
           unit_of_measurement: "%"
           value_template: "{{ state_attr('vacuum.r2_d2', 'battery_level') }}"
           icon_template: "{{ state_attr('vacuum.r2_d2', 'battery_icon') }}"
@@ -136,16 +135,16 @@ vacuum:
         # Placeholder for the suction setting
         # Friendly_name as the current suction
         vacuum_fan_speed:
-          entity_id: sensor.vacuum_r2_d2
           friendly_name_template: "{{ state_attr('sensor.vacuum_r2_d2', 'fan_speed') }}"
+          unique_id: 12e771786a844e569559a546f287a637
           value_template: "{{ state_attr('sensor.vacuum_r2_d2', 'fan_speed_index') }}"
 
         # Very large and complex template which stores values
         # and helper attributes
         vacuum_r2_d2:
-          entity_id: vacuum.r2_d2
           friendly_name_template: >-
             {{ state_attr("vacuum.r2_d2", "friendly_name") }}
+          unique_id: b32f899e905b47e1abff57437ab04f4b
           # Translates the state to Danish - Work in Progress
           value_template: >-
             {%- if is_state("vacuum.r2_d2", "docked") -%}
@@ -209,6 +208,7 @@ vacuum:
         # Switch to turn DND "on" o ŕ "off"
         vacuum_dnd:
           friendly_name: "DND støvsuger"
+          unique_id: 84ef164674df48218983198644cb20ea
           value_template: "{{ state_attr('vacuum.r2_d2', 'do_not_disturb') }}"
           turn_on:
             # Send the current DND times to turn DND on

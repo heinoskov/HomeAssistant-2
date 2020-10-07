@@ -12,8 +12,7 @@ movies:
       sensors:
         movie_data:
           friendly_name_template: "{{ states('input_select.movie') }}"
-          entity_id:
-            - input_select.movie
+          unique_id: d00111598dea4e46bf79fccdf3f0248c
           value_template: "TEST"
           entity_picture_template: "{{ states('input_select.movie_cover') }}"
           attribute_templates:

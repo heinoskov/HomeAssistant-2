@@ -9,6 +9,7 @@ clock:
       sensors:
         dato:
           friendly_name: "Dagens dato"
+          unique_id: 73c05e7847ac49a3959c380663daa712
           value_template: >-
             {% set timestamp = strptime(states('sensor.date'), '%Y-%m-%d').timestamp() %}
             {{ states("var.weekdays_dk").split(",")[timestamp | timestamp_custom('%w') | int - 1] -}}dag den {{ timestamp | timestamp_custom('%-d.') }} {{states("var.months_dk").split(",")[timestamp | timestamp_custom('%-m') | int - 1] }} {{ timestamp | timestamp_custom('%Y') }}
@@ -67,6 +68,7 @@ clock:
 
         tid_naturlig:
           friendly_name: "Naturlig talt tid"
+          unique_id: af1f5983fbfe4614a47b2bbd87bdfd01
           value_template: >-
             {%- set ts = now() %}
             {%- set H = ts.strftime("%-I") | int %}
@@ -106,6 +108,7 @@ clock:
 
         dato_ordenstal:
           friendly_name: "Ordenstal dato"
+          unique_id: 82e166c9e10e4511b5c40afe088c5c57
           value_template: >-
             {%- set day = now().strftime("%-d") | int %}
             {%- set digit_names = {

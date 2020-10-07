@@ -84,6 +84,13 @@ lovelace:
 
 lovelace_gen:
 
+# P
+panel_iframe:
+  guid_generator:
+    title: GUID Generator
+    url: https://www.guidgenerator.com/online-guid-generator.aspx
+    icon: mdi:barcode
+
 #      ____ 
 #     / __ \
 #    / /_/ /
@@ -107,8 +114,6 @@ sensor:
   - platform: seventeentrack
     username: !secret 17TRACK_USER
     password: !secret 17TRACK_PASSWORD
-    show_archived: true
-    show_delivered: true
 shell_command: !include_dir_merge_named include/shell_commands/
 
 spotify:

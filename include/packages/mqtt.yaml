@@ -1,59 +1,51 @@
 mqtt:
-
   binary_sensor:
     - platform: mqtt
       name: "B button"
+      unique_id: 407664a1e4cc4287a9bd1000b0ef9f99
       state_topic: "tele/tasmota/RESULT"
       value_template: "{% if value_json.RfReceived.Data == '42AAAA' -%}ON{%- else -%}OFF{%- endif %}"
       off_delay: 15
 
     - platform: mqtt
       name: "C button"
+      unique_id: d927afd8b5ed46009dd68ef398847097
       state_topic: "tele/tasmota/RESULT"
       value_template: "{{ 'ON' if value_json.RfReceived.Data == '42AAAB' else 'OFF' }}"
       off_delay: 15
 
-
-  # MAGNET SENSORS
-    # HAVELÅGE
     - platform: mqtt
-      name: "Havelåge"
+      name: "Magnetsensor 2-way 45400"
+      unique_id: ac51340ba92848fc93845a6396bf2e69
+      device_class: opening
       state_topic: "tele/tasmota/RESULT"
-      device_class: door
-      value_template: "{{ 'ON' if value_json.RfReceived.Data == '0D48CA' else 'OFF' }}"
-      off_delay: 15
-
-    # HOVEDDØR
-    - platform: mqtt
-      name: "Hoveddør"
-      state_topic: "tele/tasmota/RESULT"
-      device_class: door
-      value_template: "{{ 'ON' if value_json.RfReceived.Data == 'C0E3DA' else 'OFF' }}"
-      off_delay: 15
+      value_template: "{{ value_json.RfReceived.Data }} "
+      payload_on: "45400A"
+      payload_off: "45400E"
 
     - platform: mqtt
       name: "Magnetsensor 1-way 44004A"
+      unique_id: e1f3504a922d4ce191d0a1e3172f9462
       device_class: door
       state_topic: "tele/tasmota/RESULT"
-      value_template: "{{ 'ON' if value_json.RfReceived.Data == '44004A' else 'OFF' }}"
+      value_template: "{{ value_json.RfReceived.Data }} "
+      payload_on: "44004A"
       off_delay: 15
 
     - platform: mqtt
       name: "Magnetsensor 1-way 5D81DA"
+      unique_id: 0a17103d0d994e6fa004cff53cd87db0
       device_class: opening
       state_topic: "tele/tasmota/RESULT"
-      value_template: "{{ 'ON' if value_json.RfReceived.Data == '5D81DA' else 'OFF' }}"
+      value_template: "{{ value_json.RfReceived.Data }} "
+      payload_on: "5D81DA"
       off_delay: 15
 
     - platform: mqtt
       name: "Magnetsensor 1-way 3C003A"
+      unique_id: 4b75079f921c4c09a4943e7df1ede9a1
       state_topic: "tele/tasmota/RESULT"
       device_class: opening
-      value_template: "{{ 'ON' if value_json.RfReceived.Data == '3C003A' else 'OFF' }}"
+      value_template: "{{ value_json.RfReceived.Data }} "
+      payload_on: "3C003A"
       off_delay: 15
-
-    - platform: mqtt
-      name: "Magnetsensor 2-way 45400"
-      device_class: opening
-      state_topic: "tele/tasmota/RESULT"
-      value_template: "{% if value_json.RfReceived.Data == '45400A' -%}ON{%- elif value_json.RfReceived.Data == '45400E' -%}OFF{%- endif %}"

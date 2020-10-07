@@ -4,6 +4,7 @@ uv_index:
       sensors:
         uv_sun:
           friendly_name: "UV sensor med UV grænse og sol info"
+          unique_id: 98dff5bcc1ae4d3e9dd851b5b3f9bc8f
           value_template: 3.5
           attribute_templates:
             protection_start_time: >-
