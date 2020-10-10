@@ -1,5 +1,13 @@
 light_control:
   input_number:
+    morningbath_length:
+      name: Tid lyset skal være tændt
+      icon: mdi:timer
+      initial: 30
+      min: 5
+      max: 45
+      step: 5
+
     timeout_forgotten_light:
       name: Sluk glemt lys
       icon: mdi:timer
@@ -26,7 +34,7 @@ light_control:
 
     dim_high:
       name: Normal lysstyrke
-      icon: mdi:car-light-high
+      icon: mdi:weather-sunny
       initial: 254
       min: 0
       max: 254
@@ -34,7 +42,7 @@ light_control:
     
     dim_low:
       name: Laveste lysstyrke
-      icon: mdi:car-light-dimmed
+      icon: mdi:weather-night
       initial: 10
       min: 0
       max: 254
@@ -46,6 +54,20 @@ light_control:
       icon: mdi:clock
       has_date: false
       has_time: true
+
+    morningbath_start:
+      name: Badetid start
+      icon: mdi:clock
+      has_date: false
+      has_time: true
+      initial: "06:15:00"
+
+    morningbath_end:
+      name: Badetid slut
+      icon: mdi:clock
+      has_date: false
+      has_time: true
+      initial: "07:45:00"
 
   binary_sensor:
     - platform: template
@@ -65,8 +87,8 @@ light_control:
             }}
 
   automation:
-
     - alias: "Havegang - autosluk dag"
+      id: 2ca6894f0f314a8a8b3d3297500c7c95
       description: "Der er nogen som har tændt lyset i havegangen, hvis det er dag - så sluk det"
       initial_state: true
       mode: single
@@ -82,6 +104,7 @@ light_control:
             - light.havegang
 
     - alias: "Husnummer - tænd/sluk"
+      id: 4dd4e912f11642f2be65b7223a7708fe
       description: "Tænd lyset ved husnummeret når solen er unde "
       initial_state: true
       mode: single
@@ -94,6 +117,7 @@ light_control:
             - light.husnummer
 
     - alias: "Havelåge/hoveddør - tænd lys"
+      id: eac2ec3db544404ea24ba0f3884ca2eb
       description: "Tænd lyset ved husnummeret og havegangen når havelågen eller døren åbnes når det er mørkt"
       initial_state: true
       mode: restart
@@ -143,6 +167,7 @@ light_control:
               - light.indgang
 
     - alias: "Værelser - autosluk"
+      id: 53526ee5c3134c5988dcfdad30406892
       description: "Sluk lyset på værelser efter timeout"
       initial_state: true
       mode: parallel

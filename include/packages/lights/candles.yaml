@@ -60,9 +60,9 @@ candles:
 
   script:
     bloklys_on_off:
-      alias: "Send kommando til Honeywell og opdater boolske input m.m."
+      alias: "Send kommando til bloklysene og opdater boolske input m.m."
       icon: mdi:remote
-      description: "Sender en given kommando fra en given remote til en given blæser og ændrer en given boolean"
+      description: "Sender en given kommando fra en given remote til et given bloklys og ændrer en given boolean"
       fields:
         remote:
           description: "Fjernbetjeningen som kommandoen skal sendes fra"

@@ -1,31 +1,43 @@
 mailbox:
-
   input_boolean:
     private_mailbox:
       name: Postkasse boolean
       initial: off
       icon: mdi:mailbox-up
 
+  binary_sensor:
+    - platform: template
+      sensors:
+        mail:
+          friendly_name: "Der er kommet post"
+          unique_id: e1b0b3f411604f0485b71eba425dc53e
+          value_template: "{{ states('input_boolean.private_mailbox') }}"
+          icon_template: "mdi:mailbox{{ '-up' if is_state('input_boolean.private_mailbox', 'on') }}"
+
   automation:
     - alias: "Postkasse"
+      id: 7937fdac601d4ee6b5a33932cf92d8cd
       description: "Der er kommet post"
       initial_state: true
       mode: single
       trigger:
         - platform: state
-          entity_id: binary_sensor.postkasse
-          from: "off"
+          entity_id: binary_sensor.mailbox
           to: "on"
+          for: "00:00:03"
       condition: "{{ is_state('input_boolean.private_mailbox', 'off') }}"
       action:
         - service: input_boolean.turn_on
           data:
             entity_id: input_boolean.private_mailbox
+
         - service: notify.mobile_app_motorola_one_action
           data:
             title: "Postkasse"
             message: "Der er kommet post."
             data:
+              persistent: true
+              tag: persistent 
               channel: Postkasse
               importance: high
               actions:
@@ -34,6 +46,7 @@ mailbox:
 
     # Receiver of the actions from the phone
     - alias: Posten er hentet
+      id: 3bc4a5f9e5bf4aecabc8f2b24bfd65dc
       description: Nulstiller postakassen
       initial_state: true
       mode: single

@@ -173,6 +173,7 @@ movies:
     # Chapter changed
     # Find the corresponding timecode and seek in the movie
     - alias: "Kapitel skift"
+      id: 047fca3588a34764bc57f5e9f63470a5
       trigger:
         - platform: state
           entity_id: input_select.movie_chapters
@@ -189,6 +190,7 @@ movies:
     # Chromecasts choosen
     # Synchronize the list with entities
     - alias: "Chromecast valgt"
+      id: b577bab17dd247db81c04714866b2a0e
       trigger:
         - platform: state
           entity_id: input_select.chromecasts
@@ -201,6 +203,7 @@ movies:
     # Have choosen a movie
     # Find the correct URL
     - alias: "Valgt film - find URL"
+      id: 6d220e2fa34e456296bfe17fbaef107b
       trigger:
         - platform: state
           entity_id: input_select.movie
@@ -241,6 +244,7 @@ movies:
 
     # Load movies at startup
     - alias: "Indlæs film ved opstart"
+      id: 2f6c8e9074354b8ca4ba80cce0719018
       trigger:
         - platform: homeassistant
           event: start

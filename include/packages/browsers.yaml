@@ -37,6 +37,7 @@ browsers:
 
   automation:
     - alias: "PRIVATE Update prev_path_touchpanel"
+      id: 74e9ef1cde4548a7808e4d6435cdecaf
       description: "Opdaterer var.prev_path_touchpanel ved skift af view"
       mode: single
       initial_state: true
@@ -52,6 +53,7 @@ browsers:
             {{ state_attr('sensor.touchpanel', 'path') }}
 
     - alias: "Retur til default view"
+      id: 842ce2a3d980408185260d65e4df65ff
       description: "Gå til default view på touchpanel efter timeout"
       mode: single
       initial_state: true

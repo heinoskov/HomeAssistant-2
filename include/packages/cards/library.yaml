@@ -4,6 +4,7 @@ library:
 
   automation:
     - alias: Opdater bibliotekslån
+      id: 553bd11e60bc4d4c81722436fa3511d9
       description: Opdater status på udlån
       initial_state: true
       mode: single

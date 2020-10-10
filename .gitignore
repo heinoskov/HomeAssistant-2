@@ -33,3 +33,4 @@ edgeos.key
 .ps4-games*
 .sonoff.json
 library_users.txt
+googlecloud.json

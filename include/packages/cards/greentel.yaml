@@ -46,6 +46,7 @@ greentel:
 
   automation:
     - alias: "Greentel hent værdier"
+      id: f2857193eddb41b1af0f5801aacbfa3a
       description: Udtræk taletid m.m. fra scraping af Greentel
       initial_state: true
       mode: single
@@ -58,6 +59,7 @@ greentel:
         - service: shell_command.greentel_get
 
     - alias: "Greentel scrape"
+      id: f8ece03fd7ad46ed854f944ba0bb8266
       description: Scrape data fra Greentel
       initial_state: true
       mode: single

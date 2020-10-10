@@ -7,6 +7,7 @@ all_in_one_remote:
 
   automation:
     - alias: 'All-in-One Remote'
+      id: c9f12e595d4c486692cc0ed44b44546d
       initial_state: 'on'
       mode: parallel
       trigger:

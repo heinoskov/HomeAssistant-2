@@ -72,6 +72,7 @@ uv_index:
 
   automation:
     - alias: Opdater OpenUV halve time
+      id: 774835420164454d8bf5ae3e4248ddd3
       trigger:
         platform: time_pattern
         minutes: "/30"
@@ -80,6 +81,7 @@ uv_index:
         service: openuv.update_uv_index_data
 
     - alias: Opdater OpenUV beskyttelsesvindue
+      id: 04797e2a44c64789a258903d526e03c5
       trigger:
         platform: time
         at: "02:12:00"

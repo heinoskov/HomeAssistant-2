@@ -100,6 +100,7 @@ countdowns:
 
   automation:
     - alias: Birthday Update
+      id: b99d39af9a9242fe9aee2536b64f1892
       description: Opdater nedtællingen til næste fødselsdag
       initial_state: true
       mode: single

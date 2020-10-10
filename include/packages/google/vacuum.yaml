@@ -1,0 +1,85 @@
+vacuum_commands:
+  script:
+    vacuum_kitchen:
+      alias: "Støvsug køkkenet"
+      sequence:
+        - service: script.vacuum_room_google
+          data:
+            roomname: "Køkken"
+
+    vacuum_william:
+      alias: "Støvsug Williams værelse"
+      sequence:
+        - service: script.vacuum_room_google
+          data:
+            roomname: "Williams værelse"
+
+    vacuum_bedroom:
+      alias: "Støvsug Soveværelse"
+      sequence:
+        - service: script.vacuum_room_google
+          data:
+            roomname: "Soveværelse"
+
+    vacuum_livingroom:
+      alias: "Støvsug stuen"
+      sequence:
+        - service: script.vacuum_room_google
+          data:
+            roomname: "Stuen"
+
+    vacuum_entrance:
+      alias: "Støvsug indgang"
+      sequence:
+        - service: script.vacuum_room_google
+          data:
+            roomname: "Indgang"
+
+    vacuum_hallway:
+      alias: "Støvsug gangen"
+      sequence:
+        - service: script.vacuum_room_google
+          data:
+            roomname: "Gangen"
+
+    vacuum_small_bath:
+      alias: "Støvsug lille badeværelse"
+      sequence:
+        - service: script.vacuum_room_google
+          data:
+            roomname: "Lille badeværelse"
+
+    vacuum_large_bath:
+      alias: "Støvsug stort badeværelse"
+      sequence:
+        - service: script.vacuum_room_google
+          data:
+            roomname: "Stort badeværelse"
+
+    vacuum_colin:
+      alias: "Støvsug Colins værelse"
+      sequence:
+        - service: script.vacuum_room_google
+          data:
+            roomname: "Colins værelse"
+
+    vacuum_emilio:
+      alias: "Støvsug Emilios værelse"
+      sequence:
+        - service: script.vacuum_room_google
+          data:
+            roomname: "Emilios værelse"
+
+    vacuum_room_google:
+      alias: "Private start støvsugningen fra Google"
+      description: "Vælg rummet og start støvsugningen"
+      fields:
+        roomname:
+          description: "Rummets navn"
+          example: "Stuen"
+      sequence:
+        - service: input_select.select_option
+          data:
+            entity_id: input_select.vacuum_room
+            option: "{{ roomname }}"
+        - service: script.vacuum_room_start

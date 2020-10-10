@@ -6,16 +6,75 @@ gangen:
         - binary_sensor.gangen_sensor_1
         - binary_sensor.gangen_sensor_2
 
+  homeassistant:
+    customize:
+      automation.badevaerelse_lysstyring:
+        friendly_name: Lysstyring
+        icon: mdi:shower
+
   automation:
+    - alias: "Badeværelse - lysstyring"
+      id: 842314a739f34574add293107176baca
+      initial_state: true
+      mode: parallel
+      trigger:
+        - platform: state
+          entity_id:
+            - binary_sensor.stort_badevarelse_sensor
+            - binary_sensor.lille_badevarelse_sensor
+          from: "off"
+          to: "on"
+      variables:
+        light: ""
+      action:
+        - variables:
+            light: >-
+              {%- if trigger.entity_id == "binary_sensor.lille_badevarelse_sensor" %}
+                light.lille_badevarelse
+              {%- else %}
+                light.stort_badevarelse
+              {% endif %}
+        - choose:
+            - conditions:
+                - condition: time
+                  after: input_datetime.morningbath_start
+                  before: input_datetime.morningbath_end
+              sequence:
+                - service: light.turn_on
+                  data:
+                    entity_id: "{{ light }}"
+                    brightness_pct: 100
+                - delay: "{{ states('input_number.morningbath_length') | multiply(60) | int }}"
+                - service: light.turn_off
+                  data:
+                    entity_id: "{{ light }}"
+
+          default:
+            - service: light.turn_on
+              data:
+                entity_id: "{{ light }}"
+                brightness: >-
+                  {%- if is_state("binary_sensor.night", "on") %}
+                    {{ states("input_number.dim_low") | int }}
+                  {%- else -%}
+                    {{ states("input_number.dim_high") | int }}
+                  {%- endif %}
+            - delay: "{{ 600 if is_state('binary_sensor.night', 'off') else 300 }}"
+
+        - service: light.turn_off
+          data:
+            entity_id: "{{ light }}"
+
     - alias: "Tænd lyset ved bevægelse"
+      id: 20c269830c7c4b2a81b65ef5e82dbca1
       initial_state: true
       mode: parallel
       trigger:
         - platform: state
           entity_id:
             - binary_sensor.sandbox_sensor
-            - binary_sensor.lille_badevarelse_sensor
-            - binary_sensor.stort_badevarelse_sensor
+            # - binary_sensor.lille_badevarelse_sensor
+            # - binary_sensor.stort_badevarelse_sensor
             - group.sensors_gangen
             - binary_sensor.camera_indgang
           from: "off"

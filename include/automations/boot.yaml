@@ -1,4 +1,5 @@
 - alias: Boot
+  id: e7e87a599a1a40189e23778accdd044b
   description: 'Indlæs diverse lister m.m. ved opstart'
   initial_state: true
   mode: single

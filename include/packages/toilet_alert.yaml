@@ -14,7 +14,8 @@ toilet_alert:
       step: 10
 
   automation:
-    - alias: "Toilet meddelse"
+    - alias: Toilet meddelse
+      id: 80546404776542eba8f015e0764bb093
       description: "Colin er færdig på toilletet"
       initial_state: true
       mode: single

@@ -58,6 +58,7 @@ flagdays_dk:
 
   automation:
     - alias: Opdater flagdage
+      id: 2f0253f30f74479b90b5231ec7296d61
       description: Opdater nedtællingen til næste officielle flagdag
       initial_state: true
       mode: single
@@ -71,6 +72,7 @@ flagdays_dk:
 
     # It is flagday
     - alias: Flaget skal hejses
+      id: 3f6b25440fe54302b3165c2624431d8c
       description: Reminder om at hejse flaget
       initial_state: true
       mode: single
@@ -102,6 +104,8 @@ flagdays_dk:
                 HUSK: Flaget skal være på halv {{ 'hele dagen.' if is_state_attr('sensor.flag_day', 'half_mast', 'true') else 'indtil ' + state_attr('sensor.flag_day', 'half_mast') + ' hvorefter det skal hejses til tops.' }}
               {% endif %}
             data:
+              persistent: true
+              tag: persistent
               channel: Flagstang
               importance: high
               actions:
@@ -110,6 +114,7 @@ flagdays_dk:
 
     # On a half mast day  with a end time
     - alias: Flaget skal helt til tops
+      id: 45b26aec9e45450ebefdc46f7c6be4bd
       description: Reminder om at hejse flaget helt til tops
       initial_state: true
       mode: single
@@ -133,6 +138,7 @@ flagdays_dk:
 
     # Time to take the flag down
     - alias: Flaget er hejst
+      id: 305695924c244ce4a3ddbb4710228135
       description: Reminder om at tage flaget ned
       mode: single
       trigger:
@@ -148,6 +154,8 @@ flagdays_dk:
               Husk at tage flaget ned. Solen går ned kl. {{ state_attr('sensor.flag_day', 'flag_down_time') }}.
               {{ 'OBS: Hejs først flaget helt til tops inden det tages ned.' if is_state('input_boolean.private_half_mast', 'on') }}
             data:
+              persistent: true
+              tag: persistent
               channel: Flagstang
               importance: high
               actions:
@@ -160,6 +168,7 @@ flagdays_dk:
 
     # Receiver of the actions from the phone
     - alias: Opdater flagets status
+      id: 0408a260c8514a17b42ae7c4167217f2
       description: Modtager af kommandoer fra notifikationer
       initial_state: true
       mode: single

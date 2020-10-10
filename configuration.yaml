@@ -84,7 +84,12 @@ lovelace:
 
 lovelace_gen:
 
-# P
+#      ____ 
+#     / __ \
+#    / /_/ /
+#   / ____/ 
+#  /_/      
+#
 panel_iframe:
   guid_generator:
     title: GUID Generator
@@ -127,8 +132,14 @@ spotify:
 #  /_/     
 #
 tts:
-  - platform: google_translate
-    language: "da"
+  - platform: google_cloud
+    key_file: googlecloud.json
+    language: da-DK
+    gender: female
+    voice: da-DK-Wavenet-A
+  # - platform: google_translate
+  #   language: "da"
+  #   cache: false
 
 #   _    __
 #  | |  / /

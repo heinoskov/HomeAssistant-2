@@ -19,8 +19,8 @@ cards:
   - type: custom:layout-card
     layout: vertical
     max_columns: 3
-    min_width: 33%
-    max_width: 99%
+    min_width: 32%
+    max_width: 97%
     cards:
       - !include cards/main/transport.yaml
       - !include cards/main/library.yaml

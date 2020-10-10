@@ -10,6 +10,7 @@ doorbell:
 
   automation:
     - alias: "Ringklokke"
+      id: 50a6442b784c4373b69c7d4c95af7e88
       description: "Der er nogen som ringer på døren"
       initial_state: true
       mode: queued

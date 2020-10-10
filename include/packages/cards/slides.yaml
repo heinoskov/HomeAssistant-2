@@ -6,7 +6,8 @@ slides:
         - birthday
 
   automation:
-    - alias: "Next slide"
+    - alias: Next slide
+      id: ccb778072bc0482e9633e8f952737d39
       trigger:
         - platform: time_pattern
           seconds: "/15"

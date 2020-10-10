@@ -32,6 +32,7 @@ honeywell_fan:
 
   automation:
     - alias: "Honeywell fan speed"
+      id: 449e9d696e864b2e880ef8d4d4640c2d
       description: "Blæserhastighed - vælg ny og send kommandoen til blæseren x antal gange"
       initial_state: true
       mode: single
@@ -66,6 +67,7 @@ honeywell_fan:
               {% endif %}
 
     - alias: "Honeywell timer"
+      id: f1a4e480ae574ce6a258528adcc9a2b0
       description: "Blæsertimer  vælg ny timertid og send kommandoen til blæseren x antal gange"
       initial_state: true
       mode: single

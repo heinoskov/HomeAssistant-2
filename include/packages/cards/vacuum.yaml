@@ -205,7 +205,7 @@ vacuum:
   switch:
     - platform: template
       switches:
-        # Switch to turn DND "on" o ŕ "off"
+        # Switch to turn DND "on" oŕ "off"
         vacuum_dnd:
           friendly_name: "DND støvsuger"
           unique_id: 84ef164674df48218983198644cb20ea
@@ -231,7 +231,7 @@ vacuum:
       has_time: true
 
   script:
-    # Save DND timer
+      # Save DND timer
     vacuum_save_dnd:
       alias: "Gem DND timer"
       sequence:
@@ -311,6 +311,7 @@ vacuum:
     # But only fire when we have issued the cleaning - room_id != null
     # Reset the room_id
     - alias: "Slut med støvsugning"
+      id: 1fa51c3c0bb2478aa9cd160e833ee162
       trigger:
         platform: template
         value_template: >-
@@ -329,6 +330,7 @@ vacuum:
 
     # The DND has changed - send it to the vacuum
     - alias: "Skift DND på støvsugeren"
+      id: 9f4790f300524acbac7abddb987f34cf
       trigger:
         platform: state
         entity_id:
@@ -339,6 +341,7 @@ vacuum:
 
     # Send the new suction setting to the vacuum
     - alias: "Skift sugestyrke på støvsugeren"
+      id: 99b2911581524306becce8b397c87aad
       trigger:
         # Trigger - when a suction setting is choosen
         platform: state
@@ -362,6 +365,7 @@ vacuum:
     # We have changed the suction settings in the app
     # and wish to match the new setting
     - alias: "Match suge-menuen til støvsugeren"
+      id: 1044ecd648af4760a3672db6e2f8e50c
       trigger:
         # Trigger - new suction
         - platform: state
@@ -381,6 +385,7 @@ vacuum:
 
     # Set the defult settings at startup
     - alias: "Indstil støvsugeren ved opstart"
+      id: d14d7f1f776c46e793692378317c88cb
       trigger:
         - platform: homeassistant
           event: start
