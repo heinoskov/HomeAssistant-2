@@ -295,7 +295,7 @@ vacuum:
           data:
             media_player: media_player.kokken
             volume: "{{ (states('input_number.announce_volume') | float) / 100 }}"
-            message: "{{ state_attr("vacuum.r2_d2", "friendly_name") }} er klar til at blive serviceret..."
+            message: "{{ state_attr('vacuum.r2_d2', 'friendly_name') }} er klar til at blive serviceret..."
 
   rest_command:
     vacuum_command:
