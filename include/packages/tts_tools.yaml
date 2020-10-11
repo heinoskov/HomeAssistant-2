@@ -1,7 +1,11 @@
 tts_tools:
 
+  # Wavenet voices
   tts:
     - platform: google_cloud
+      # Rename service to come before the builtin TTS
+      # See this issue:
+      # https://github.com/home-assistant/core/issues/35142
       service_name: aaa_google_cloud_say
       key_file: googlecloud.json
       language: da-DK
@@ -11,6 +15,7 @@ tts_tools:
       profiles:
         - small-bluetooth-speaker-class-device
 
+  # Volume from GUI
   input_number:
     announce_volume:
       name: Lydstyrke
@@ -40,9 +45,11 @@ tts_tools:
         saved_volume: ""
       sequence:
 
+        # Store the current volume in a variable
         - variables:
             saved_volume: "{{ state_attr(media_player, 'volume_level') }}"
 
+        # Set the new volume
         - service: media_player.volume_set
           data:
             entity_id: "{{ media_player }}"
@@ -53,15 +60,22 @@ tts_tools:
                 {{ volume }}
               {% endif %}
 
+        # Say the message
         - service: "{{ tts_service }}"
           data:
             entity_id: "{{ media_player }}"
             message: "{{ message }}"
 
+        # A workaround.....
+        # Wait 2 seconds for the media_player to start playing
+        # Wihtout this the script would continue and resetting
+        # the volume back to its previous state
         - delay: 2
 
+        # Wait till we are done saying the message
         - wait_template: "{{ not is_state(media_player, 'playing') }}"
 
+        # Reset the volume
         - service: media_player.volume_set
           data:
             entity_id: "{{ media_player}}"
