@@ -1,15 +1,14 @@
 candles:
-
   input_boolean:
-    private_bloklys_stue_state:
+    private_bloklys_stuen_state:
       name: Bloklys stue state
     private_bloklys_kokken_state:
       name: Bloklys køkken state
 
   light:
     - platform: switch
-      name: Bloklys stue
-      entity_id: switch.bloklys_stue
+      name: Bloklys stuen
+      entity_id: switch.bloklys_stuen
 
     - platform: switch
       name: Bloklys køkken
@@ -18,10 +17,10 @@ candles:
   switch:
     - platform: template
       switches:
-        bloklys_stue:
+        bloklys_stuen:
           friendly_name: "LED Bloklys i stuen"
           unique_id: c1cd94ec2ad44aeb9f52cf4a35a4dfaa
-          value_template: "{{ is_state('input_boolean.private_bloklys_stue_state', 'on') }}"
+          value_template: "{{ is_state('input_boolean.private_bloklys_stuen_state', 'on') }}"
           icon_template: mdi:candle
           turn_on:
             service: script.bloklys_on_off
@@ -29,14 +28,14 @@ candles:
               remote: remote.stuen_rm_mini
               device: Bloklys
               command: Turn on
-              boolean: input_boolean.private_bloklys_stue_state
+              boolean: input_boolean.private_bloklys_stuen_state
           turn_off:
             service: script.bloklys_on_off
             data:
               remote: remote.stuen_rm_mini
               device: Bloklys
               command: Turn off
-              boolean: input_boolean.private_bloklys_stue_state
+              boolean: input_boolean.private_bloklys_stuen_state
 
         bloklys_kokken:
           friendly_name: "LED Bloklys i køkkenet"
@@ -75,7 +74,7 @@ candles:
           example: "Turn on"
         boolean:
           description: "Den booleske kontakt som skal ændres"
-          example: "input_boolean.private_bloklys_stue_state"
+          example: "input_boolean.private_bloklys_stuen_state"
       mode: single
       sequence:
         - service: >-
@@ -89,10 +88,3 @@ candles:
             device: "{{ device }}"
             command: "{{ command }}"
             num_repeats: 5
-
-  homeassistant:
-    customize:
-      light.bloklys_kokken:
-        icon: mdi:candle
-      light.bloklys_stue:
-        icon: mdi:candle

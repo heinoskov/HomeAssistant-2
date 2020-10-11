@@ -59,8 +59,12 @@ gangen:
                   {%- else -%}
                     {{ states("input_number.dim_high") | int }}
                   {%- endif %}
-            - delay: "{{ 600 if is_state('binary_sensor.night', 'off') else 300 }}"
-
+            - delay: >-
+                {%- if is_state('binary_sensor.night', 'off') %}
+                  {{ states('input_number.light_timeout_day') | multiply(60) | int }}
+                {% else %}
+                  {{ states('input_datetime.light_timeout_night') | multiply(60) | int }}
+                {% endif %}
         - service: light.turn_off
           data:
             entity_id: "{{ light }}"
@@ -114,8 +118,12 @@ gangen:
               {%- endif %}
             transition: 1
         - wait_template: "{{ is_state(sensor, 'off') }}"
-        - delay:
-            seconds: "{{ 600 if is_state('binary_sensor.night', 'off') else 300 }}"
+        - delay: >-
+            {%- if is_state('binary_sensor.night', 'off') %}
+              {{ states('input_number.light_timeout_day') | multiply(60) | int }}
+            {% else %}
+              {{ states('input_datetime.light_timeout_night') | multiply(60) | int }}
+            {% endif %}
         - service: light.turn_off
           data:
             entity_id: "{{ light }}"

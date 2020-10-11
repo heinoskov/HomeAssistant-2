@@ -15,14 +15,11 @@ hal_9000:
       has_time: true
       initial: "09:00"
 
-  input_number:
-    hal9000_volume:
-      name: Lydstyrke
-      icon: mdi:volume-high
-      initial: 40
-      min: 10
-      max: 100
-      step: 10
+  sensor:
+    - platform: scrape
+      name: Dagens navn
+      resource: https://www.navnedag.dk
+      select: "h1"
 
   automation:
     - alias: "Godmorgen"
@@ -41,37 +38,41 @@ hal_9000:
             entity_id:
               - sensor.tid_naturlig
 
-        - service: media_player.volume_set
+        - service: script.say_something
           data:
-            entity_id:  media_player.kokken
-            volume_level: "{{ states('input_number.hal9000_volume') | float / 100 }}"
-
-        - delay: 5
-
-        - service: tts.google_translate_say
-          entity_id: media_player.kokken
-          data:
+            media_player: media_player.kokken
+            volume: "{{ (states('input_number.announce_volume') | float) / 100 }}"
             message: >-
               {% set len = states('var.greetings').split("|") | length %}
               {% set ran_idx = range(0, len) | random() %}
-              {{ states('var.greetings').split("|")[ran_idx] }}
-
-              Det er i dag {{ state_attr('sensor.dato', 'ugedag') }} den {{ state_attr('sensor.dato', 'dato_ordenstal') }} {{ state_attr('sensor.dato', 'maaned') }}.
-
-              Klokken er {{ states('sensor.tid_naturlig') }} og der er lige nu cirka {{ state_attr('weather.brobyvaerk', 'temperature') | round }} grader i {{ state_attr('weather.brobyvaerk', 'friendly_name') }}.
-
-              UV-indexet når i dag {{ states('sensor.max_uv_index') | round(2) | replace('.', ',') }} og er højest klokken {{ state_attr('sensor.uv_sun', 'uv_max_natural') }} og der anbefales solcreme mellem {{ state_attr('sensor.uv_sun', 'protection_start_time_natural') }} og {{ state_attr('sensor.uv_sun', 'protection_end_time_natural') }}.
-
+              {{ states('var.greetings').split("|")[ran_idx] }},.
+              
+              Klokken er {{ states('sensor.tid_naturlig') }}, og det er i dag {{ state_attr('sensor.dato', 'ugedag') }} den {{ state_attr('sensor.dato', 'dato_ordenstal') }} {{ state_attr('sensor.dato', 'maaned') }},.
+              Dagens navn er {{ states('sensor.dagens_navn') }},.
+              
+              Temperaturen, i {{ state_attr('weather.brobyvaerk', 'friendly_name') }}, er lige nu {{ state_attr('weather.brobyvaerk', 'temperature') | round }} grader som vil føles som mellem {{ states('sensor.brobyvaerk_realfeel_temperature_min_0d') | round }} og {{ states('sensor.brobyvaerk_realfeel_temperature_max_0d') | round }} grader,.
+              {% if states('sensor.brobyvaerk_precipitation') | int > 0 %}
+                Der forventes at falde {{ states('sensor.brobyvaerk_precipitation') | round }} {{ state_attr('sensor.brobyvaerk_precipitation', 'unit_of_measurement') }} i løbet af dagen i dag,.
+              {% endif %}
+              
+              {%- if ( states('sensor.brobyvaerk_thunderstorm_probability_day_0d') | int ) > 0 %}
+                Der er {{ states('sensor.brobyvaerk_thunderstorm_probability_day_0d') }} {{ state_attr('sensor.brobyvaerk_thunderstorm_probability_day_0d', 'unit_of_measurement') }} risiko for torden i dagtimerne,.
+                {%- if states('sensor.brobyvaerk_thunderstorm_probability_night_0d') | int > 0 %}
+                  og {{ states('sensor.brobyvaerk_thunderstorm_probability_night_0d') }} {{ state_attr('sensor.brobyvaerk_thunderstorm_probability_night_0d', 'unit_of_measurement') }} risiko for torden i nat,.
+                {%- else -%}
+                .
+                {% endif %}
+              {% endif %}  
+              
+              {% if states('sensor.max_uv_index') >= states('sensor.uv_sun') %}
+              UV-indexet når i dag {{ states('sensor.max_uv_index') | round(2) | replace('.', ',') }},.
+              {% endif %}
+              
               {% set len = states('var.reminder').split("|") | length %}
               {% set ran_idx = range(0, len) | random() %}
               
               {%- if is_state_attr('sensor.affald_hentes', 'days', '1') %}
-                {{ states('var.reminder').split("|")[ran_idx] }} {{ states('var.reminder').split("|")[ran_idx] }} {{ states('var.trash') }}
-              {% elif is_state_attr('sensor.genbrug_hentes', 'days', '11') %}
-                {{ states('var.reminder').split("|")[ran_idx] }} {{ states('var.recycle') }}
+                {{ states('var.reminder').split("|")[ran_idx] }} {{ states('var.reminder').split("|")[ran_idx] }} {{ states('var.trash') }},.
+              {% elif is_state_attr('sensor.genbrug_hentes', 'days', '1') %}
+                {{ states('var.reminder').split("|")[ran_idx] }} {{ states('var.recycle') }},.
               {% endif -%}
-
-        - service: media_player.volume_set
-          data:
-            entity_id: media_player.kokken
-            volume_level: "{{ saved_volume | float }}"

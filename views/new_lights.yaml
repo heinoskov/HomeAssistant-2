@@ -1,5 +1,5 @@
 title: Stuen
-icon: mdi:sofa
+icon: mdi:lightbulb-on
 panel: true
 cards:
   - type: custom:layout-card
@@ -86,12 +86,13 @@ cards:
                 name: Sengelamper
                 icon: mdi:bed
           - type: custom:stack-in-card
-            title: Cornelies værelse
+            title: Udendørs
             mode: horizontal
             cards:
               - type: light
-                entity: light.cornelies_gulvlampe
-              - type: custom:gap-card
+                entity: light.husnummer
+              - type: light
+                entity: light.havegangen
       - type: custom:stack-in-card
         title: Stuen
         cards:
@@ -123,11 +124,10 @@ cards:
               - type: light
                 entity: light.gangen
           - type: custom:stack-in-card
-            title: Udendørs
+            title: Cornelies værelse
             mode: horizontal
             cards:
-              - type: light
-                entity: light.husnummer
               - type: custom:gap-card
               - type: light
-                entity: light.havegangen
+                entity: light.cornelies_gulvlampe
+              - type: custom:gap-card

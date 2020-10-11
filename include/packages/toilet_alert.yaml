@@ -4,15 +4,6 @@ toilet_alert:
       name: Toilet meddelse
       initial: "Colin er færdig på toilettet..."
 
-  input_number:
-    toilet_volume:
-      name: Lydstyrke
-      icon: mdi:volume-high
-      initial: 40
-      min: 10
-      max: 100
-      step: 10
-
   automation:
     - alias: Toilet meddelse
       id: 80546404776542eba8f015e0764bb093
@@ -30,24 +21,11 @@ toilet_alert:
       variables:
         saved_volume: "{{ state_attr('media_player.kokken', 'volume_level') }}"
       action:
-        - service: media_player.volume_set
+        - service: script.say_something
           data:
-            entity_id: media_player.kokken
-            volume_level: "{{ states('input_number.toilet_volume') | float / 100 }}"
-
-        - delay: "00:00:02"
-
-        - service: tts.google_translate_say
-          entity_id: media_player.kokken
-          data:
+            media_player: media_player.kokken
+            volume: "{{ (states('input_number.announce_volume') | float) / 100 }}"
             message: "{{ states('input_text.toilet_string') }}"
-
-        - delay: "00:00:10"
-
-        - service: media_player.volume_set
-          data:
-            entity_id: media_player.kokken
-            volume_level: "{{ saved_volume | float }}"
 
   homeassistant:
     customize:

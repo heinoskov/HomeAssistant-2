@@ -27,7 +27,6 @@ cards:
           - domain: "sensor"
           - domain: "media_player"
           - domain: "remote"
-          - entity_id: "light.stuen_gulvlampe_group"
 
   - type: conditional
     conditions:

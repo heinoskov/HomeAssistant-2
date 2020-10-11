@@ -89,11 +89,23 @@ cards:
                   - type: custom:slider-entity-row
                     entity: input_number.dim_low
                     hide_state: false
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Tiemouts
+                padding: 0
+                entities:
+                  - type: custom:slider-entity-row
+                    entity: input_number.light_timeout_day
+                    hide_state: false
+                  - type: custom:slider-entity-row
+                    entity: input_number.light_timeout_night
+                    hide_state: false
 
           - type: custom:fold-entity-row
             head:
               type: section
-              label: Glemt lyd
+              label: Glemt lys
             padding: 0
             entities:
               - automation.sluk_lys_tomt_hus
@@ -125,6 +137,16 @@ cards:
         entities:
           - switch.pc_j_lindvig_windows
           - switch.pc_h_lindvig
+
+      # Postkasse
+      - type: entities
+        entities:
+          - type: custom:fold-entity-row
+            head: automation.postkasse
+            padding: 0
+            entities:
+              - type: custom:slider-entity-row
+                entity: input_number.mailbox_time_open
 
       # Toilet
       - type: entities

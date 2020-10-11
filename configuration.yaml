@@ -133,10 +133,14 @@ spotify:
 #
 tts:
   - platform: google_cloud
+    service_name: aaa_google_cloud_say
     key_file: googlecloud.json
     language: da-DK
     gender: female
     voice: da-DK-Wavenet-A
+    speed: 0.7
+    profiles:
+      - small-bluetooth-speaker-class-device
   # - platform: google_translate
   #   language: "da"
   #   cache: false

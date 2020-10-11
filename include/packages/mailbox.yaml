@@ -1,4 +1,13 @@
 mailbox:
+  input_number:
+    mailbox_time_open:
+      name: Åben tid
+      icon: mdi:timer
+      initial: 3
+      min: 1
+      max: 5
+      step: 1
+
   input_boolean:
     private_mailbox:
       name: Postkasse boolean
@@ -24,7 +33,8 @@ mailbox:
         - platform: state
           entity_id: binary_sensor.mailbox
           to: "on"
-          for: "00:00:03"
+          for:
+            seconds: "{{ states('input_number.mailbox_time_open') | int }}"
       condition: "{{ is_state('input_boolean.private_mailbox', 'off') }}"
       action:
         - service: input_boolean.turn_on
@@ -59,3 +69,8 @@ mailbox:
         - service: input_boolean.turn_off
           data:
             entity_id: input_boolean.private_mailbox
+
+  homeassistant:
+    customize:
+      automation.postkasse:
+        icon: mdi:mailbox

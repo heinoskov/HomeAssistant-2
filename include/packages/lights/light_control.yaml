@@ -1,5 +1,21 @@
 light_control:
   input_number:
+    light_timeout_day:
+      name: Lys timeout dag
+      icon: mdi:timer
+      initial: 10
+      min: 1
+      max: 30
+      step: 1
+      
+    light_timeout_night:
+      name: Lys timeout nat
+      icon: mdi:timer
+      initial: 5
+      min: 1
+      max: 30
+      step: 1
+
     morningbath_length:
       name: Tid lyset skal være tændt
       icon: mdi:timer

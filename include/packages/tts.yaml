@@ -1,0 +1,56 @@
+tts:
+  input_number:
+    announce_volume:
+      name: Lydstyrke
+      icon: mdi:volume-high
+      initial: 80
+      min: 10
+      max: 100
+      step: 10
+
+  script:
+    say_something:
+      alias: "Generic TTS service"
+      icon: mdi:text-to-speech
+      description: ""
+      fields:
+        media_player:
+          description: "Den medieafspiller hvor der skal afspilles"
+          example: "media_player.kokken"
+        message:
+          description: "Den besked som som afspilles"
+          example: "Dette er en fed besked"
+        volume:
+          description: "Den volume som der skal afspilles med"
+          example: 0.8
+      variables:
+        tts_service: "tts.aaa_google_cloud_say"
+        saved_volume: ""
+      sequence:
+
+        - variables:
+            saved_volume: "{{ state_attr(media_player, 'volume_level') }}"
+
+        - service: media_player.volume_set
+          data:
+            entity_id: "{{ media_player }}"
+            volume_level: >-
+              {% if volume | float > 1 %}
+                {{ ( volume | float ) / 100 }}
+              {% else %}
+                {{ volume }}
+              {% endif %}
+
+        - service: "{{ tts_service }}"
+          data:
+            entity_id: "{{ media_player }}"
+            message: "{{ message }}"
+
+        - delay: 2
+
+        - wait_template: "{{ not is_state(media_player, 'playing') }}"
+
+        - service: media_player.volume_set
+          data:
+            entity_id: "{{ media_player}}"
+            volume_level: "{{ saved_volume | float }}"
