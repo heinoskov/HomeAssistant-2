@@ -63,7 +63,7 @@ room_groups_lights:
         - light.kaffebar
         - light.kokkenbord
         - light.maleri
-        - light.legekokken
+        - light.tavle
 
     kontor:
       name: Kontor

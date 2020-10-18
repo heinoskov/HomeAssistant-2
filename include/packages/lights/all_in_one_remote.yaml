@@ -15,20 +15,16 @@ all_in_one_remote:
         event_type: deconz_event
 
       variables:
-        # Choose ypur remote here....
+        # Choose your remote here....
         group: >-
           {% if trigger.event.data.unique_id == "d0:cf:5e:ff:fe:05:c0:dd" %}
             group.stuen
-          {% elif trigger.event.data.unique_id == "OTHER_UNIQUE_ID" %}
-            group.other_remote
           {% endif %}
 
         # Choose the placeholder for the index....
         idx_holder: >-
           {% if trigger.event.data.unique_id == "d0:cf:5e:ff:fe:05:c0:dd" %}
             input_text.private_stuen_remote_idx
-          {% elif trigger.event.data.unique_id == "OTHER_UNIQUE_ID" %}
-            input_text.private_other_remote_idx
           {% endif %}
 
         # Step up or step down in the index of lights

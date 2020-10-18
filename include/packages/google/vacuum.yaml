@@ -1,5 +1,52 @@
 vacuum_commands:
   script:
+
+    vacuum_power_quiet:
+      alias: "Sugestyrke Stille"
+      sequence:
+        - service: input_select.select_option
+          data:
+            entity_id: input_select.vacuum_power
+            option: "{{ state_attr('input_select.vacuum_power', 'options')[0] }}"
+
+    vacuum_power_standard:
+      alias: "Sugestyrke Standard"
+      sequence:
+        - service: input_select.select_option
+          data:
+            entity_id: input_select.vacuum_power
+            option: "{{ state_attr('input_select.vacuum_power', 'options')[1] }}"
+
+    vacuum_power_turbo:
+      alias: "Sugestyrke Turbo"
+      sequence:
+        - service: input_select.select_option
+          data:
+            entity_id: input_select.vacuum_power
+            option: "{{ state_attr('input_select.vacuum_power', 'options')[2] }}"
+
+    vacuum_power_max:
+      alias: "Sugestyrke Max"
+      sequence:
+        - service: input_select.select_option
+          data:
+            entity_id: input_select.vacuum_power
+            option: "{{ state_attr('input_select.vacuum_power', 'options')[3] }}"
+
+    vacuum_power_up:
+      alias: "Sugestyrke Op"
+      sequence:
+        - service: input_select.select_next
+          data:
+            entity_id: input_select.vacuum_power
+
+    vacuum_power_down:
+      alias: "Sugestyrke Ned"
+      sequence:
+        - service: input_select.select_previous
+          data:
+            entity_id: input_select.vacuum_power
+
     vacuum_kitchen:
       alias: "Støvsug køkkenet"
       sequence:

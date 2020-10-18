@@ -1,16 +1,16 @@
 gangen:
+  input_boolean:
+    private_taking_bath_large:
+      name: Stort badeværelse - bad
+    private_taking_bath_small:
+      name: Lille badeværelse - bad
+
   group:
     sensors_gangen:
       name: Sensorer i gangen
       entities:
         - binary_sensor.gangen_sensor_1
         - binary_sensor.gangen_sensor_2
-
-  homeassistant:
-    customize:
-      automation.badevaerelse_lysstyring:
-        friendly_name: Lysstyring
-        icon: mdi:shower
 
   automation:
     - alias: "Badeværelse - lysstyring"
@@ -24,9 +24,17 @@ gangen:
             - binary_sensor.lille_badevarelse_sensor
           from: "off"
           to: "on"
+      condition: >-
+        {%- if trigger == "binary_sensor.lille_badevarelse_sensor" %}
+          {{ is_state('light.lille_badevarelse', 'off') }}
+        {% else %}
+          {{ is_state('light.stort_badevarelse', 'off') }}
+        {% endif %}
       variables:
         light: ""
+        switch: ""
       action:
+        # Set some variables based on trigger
         - variables:
             light: >-
               {%- if trigger.entity_id == "binary_sensor.lille_badevarelse_sensor" %}
@@ -34,6 +42,27 @@ gangen:
               {%- else %}
                 light.stort_badevarelse
               {% endif %}
+            switch: >-
+              {%- if trigger.entity_id == "binary_sensor.lille_badevarelse_sensor" %}
+                input_boolean.private_taking_bath_small
+              {%- else %}
+                input_boolean.private_taking_bath_large
+              {% endif %}
+
+        # Turn the lights on with day/night brigtness
+        - service: light.turn_on
+          data:
+            entity_id: "{{ light }}"
+            brightness: >-
+              {%- if is_state("binary_sensor.night", "on") %}
+                {{ states("input_number.dim_low") | int }}
+              {%- else -%}
+                {{ states("input_number.dim_high") | int }}
+              {%- endif %}
+
+        # IF time for morningbath
+        # Brightness 100%
+        # Set bath switch: true
         - choose:
             - conditions:
                 - condition: time
@@ -44,30 +73,35 @@ gangen:
                   data:
                     entity_id: "{{ light }}"
                     brightness_pct: 100
-                - delay: "{{ states('input_number.morningbath_length') | multiply(60) | int }}"
-                - service: light.turn_off
+                - service: input_boolean.turn_on
                   data:
-                    entity_id: "{{ light }}"
+                    entity_id: "{{ switch }}"
 
+        # No matter what, wait for sensor turn off
+        - wait_template: "{{ is_state(trigger.entity_id, 'off') }}"
+
+        # If bath switch - long delay
+        - choose:
+            - conditions: "{{ is_state(switch, 'on') }}"
+              sequence:
+                - delay: "{{ states('input_number.morningbath_length') | multiply(60) | int }}"
+
+        # Else, nigth/day delay
           default:
-            - service: light.turn_on
-              data:
-                entity_id: "{{ light }}"
-                brightness: >-
-                  {%- if is_state("binary_sensor.night", "on") %}
-                    {{ states("input_number.dim_low") | int }}
-                  {%- else -%}
-                    {{ states("input_number.dim_high") | int }}
-                  {%- endif %}
             - delay: >-
                 {%- if is_state('binary_sensor.night', 'off') %}
                   {{ states('input_number.light_timeout_day') | multiply(60) | int }}
                 {% else %}
-                  {{ states('input_datetime.light_timeout_night') | multiply(60) | int }}
+                  {{ states('input_number.light_timeout_night') | multiply(60) | int }}
                 {% endif %}
+
+        # Turn the ligths off and the switch
         - service: light.turn_off
           data:
             entity_id: "{{ light }}"
+        - service: input_boolean.turn_off
+          data:
+            entity_id: "{{ switch }}"
 
     - alias: "Tænd lyset ved bevægelse"
       id: 20c269830c7c4b2a81b65ef5e82dbca1
@@ -106,6 +140,14 @@ gangen:
     generic_sensor_dimmer:
       alias: "Generic dimmer on sensor"
       mode: parallel
+      description: "Script at til tænde/slukke lys med en bestemt lysstyrke"
+      fields:
+        sensor:
+          description: "Den sensor som der skal testes på"
+          example: "binary_sensor.lille_badevarelse_sensor"
+        light:
+          description: "Entity på det lys som skal styres"
+          example: "light.gangen"
       sequence:
         - service: light.turn_on
           data:
@@ -122,7 +164,7 @@ gangen:
             {%- if is_state('binary_sensor.night', 'off') %}
               {{ states('input_number.light_timeout_day') | multiply(60) | int }}
             {% else %}
-              {{ states('input_datetime.light_timeout_night') | multiply(60) | int }}
+              {{ states('input_number.light_timeout_night') | multiply(60) | int }}
             {% endif %}
         - service: light.turn_off
           data:

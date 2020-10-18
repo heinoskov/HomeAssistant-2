@@ -83,7 +83,7 @@
 # Bar with the status of the maintenable parts
 # Added a pop-up with settings
 {%- macro vacuum_maintenance(name, entity, max) -%}
-          - entity: vacuum.r2_d2
+          - entity: vacuum.lynet_mcclean
             name: {{ name }}
             attribute: {{ entity }}
             max: {{ max }}
@@ -175,7 +175,7 @@ cards:
 
       # STATE OF THE VACUUM
       - type: state-label
-        entity: sensor.vacuum_r2_d2
+        entity: sensor.vacuum_lynet_mcclean
         style:
           transform: translate(-50%,0%)
           position: absolute
@@ -260,9 +260,9 @@ cards:
 
       # BOTTOM BUTTONS
       # First with background
-      {{ bottom_button("mdi:broom", "50%", "vacuum.start", "vacuum.r2_d2") }}
+      {{ bottom_button("mdi:broom", "50%", "vacuum.start", "vacuum.lynet_mcclean") }}
           {{ banner_background() }}
       {{ bottom_button("mdi:play", "10%", "script.turn_on", "script.vacuum_room_start") }}
-      {{ bottom_button("mdi:stop", "30%", "vacuum.stop", "vacuum.r2_d2") }}
-      {{ bottom_button("mdi:home-map-marker", "70%", "vacuum.return_to_base", "vacuum.r2_d2") }}
+      {{ bottom_button("mdi:stop", "30%", "vacuum.stop", "vacuum.lynet_mcclean") }}
+      {{ bottom_button("mdi:home-map-marker", "70%", "vacuum.return_to_base", "vacuum.lynet_mcclean") }}
       {{ bottom_button("mdi:wrench", "90%", "script.turn_on", "script.vacuum_service") }}

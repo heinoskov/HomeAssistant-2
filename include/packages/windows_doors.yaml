@@ -9,10 +9,18 @@ windows_doors:
         - binary_sensor.pigernes_stue_vindue
         - binary_sensor.nathalies_vindue
         - binary_sensor.cornelies_vindue
+        - binary_sensor.dobbelt_terrassedor
 
   binary_sensor:
     - platform: template
       sensors:
+        dobbelt_terrassedor:
+          friendly_name: "Dobbelt terrassedør"
+          unique_id: 5d0e32e5d9da4fb294428c5d5164b25f
+          device_class: door
+          value_template: "{{ states('binary_sensor.private_dobbelt_terrassedor') }}"
+          icon_template: "mdi:door{{ '-open' if is_state('binary_sensor.private_dobbelt_terrassedor', 'on') }}"
+
         sovevaerelse_vindue:
           friendly_name: "Soveværelse vindue"
           unique_id: 518569adbd444160938a63472112b69e
@@ -60,6 +68,16 @@ windows_doors:
       value_template: "{{ value_json.RfReceived.Data }} "
       payload_on: "C0E3DA"
       off_delay: 15
+
+    # DØRE
+    - platform: mqtt
+      name: "PRIVATE Dobbelt terrassesdør"
+      unique_id: 4b03ffb918314900b4b59eed108c1960
+      device_class: door
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }} "
+      payload_on: "45400A"
+      payload_off: "45400E"
 
     # VINDUER
     - platform: mqtt

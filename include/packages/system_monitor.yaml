@@ -11,23 +11,26 @@ systemmonitor:
         - binary_sensor.ap_pigernes_stue
         - binary_sensor.ap_stuen
 
-    sonoff_rf:
+    rf_bridges:
       name: RF Bridges
       icon: mdi:radio-tower
       all: true
       entities:
-        - binary_sensor.sonoff_1
-        - binary_sensor.sonoff_2
-        - binary_sensor.sonoff_3
+        - binary_sensor.kontor_rf
+        - binary_sensor.indgang_rf
+        - binary_sensor.pigernes_rf
 
-    rm_mini_3:
+    ir_bridges:
       name: IR Bridges
       icon: mdi:radio-tower
       all: true
       entities:
-        - binary_sensor.gangen_rm_mini_3
-        - binary_sensor.kokken_rm_mini_3
-        - binary_sensor.stuen_rm_mini_3
+        - binary_sensor.gangen_ir
+        - binary_sensor.hjalte_ir
+        - binary_sensor.indgang_ir
+        - binary_sensor.kokken_ir
+        - binary_sensor.pigernes_ir
+        - binary_sensor.stuen_ir
 
   binary_sensor:
     - platform: ping
@@ -65,15 +68,15 @@ systemmonitor:
       host: 192.168.0.11
 
     - platform: ping
-      name: PRIVATE Sonoff RF 1
+      name: PRIVATE Kontor RF
       host: 192.168.0.31
 
     - platform: ping
-      name: PRIVATE Sonoff RF 2
+      name: PRIVATE Indgang RF
       host: 192.168.0.32
 
     - platform: ping
-      name: PRIVATE Sonoff RF 3
+      name: PRIVATE Pigernes RF
       host: 192.168.0.33
 
     - platform: template
@@ -142,51 +145,75 @@ systemmonitor:
           attribute_templates:
             device_class: "{{ state_attr('binary_sensor.private_proxy', 'device_class') }}"
 
-        sonoff_1:
-          friendly_name: "Sonoff RF 1"
+        kontor_rf:
+          friendly_name: "Kontor RF"
           unique_id: c1c59c112efa42579e7507084ff33ff2
-          value_template: "{{ states('binary_sensor.private_sonoff_rf_1') }}"
-          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_sonoff_rf_1', 'off') }}"
+          value_template: "{{ states('binary_sensor.private_kontor_rf') }}"
+          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_kontor_rf', 'off') }}"
           attribute_templates:
-            device_class: "{{ state_attr('binary_sensor.private_sonoff_rf_1', 'device_class') }}"
+            device_class: "{{ state_attr('binary_sensor.private_kontor_rf', 'device_class') }}"
 
-        sonoff_2:
-          friendly_name: "Sonoff RF 2"
+        indgang_rf:
+          friendly_name: "Indgang RF"
           unique_id: b6b26b2485e04e87a2293c9c678c827b
-          value_template: "{{ states('binary_sensor.private_sonoff_rf_2') }}"
-          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_sonoff_rf_2', 'off') }}"
+          value_template: "{{ states('binary_sensor.private_indgang_rf') }}"
+          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_indgang_rf', 'off') }}"
           attribute_templates:
-            device_class: "{{ state_attr('binary_sensor.private_sonoff_rf_2', 'device_class') }}"
+            device_class: "{{ state_attr('binary_sensor.private_indgang_rf', 'device_class') }}"
 
-        sonoff_3:
-          friendly_name: "Sonoff RF 3"
+        pigernes_rf:
+          friendly_name: "Pigernes RF"
           unique_id: 99fdcac6a1234a82ab186a0401a441b5
-          value_template: "{{ states('binary_sensor.private_sonoff_rf_3') }}"
-          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_sonoff_rf_3', 'off') }}"
+          value_template: "{{ states('binary_sensor.private_pigernes_rf') }}"
+          icon_template: "mdi:remote{{ '-off' if is_state('binary_sensor.private_pigernes_rf', 'off') }}"
           attribute_templates:
-            device_class: "{{ state_attr('binary_sensor.private_sonoff_rf_3', 'device_class') }}"
+            device_class: "{{ state_attr('binary_sensor.private_pigernes_rf', 'device_class') }}"
 
-        kokken_rm_mini_3:
-          friendly_name: "Hjaltes RM mini 3"
-          unique_id: d914fee5979e47789f9d4e2c8f796297
-          value_template: "{{ 'off' if is_state('remote.kokken_rm_mini', 'unavailable') else states('remote.kokken_rm_mini') }}"
-          icon_template: "mdi:remote{{ '-off' if not is_state('remote.kokken_rm_mini', 'on') }}"
-          attribute_templates:
-            device_class: "connectivity"
-
-        gangen_rm_mini_3:
-          friendly_name: "Gangen RM mini 3"
+        gangen_ir:
+          friendly_name: "Gangen IR"
           unique_id: 5af3f3ffa7f54f72bcf28c2b7a6c3f1f
-          value_template: "{{ 'off' if is_state('remote.gangen_rm_mini', 'unavailable') else states('remote.gangen_rm_mini') }}"
-          icon_template: "mdi:remote{{ '-off' if not is_state('remote.gangen_rm_mini', 'on') }}"
+          value_template: "{{ 'off' if is_state('remote.gangen_ir', 'unavailable') else states('remote.gangen_ir') }}"
+          icon_template: "mdi:remote{{ '-off' if not is_state('remote.gangen_ir', 'on') }}"
           attribute_templates:
             device_class: "connectivity"
 
-        stuen_rm_mini_3:
-          friendly_name: "Stuen RM mini 3"
+        hjalte_ir:
+          friendly_name: "Hjalte IR"
+          unique_id: afd91be7e9d54e938d385c9fe6a8fb2f
+          value_template: "{{ 'off' if is_state('remote.hjalte_ir', 'unavailable') else states('remote.hjalte_ir') }}"
+          icon_template: "mdi:remote{{ '-off' if not is_state('remote.hjalte_ir', 'on') }}"
+          attribute_templates:
+            device_class: "connectivity"
+
+        indgang_ir:
+          friendly_name: "Indgang IR"
+          unique_id: 0c926d24c3f84f3ebfe2aab58511d23b
+          value_template: "{{ 'off' if is_state('remote.indgang_ir', 'unavailable') else states('remote.indgang_ir') }}"
+          icon_template: "mdi:remote{{ '-off' if not is_state('remote.indgang_ir', 'on') }}"
+          attribute_templates:
+            device_class: "connectivity"
+
+        kokken_ir:
+          friendly_name: "Køkken IR"
+          unique_id: d914fee5979e47789f9d4e2c8f796297
+          value_template: "{{ 'off' if is_state('remote.kokken_ir', 'unavailable') else states('remote.kokken_ir') }}"
+          icon_template: "mdi:remote{{ '-off' if not is_state('remote.kokken_ir', 'on') }}"
+          attribute_templates:
+            device_class: "connectivity"
+
+        pigernes_ir:
+          friendly_name: "Pigernes IR"
+          unique_id: 0dcae0fab5e04727b5b5e66d7fff6e99
+          value_template: "{{ 'off' if is_state('remote.pigernes_ir', 'unavailable') else states('remote.pigernes_ir') }}"
+          icon_template: "mdi:remote{{ '-off' if not is_state('remote.pigernes_ir', 'on') }}"
+          attribute_templates:
+            device_class: "connectivity"
+            
+        stuen_ir:
+          friendly_name: "Stuen IR"
           unique_id: bb0c1d10c4104865b1948a9705a5fd11
-          value_template: "{{ 'off' if is_state('remote.stuen_rm_mini', 'unavailable') else states('remote.stuen_rm_mini') }}"
-          icon_template: "mdi:remote{{ '-off' if not is_state('remote.stuen_rm_mini', 'on') }}"
+          value_template: "{{ 'off' if is_state('remote.stuen_ir', 'unavailable') else states('remote.stuen_ir') }}"
+          icon_template: "mdi:remote{{ '-off' if not is_state('remote.stuen_ir', 'on') }}"
           attribute_templates:
             device_class: "connectivity"
 

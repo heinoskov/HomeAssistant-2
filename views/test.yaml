@@ -22,103 +22,9 @@ cards:
     max_width: 99%
     cards:
 
-      # Bathroom
-      - type: entities
-        title: Lysstyring
-        entities:
-          - type: custom:fold-entity-row
-            head:
-              type: section
-              label: Badeværelser
-            padding: 0
-            entities:
-              - automation.badevaerelse_lysstyring
-              - type: custom:fold-entity-row
-                head: input_datetime.morningbath_start
-                padding: 0
-                entities:
-                  - type: 'custom:time-picker-card'
-                    entity: input_datetime.morningbath_start
-                    name: Badetid start
-                    link_values: true
-                    layout:
-                      name: inside
-                      align_controls: right
-              - type: custom:fold-entity-row
-                head: input_datetime.morningbath_end
-                padding: 0
-                entities:
-                  - type: 'custom:time-picker-card'
-                    entity: input_datetime.morningbath_end
-                    name: Badetid slut
-                    link_values: true
-                    layout:
-                      name: inside
-                      align_controls: right
-              - type: custom:slider-entity-row
-                entity: input_number.morningbath_length
-
-          - type: custom:fold-entity-row
-            head:
-              type: section
-              label: Dæmpning
-            padding: 0
-            entities:
-              - type: custom:slider-entity-row
-                entity: input_number.sun_elevation_light
-                hide_state: false
-              - type: custom:fold-entity-row
-                head: input_datetime.dim_time
-                entities:
-                  - type: 'custom:time-picker-card'
-                    entity: input_datetime.dim_time
-                    name: Vælg klokkeslæt
-                    link_values: true
-                    layout:
-                      name: inside
-                      align_controls: right
-              - type: custom:fold-entity-row
-                head:
-                  type: section
-                  label: Lysstyrker
-                padding: 0
-                entities:
-                  - type: custom:slider-entity-row
-                    entity: input_number.dim_high
-                    hide_state: false
-                  - type: custom:slider-entity-row
-                    entity: input_number.dim_low
-                    hide_state: false
-              - type: custom:fold-entity-row
-                head:
-                  type: section
-                  label: Tiemouts
-                padding: 0
-                entities:
-                  - type: custom:slider-entity-row
-                    entity: input_number.light_timeout_day
-                    hide_state: false
-                  - type: custom:slider-entity-row
-                    entity: input_number.light_timeout_night
-                    hide_state: false
-
-          - type: custom:fold-entity-row
-            head:
-              type: section
-              label: Glemt lys
-            padding: 0
-            entities:
-              - automation.sluk_lys_tomt_hus
-              - type: custom:fold-entity-row
-                head: automation.sluk_lys_tomt_vaerelse
-                padding: 0
-                entities:
-                  - type: custom:slider-entity-row
-                    entity: input_number.timeout_forgotten_light
-    
-
       # Default view
       - type: entities
+        title: Touchscreen
         show_header_toggle: false
         entities:
           - type: custom:fold-entity-row
@@ -140,6 +46,7 @@ cards:
 
       # Postkasse
       - type: entities
+        title: Notifikationer
         entities:
           - type: custom:fold-entity-row
             head: automation.postkasse
@@ -147,17 +54,36 @@ cards:
             entities:
               - type: custom:slider-entity-row
                 entity: input_number.mailbox_time_open
+          - type: divider
+          - automation.flaget_skal_hejses
 
-      # Toilet
+      # Beskeder
       - type: entities
+        title: Beskeder
         entities:
+          - type: custom:slider-entity-row
+            entity: input_number.announce_volume
+          - type: custom:fold-entity-row
+            head: automation.godmorgen
+            padding: 0
+            entities:
+              - type: custom:fold-entity-row
+                head: input_datetime.announce_at_time
+                padding: 0
+                entities:
+                  - type: custom:time-picker-card
+                    entity: input_datetime.announce_at_time
+                    name: Vælg klokkeslæt
+                    link_values: true
+                    layout:
+                      name: inside
+                      align_controls: right
+          - type: divider
           - type: custom:fold-entity-row
             head: automation.toilet_meddelse
             padding: 0
             entities:
               - input_text.toilet_string
-              - type: custom:slider-entity-row
-                entity: input_number.toilet_volume
 
       # Windows
       - type: custom:auto-entities
@@ -168,6 +94,7 @@ cards:
           include:
             - entity_id: "group.open_close_sensors"
               options:
+                show_state: false
                 type: custom:fold-entity-row
                 padding: 0
 
@@ -175,19 +102,23 @@ cards:
       - type: custom:auto-entities
         card:
           type: entities
+          title: Netværk
+          show_header_toggle: false
           show_state: false
-        entities:
-          - binary_sensor.router
-          - binary_sensor.main_switch
+        # entities:
+        #   - binary_sensor.router
+        #   - binary_sensor.main_switch
         filter:
           include:
+            - entity_id: binary_sensor.router
+            - entity_id: binary_sensor.main_switch
             - entity_id: "group.access_points"
               options:
                 type: custom:fold-entity-row
-            - entity_id: "group.sonoff_rf"
+            - entity_id: "group.rf_bridges"
               options:
                 type: custom:fold-entity-row
-            - entity_id: "group.rm_mini_3"
+            - entity_id: "group.ir_bridges"
               options:
                 type: custom:fold-entity-row
     

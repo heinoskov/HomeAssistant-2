@@ -30,6 +30,7 @@ hal_9000:
       trigger:
         - platform: time
           at: input_datetime.announce_at_time
+      condition: "{{ is_state('group.family', 'home') }}"
       variables:
         saved_volume: "{{ state_attr('media_player.kokken', 'volume_level') }}"
       action:

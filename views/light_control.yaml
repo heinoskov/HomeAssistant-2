@@ -10,4 +10,10 @@ title: Lyskontrol
 icon: mdi:tune
 panel: false
 cards:
-  - !include cards/light_control/night_dimming.yaml
+  - !include cards/light_control/dimming.yaml
+
+  - type: custom:fullscreen-card
+
+  - type: picture-entity
+    entity: camera.lynet_mcclean
+    camera_view: live

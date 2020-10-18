@@ -4,6 +4,10 @@ candles:
       name: Bloklys stue state
     private_bloklys_kokken_state:
       name: Bloklys køkken state
+    private_bloklys_gangen_state:
+      name: Bloklys gangen state
+    private_bloklys_indgang_state:
+      name: Bloklys indgang state
 
   light:
     - platform: switch
@@ -17,6 +21,46 @@ candles:
   switch:
     - platform: template
       switches:
+        bloklys_gangen:
+          friendly_name: "LED Bloklys i gangen"
+          unique_id: c5b6511af3b34cb2a74e22f59cc8730b
+          value_template: "{{ is_state('input_boolean.private_bloklys_gangen_state', 'on') }}"
+          icon_template: mdi:candle
+          turn_on:
+            service: script.bloklys_on_off
+            data:
+              remote: remote.gangen_ir
+              device: Bloklys
+              command: Turn on
+              boolean: input_boolean.private_bloklys_gangen_state
+          turn_off:
+            service: script.bloklys_on_off
+            data:
+              remote: remote.gangen_ir
+              device: Bloklys
+              command: Turn off
+              boolean: input_boolean.private_bloklys_gangen_state
+
+        bloklys_indgang:
+          friendly_name: "LED Bloklys ved indgangen"
+          unique_id: 7830f943df1c4530a1c98dcea1e9dcf7
+          value_template: "{{ is_state('input_boolean.private_bloklys_indgang_state', 'on') }}"
+          icon_template: mdi:candle
+          turn_on:
+            service: script.bloklys_on_off
+            data:
+              remote: remote.indgang_ir
+              device: Bloklys
+              command: Turn on
+              boolean: input_boolean.private_bloklys_indgang_state
+          turn_off:
+            service: script.bloklys_on_off
+            data:
+              remote: remote.indgang_ir
+              device: Bloklys
+              command: Turn off
+              boolean: input_boolean.private_bloklys_indgang_state
+
         bloklys_stuen:
           friendly_name: "LED Bloklys i stuen"
           unique_id: c1cd94ec2ad44aeb9f52cf4a35a4dfaa
@@ -25,14 +69,14 @@ candles:
           turn_on:
             service: script.bloklys_on_off
             data:
-              remote: remote.stuen_rm_mini
+              remote: remote.stuen_ir
               device: Bloklys
               command: Turn on
               boolean: input_boolean.private_bloklys_stuen_state
           turn_off:
             service: script.bloklys_on_off
             data:
-              remote: remote.stuen_rm_mini
+              remote: remote.stuen_ir
               device: Bloklys
               command: Turn off
               boolean: input_boolean.private_bloklys_stuen_state
@@ -45,14 +89,14 @@ candles:
           turn_on:
             service: script.bloklys_on_off
             data:
-              remote: remote.kokken_rm_mini
+              remote: remote.kokken_ir
               device: Bloklys
               command: Turn on
               boolean: input_boolean.private_bloklys_kokken_state
           turn_off:
             service: script.bloklys_on_off
             data:
-              remote: remote.kokken_rm_mini
+              remote: remote.kokken_ir
               device: Bloklys
               command: Turn off
               boolean: input_boolean.private_bloklys_kokken_state

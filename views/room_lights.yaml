@@ -1,5 +1,5 @@
-title: Stuen
-icon: mdi:sofa
+title: Lys
+icon: mdi:lightbulb
 panel: true
 cards:
   - type: custom:layout-card
