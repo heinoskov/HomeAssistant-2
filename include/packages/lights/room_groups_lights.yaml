@@ -6,19 +6,19 @@ room_groups_lights:
       icon: mdi:floor-plan
       options:
         - Køkken
+        - Kontor
         - Stuen
-        - Legeværelse
+        - Williams værelse
         - Gangen
-        - Hjalte
-        - Emilio
-        - Colin
-        - Pigernes stue
-        - Cornelie
-        - Nathalie
-        - Badeværelser
         - Indgang
-        - Havegang
-        - Husnummer
+        - Hjaltes værelse
+        - Colins værelse
+        - Lille badeværelse
+        - Stort badeværelse
+        - Emilios værelse
+        - Pigernes stue
+        - Cornelies værelse
+        - Nathalies værelse
 
   light:
     - platform: switch
@@ -44,7 +44,7 @@ room_groups_lights:
         - group.koekken
         - group.kontor
         - group.stuen
-        - group.legevaerelse
+        - group.williams_vaerelse
         - group.gangen
         - group.indgang
         - group.hjaltes_vaerelse

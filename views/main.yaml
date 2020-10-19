@@ -23,7 +23,7 @@ cards:
     max_width: 97%
     cards:
       - !include cards/main/transport.yaml
-      - !include cards/main/library.yaml
+#      - !include cards/main/library.yaml
       - !include cards/room_lights/glance_new.yaml
       - break
 

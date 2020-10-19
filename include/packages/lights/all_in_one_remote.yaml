@@ -69,7 +69,6 @@ all_in_one_remote:
                 - service: light.toggle
                   data:
                     entity_id: "{{ state_attr(group, 'entity_id')[states(idx_holder) | int] }}"
-                    transition: "{{ transition }}"
 
             # Long press power
             - conditions:

@@ -17,48 +17,6 @@ garbage:
 
   garbage_collection:
     sensors:
-      # Victors affald
-      - name: Victors Rest/Mad 
-        frequency: odd-weeks
-        collection_days:
-          - thu
-
-      - name: Victors Plast/Papir 
-        frequency: every-n-weeks
-        period: 3
-        first_week: 3
-        collection_days:
-          - tue
-
-      - name: Victors Haveaffald 
-        frequency: even-weeks
-        collection_days:
-          - mon
-        first_month: mar
-        last_month: nov
-        
-      - name: Victors Pap
-        frequency: every-n-weeks
-        period: 6
-        first_week: 2
-        collection_days:
-          - wed
-
-      - name: Victors Glas og metal 
-        frequency: every-n-weeks
-        period: 8
-        first_week: 7
-        collection_days:
-          - thu
-
-      - name: Victors Storskrald 
-        frequency: annual
-        date: "03/09"
-        include_dates:
-          - "2020-05-18"
-          - "2020-08-17"
-          - "2020-10-26"
-
       # Garbage ordinary pickup
       - name: Affald normal
         frequency: even-weeks
