@@ -1,3 +1,35 @@
+{# @Author: Jacob Lindvig Henriksen (J-Lindvig) #}
+
+{# PRIVATE BEGIN #}
+{# BANNER IN YAML WITH SIGNATURE #}
+{% set signature = "by J-Lindvig" %}
+{% set stamp = "Created: " ~ now().day  ~ '/' ~ now().month ~ '/' ~ now().year %}
+{% set banner = [
+  "    __    _       __    __        ______            __             __",
+  "   / /   (_)___ _/ /_  / /_      / ____/___  ____  / /__________  / /",
+  "  / /   / / __ `/ __ \/ __/_____/ /   / __ \/ __ \/ __/ ___/ __ \/ / ",
+  " / /___/ / /_/ / / / / /_/_____/ /___/ /_/ / / / / /_/ /  / /_/ / /  ",
+  "/_____/_/\__, /_/ /_/\__/      \____/\____/_/ /_/\__/_/   \____/_/   ",
+  "        /____/                                                       "
+  ] %}
+
+{%- macro print_banner() %}
+{{ "#".ljust(80, "#") }}
+{%- for line in banner %}
+{%- if not loop.last %}
+# {{ line.center(76) }} #
+{%- else %}
+# {{ (line[:-(signature | length)] ~ signature).center(76) }} #
+{% endif -%}
+{% endfor -%}
+{{ "#".ljust(80, "#") }}
+# {{ stamp.ljust(76," ") }} #
+{{ "#".ljust(80, "#") }}
+
+{%- endmacro %}
+{# PRIVATE END #}
+
+{# Group containing groups(rooms) with lights #}
 {%- set main_group = "group.alle_rum" %}
 
 {%- macro glance(group) %}
@@ -7,7 +39,7 @@
           {%- for light in expand(group) %}
             {{- entity(light.entity_id, group) }}
           {%- endfor -%}
-{% endmacro %}
+{%- endmacro %}
 
 {%- macro entity(light, group) %}
           - entity: {{ light }}
@@ -39,6 +71,8 @@
                       toggle: true
                   {%- endfor -%}
 {%- endmacro %}
+
+{{ print_banner() }}
 
 type: custom:stack-in-card
 cards:

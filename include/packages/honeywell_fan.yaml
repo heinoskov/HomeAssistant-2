@@ -42,7 +42,7 @@ honeywell_fan:
       action:
         - service: remote.send_command
           data:
-            entity_id: remote.hjaltes_rm_mini
+            entity_id: remote.hjalte_ir
             device: Honeywell Air Con
             command: Fan Speed
             num_repeats: >-
@@ -77,7 +77,7 @@ honeywell_fan:
       action:
         - service: remote.send_command
           data:
-            entity_id: remote.hjaltes_rm_mini
+            entity_id: remote.hjalte_ir
             device: Honeywell Air Con
             command: Timer
             num_repeats: >-
@@ -102,14 +102,14 @@ honeywell_fan:
           turn_on:
             service: script.honeywell_fan_command_boolean
             data:
-              remote: remote.hjaltes_rm_mini
+              remote: remote.hjalte_ir
               device: Honeywell Air Con
               command: Power
               boolean: input_boolean.private_honeywell_state
           turn_off:
             service: script.honeywell_fan_command_boolean
             data:
-              remote: remote.hjaltes_rm_mini
+              remote: remote.hjalte_ir
               device: Honeywell Air Con
               command: Power
               boolean: input_boolean.private_honeywell_state
@@ -135,14 +135,14 @@ honeywell_fan:
           turn_on:
             service: script.honeywell_fan_command_boolean
             data:
-              remote: remote.hjaltes_rm_mini
+              remote: remote.hjalte_ir
               device: Honeywell Air Con
               command: Fan Swing
               boolean: input_boolean.private_honeywell_osc_state
           turn_off:
             service: script.honeywell_fan_command_boolean
             data:
-              remote: remote.hjaltes_rm_mini
+              remote: remote.hjalte_ir
               device: Honeywell Air Con
               command: Fan Swing
               boolean: input_boolean.private_honeywell_osc_state
@@ -154,14 +154,14 @@ honeywell_fan:
           turn_on:
             service: script.honeywell_fan_command_boolean
             data:
-              remote: remote.hjaltes_rm_mini
+              remote: remote.hjalte_ir
               device: Honeywell Air Con
               command: Cooling
               boolean: input_boolean.private_honeywell_cooling_state
           turn_off:
             service: script.honeywell_fan_command_boolean
             data:
-              remote: remote.hjaltes_rm_mini
+              remote: remote.hjalte_ir
               device: Honeywell Air Con
               command: Cooling
               boolean: input_boolean.private_honeywell_cooling_state
@@ -175,7 +175,7 @@ honeywell_fan:
       fields:
         remote:
           description: "Fjernbetjeningen som kommandoen skal sendes fra"
-          example: "remote.hjaltes_rm_mini"
+          example: "remote.hjalte_ir"
         device:
           description: "Enheden som kommandoen skal sendes til"
           example: "Honeywell Air Con"

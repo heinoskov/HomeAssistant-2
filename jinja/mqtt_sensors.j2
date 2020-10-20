@@ -1,0 +1,135 @@
+{# @Author: Jacob Lindvig Henriksen (J-Lindvig) #}
+
+{# VAR #}
+{% set on_sensors = {
+  "cd71f96a0d0e412bba41e91e3866ee07": ["Havelåge", "3C003A", "door"],
+  "f1fe358686d14a9f916ffaf77d7d2fde": ["Hoveddør", "C0E3DA", "door"]
+} %}
+
+{% set on_off_sensors = {
+  "4b03ffb918314900b4b59eed108c1960": ["Dobbelt terrassedør", "45400", "A", "E", "door"],
+  "48d246efd72c4485afca819baa59051b": ["Soveværelse vindue", "B1C40", "A", "E", "window"],
+  "7e3185c4aef2445a981583b736273364": ["Pigernes stue vindue", "AFF70", "A", "E", "window"],
+  "3ff715ed48204fce967b67fdc70fa692": ["Nathalies vindue", "B2B10", "A", "E", "window"],
+  "2a3dec1038084981b6f786b54a28c17b": ["Cornelies vindue", "181F0", "A", "E", "window"],
+  "81f4a158a0444ea08b1fc8c1735bf28c": ["Indgang vindue haven", "B0C30", "A", "E", "window"],
+  "a511afebaf48413f8ed5b126554dfd63": ["Indgang vindue vejen", "12C40", "A", "E", "window"],
+  "5e1f399a5d574e06a2b811b03d9127ed": ["Hjaltes vindue haven", "16100", "A", "E", "window"],
+  "d127a2f135d4407289a40eddb6c88dd8": ["Hjaltes vindue vejen", "0D510", "A", "E", "window"],
+  "f3e98ef3db904c0db1fd6ae165e4c251": ["Emilios vindue", "E1220", "A", "E", "window"],
+  "37919a9252ed43e58ef2a899f2eb5487": ["Colins vindue", "E0DC0", "A", "E", "window"],
+  "183b245222ea431c9c127b28da2dc45f": ["Studieværelse vindue", "9B9B0", "A", "E", "window"]
+} %}
+
+{# CON #}
+{% set state_topic = "tele/tasmota/RESULT" %}
+{% set value_template = "{{ value_json.RfReceived.Data }}" %}
+{% set off_delay = 15 %}
+
+{# PRIVATE BEGIN #}
+{# BANNER IN YAML WITH SIGNATURE #}
+{% set signature = "by J-Lindvig" %}
+{% set stamp = "Created: " ~ now().day  ~ '/' ~ now().month ~ '/' ~ now().year %}
+{% set banner = [
+  "    __  _______  ____________   _____                                ",
+  "   /  |/  / __ \/_  __/_  __/  / ___/___  ____  _________  __________",
+  "  / /|_/ / / / / / /   / /_____\__ \/ _ \/ __ \/ ___/ __ \/ ___/ ___/",
+  " / /  / / /_/ / / /   / /_____/__/ /  __/ / / (__  ) /_/ / /  (__  ) ",
+  "/_/  /_/\___\_\/_/   /_/     /____/\___/_/ /_/____/\____/_/  /____/  ",
+  "                                                                     "
+  ] %}
+
+{%- macro print_banner() %}
+{{ "#".ljust(80, "#") }}
+{%- for line in banner %}
+{%- if not loop.last %}
+# {{ line.center(76) }} #
+{%- else %}
+# {{ (line[:-(signature | length)] ~ signature).center(76) }} #
+{% endif -%}
+{% endfor -%}
+{{ "#".ljust(80, "#") }}
+# {{ stamp.ljust(76," ") }} #
+{{ "#".ljust(80, "#") }}
+
+{%- endmacro %}
+{# PRIVATE END #}
+
+{# MACRO #}
+{% macro private_device(sensor) -%}
+  {{ "PRIVATE "~on_off_sensors[sensor][0] if on_off_sensors[sensor][4] == "window" else on_off_sensors[sensor][0]}}
+{%- endmacro %}
+
+{%- macro entity_name(name) -%}
+  {% set name = name.lower() %}
+  {%- set name = name.replace("æ", "ae") %}
+  {%- set name = name.replace("ø", "oe") %}
+  {%- set name = name.replace("å", "aa") %}
+  {%- set name = name.replace(" ", "_") -%}
+        {{ name }}
+{%- endmacro %}
+
+{% macro sensor_value(sensor_id) -%}
+  {{ "{{ states('"~sensor_id~"') }}" }}
+{%- endmacro %}
+
+{% macro sensor_icon(sensor_id) -%}
+  {{ "mdi:window-{{ 'open' if is_state('"~sensor_id~"', 'on') else 'closed' }}-variant" }}
+{%- endmacro %}
+{{ print_banner() }}
+windows_doors:
+  group:
+    open_close_sensors:
+      name: "Vinduer og døre med åbn/luk sensor"
+      icon: mdi:window-closed-variant
+      all: true
+      entities:
+{%- for sensor in on_off_sensors %}
+  {%- set entity_id = entity_name (on_off_sensors[sensor][0]) %}
+  {%- set sensor_id = "binary_sensor.private_"~entity_id %}
+        - binary_sensor.{{ entity_id }}
+{%- endfor %}
+
+  binary_sensor:
+{%- for sensor in on_sensors %}
+    - platform: mqtt
+      name: "{{ on_sensors[sensor][0] }}"
+      unique_id: {{ sensor }}
+      device_class: {{ on_sensors[sensor][2] }}
+      state_topic: "{{ state_topic }}"
+      value_template: "{{ value_template }}"
+      payload_on: "{{ on_sensors[sensor][1] }}"
+      off_delay: {{ off_delay }}
+{% endfor %}
+{%- for sensor in on_off_sensors %}
+    - platform: mqtt
+      name: "{{ private_device(sensor) }}"
+      unique_id: {{ 'private_' if on_off_sensors[sensor][4] == "window"}}{{ sensor }}
+      device_class: {{ on_off_sensors[sensor][4] }}
+      state_topic: "{{ state_topic }}"
+      value_template: "{{ value_template }}"
+      payload_on: "{{ on_off_sensors[sensor][1] }}{{ on_off_sensors[sensor][2] }}"
+      payload_off: "{{ on_off_sensors[sensor][1] }}{{ on_off_sensors[sensor][3] }}"
+{% endfor %}
+    - platform: template
+      sensors:
+{%- for sensor in on_off_sensors if on_off_sensors[sensor][4] == "window" %}
+  {%- set entity_id = entity_name (on_off_sensors[sensor][0]) %}
+  {%- set sensor_id = "binary_sensor.private_"~entity_id %}
+        {{ entity_id }}:
+          friendly_name: "{{ on_off_sensors[sensor][0] }}"
+          unique_id: {{ sensor }}
+          device_class: window
+          value_template: "{{ sensor_value(sensor_id) }}"
+          icon_template: "{{ sensor_icon(sensor_id) }}"
+{% endfor %}
+  script:
+    reload_mqtt_sensors:
+      alias: "Genindlæs MQTT sensorer"
+      icon: mdi:reload
+      description: "Genindlæs MQTT, Grupper, Templates og Scripts"
+      mode: single
+      sequence:
+        - service: mqtt.reload
+        - service: template.reload
+        - service: group.reload

@@ -1,3 +1,13 @@
+################################################################################
+#        __  _______  ____________   _____                                     #
+#       /  |/  / __ \/_  __/_  __/  / ___/___  ____  _________  __________     #
+#      / /|_/ / / / / / /   / /_____\__ \/ _ \/ __ \/ ___/ __ \/ ___/ ___/     #
+#     / /  / / /_/ / / /   / /_____/__/ /  __/ / / (__  ) /_/ / /  (__  )      #
+#    /_/  /_/\___\_\/_/   /_/     /____/\___/_/ /_/____/\____/_/  /____/       #
+#                                                             by J-Lindvig     #
+################################################################################
+# Created: 20/10/2020                                                          #
+################################################################################
 windows_doors:
   group:
     open_close_sensors:
@@ -5,113 +15,232 @@ windows_doors:
       icon: mdi:window-closed-variant
       all: true
       entities:
+        - binary_sensor.dobbelt_terrassedoer
         - binary_sensor.sovevaerelse_vindue
         - binary_sensor.pigernes_stue_vindue
         - binary_sensor.nathalies_vindue
         - binary_sensor.cornelies_vindue
-        - binary_sensor.dobbelt_terrassedor
+        - binary_sensor.indgang_vindue_haven
+        - binary_sensor.indgang_vindue_vejen
+        - binary_sensor.hjaltes_vindue_haven
+        - binary_sensor.hjaltes_vindue_vejen
+        - binary_sensor.emilios_vindue
+        - binary_sensor.colins_vindue
+        - binary_sensor.studievaerelse_vindue
 
   binary_sensor:
+    - platform: mqtt
+      name: "Havelåge"
+      unique_id: cd71f96a0d0e412bba41e91e3866ee07
+      device_class: door
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "3C003A"
+      off_delay: 15
+
+    - platform: mqtt
+      name: "Hoveddør"
+      unique_id: f1fe358686d14a9f916ffaf77d7d2fde
+      device_class: door
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "C0E3DA"
+      off_delay: 15
+
+    - platform: mqtt
+      name: "Dobbelt terrassedør"
+      unique_id: 4b03ffb918314900b4b59eed108c1960
+      device_class: door
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "45400A"
+      payload_off: "45400E"
+
+    - platform: mqtt
+      name: "PRIVATE Soveværelse vindue"
+      unique_id: private_48d246efd72c4485afca819baa59051b
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "B1C40A"
+      payload_off: "B1C40E"
+
+    - platform: mqtt
+      name: "PRIVATE Pigernes stue vindue"
+      unique_id: private_7e3185c4aef2445a981583b736273364
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "AFF70A"
+      payload_off: "AFF70E"
+
+    - platform: mqtt
+      name: "PRIVATE Nathalies vindue"
+      unique_id: private_3ff715ed48204fce967b67fdc70fa692
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "B2B10A"
+      payload_off: "B2B10E"
+
+    - platform: mqtt
+      name: "PRIVATE Cornelies vindue"
+      unique_id: private_2a3dec1038084981b6f786b54a28c17b
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "181F0A"
+      payload_off: "181F0E"
+
+    - platform: mqtt
+      name: "PRIVATE Indgang vindue haven"
+      unique_id: private_81f4a158a0444ea08b1fc8c1735bf28c
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "B0C30A"
+      payload_off: "B0C30E"
+
+    - platform: mqtt
+      name: "PRIVATE Indgang vindue vejen"
+      unique_id: private_a511afebaf48413f8ed5b126554dfd63
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "12C40A"
+      payload_off: "12C40E"
+
+    - platform: mqtt
+      name: "PRIVATE Hjaltes vindue haven"
+      unique_id: private_5e1f399a5d574e06a2b811b03d9127ed
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "16100A"
+      payload_off: "16100E"
+
+    - platform: mqtt
+      name: "PRIVATE Hjaltes vindue vejen"
+      unique_id: private_d127a2f135d4407289a40eddb6c88dd8
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "0D510A"
+      payload_off: "0D510E"
+
+    - platform: mqtt
+      name: "PRIVATE Emilios vindue"
+      unique_id: private_f3e98ef3db904c0db1fd6ae165e4c251
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "E1220A"
+      payload_off: "E1220E"
+
+    - platform: mqtt
+      name: "PRIVATE Colins vindue"
+      unique_id: private_37919a9252ed43e58ef2a899f2eb5487
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "E0DC0A"
+      payload_off: "E0DC0E"
+
+    - platform: mqtt
+      name: "PRIVATE Studieværelse vindue"
+      unique_id: private_183b245222ea431c9c127b28da2dc45f
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "9B9B0A"
+      payload_off: "9B9B0E"
+
     - platform: template
       sensors:
-        dobbelt_terrassedor:
-          friendly_name: "Dobbelt terrassedør"
-          unique_id: 5d0e32e5d9da4fb294428c5d5164b25f
-          device_class: door
-          value_template: "{{ states('binary_sensor.private_dobbelt_terrassedor') }}"
-          icon_template: "mdi:door{{ '-open' if is_state('binary_sensor.private_dobbelt_terrassedor', 'on') }}"
-
         sovevaerelse_vindue:
           friendly_name: "Soveværelse vindue"
-          unique_id: 518569adbd444160938a63472112b69e
+          unique_id: 48d246efd72c4485afca819baa59051b
           device_class: window
           value_template: "{{ states('binary_sensor.private_sovevaerelse_vindue') }}"
           icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_sovevaerelse_vindue', 'on') else 'closed' }}-variant"
 
         pigernes_stue_vindue:
           friendly_name: "Pigernes stue vindue"
-          unique_id: 40cc5d1fb8b04ce5a52b17cb82205a8b
+          unique_id: 7e3185c4aef2445a981583b736273364
           device_class: window
           value_template: "{{ states('binary_sensor.private_pigernes_stue_vindue') }}"
           icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_pigernes_stue_vindue', 'on') else 'closed' }}-variant"
 
         nathalies_vindue:
           friendly_name: "Nathalies vindue"
-          unique_id: a7bd479dac4640f0bb6dcfcb96c77c0b
+          unique_id: 3ff715ed48204fce967b67fdc70fa692
           device_class: window
           value_template: "{{ states('binary_sensor.private_nathalies_vindue') }}"
           icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_nathalies_vindue', 'on') else 'closed' }}-variant"
 
         cornelies_vindue:
           friendly_name: "Cornelies vindue"
-          unique_id: dd810830ca0244ad9cf90cb8a9df0d76
+          unique_id: 2a3dec1038084981b6f786b54a28c17b
           device_class: window
           value_template: "{{ states('binary_sensor.private_cornelies_vindue') }}"
           icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_cornelies_vindue', 'on') else 'closed' }}-variant"
 
-    # HAVELÅGE
-    - platform: mqtt
-      name: "Havelåge"
-      unique_id: cd71f96a0d0e412bba41e91e3866ee07
-      state_topic: "tele/tasmota/RESULT"
-      device_class: door
-      value_template: "{{ value_json.RfReceived.Data }} "
-      payload_on: "3C003A"
-      off_delay: 15
+        indgang_vindue_haven:
+          friendly_name: "Indgang vindue haven"
+          unique_id: 81f4a158a0444ea08b1fc8c1735bf28c
+          device_class: window
+          value_template: "{{ states('binary_sensor.private_indgang_vindue_haven') }}"
+          icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_indgang_vindue_haven', 'on') else 'closed' }}-variant"
 
-    # HOVEDDØR
-    - platform: mqtt
-      name: "Hoveddør"
-      unique_id: f1fe358686d14a9f916ffaf77d7d2fde
-      state_topic: "tele/tasmota/RESULT"
-      device_class: door
-      value_template: "{{ value_json.RfReceived.Data }} "
-      payload_on: "C0E3DA"
-      off_delay: 15
+        indgang_vindue_vejen:
+          friendly_name: "Indgang vindue vejen"
+          unique_id: a511afebaf48413f8ed5b126554dfd63
+          device_class: window
+          value_template: "{{ states('binary_sensor.private_indgang_vindue_vejen') }}"
+          icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_indgang_vindue_vejen', 'on') else 'closed' }}-variant"
 
-    # DØRE
-    - platform: mqtt
-      name: "PRIVATE Dobbelt terrassesdør"
-      unique_id: 4b03ffb918314900b4b59eed108c1960
-      device_class: door
-      state_topic: "tele/tasmota/RESULT"
-      value_template: "{{ value_json.RfReceived.Data }} "
-      payload_on: "45400A"
-      payload_off: "45400E"
+        hjaltes_vindue_haven:
+          friendly_name: "Hjaltes vindue haven"
+          unique_id: 5e1f399a5d574e06a2b811b03d9127ed
+          device_class: window
+          value_template: "{{ states('binary_sensor.private_hjaltes_vindue_haven') }}"
+          icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_hjaltes_vindue_haven', 'on') else 'closed' }}-variant"
 
-    # VINDUER
-    - platform: mqtt
-      name: "PRIVATE Soveværelse vindue"
-      unique_id: 48d246efd72c4485afca819baa59051b
-      device_class: window
-      state_topic: "tele/tasmota/RESULT"
-      value_template: "{{ value_json.RfReceived.Data }} "
-      payload_on: "B1C40A"
-      payload_off: "B1C40E"
+        hjaltes_vindue_vejen:
+          friendly_name: "Hjaltes vindue vejen"
+          unique_id: d127a2f135d4407289a40eddb6c88dd8
+          device_class: window
+          value_template: "{{ states('binary_sensor.private_hjaltes_vindue_vejen') }}"
+          icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_hjaltes_vindue_vejen', 'on') else 'closed' }}-variant"
 
-    - platform: mqtt
-      name: "PRIVATE Pigernes stue vindue"
-      unique_id: 7e3185c4aef2445a981583b736273364
-      device_class: window
-      state_topic: "tele/tasmota/RESULT"
-      value_template: "{{ value_json.RfReceived.Data }} "
-      payload_on: "AFF70A"
-      payload_off: "AFF70E"
+        emilios_vindue:
+          friendly_name: "Emilios vindue"
+          unique_id: f3e98ef3db904c0db1fd6ae165e4c251
+          device_class: window
+          value_template: "{{ states('binary_sensor.private_emilios_vindue') }}"
+          icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_emilios_vindue', 'on') else 'closed' }}-variant"
 
-    - platform: mqtt
-      name: "PRIVATE Nathalies vindue"
-      unique_id: 3ff715ed48204fce967b67fdc70fa692
-      device_class: window
-      state_topic: "tele/tasmota/RESULT"
-      value_template: "{{ value_json.RfReceived.Data }} "
-      payload_on: "B2B10A"
-      payload_off: "B2B10E"
+        colins_vindue:
+          friendly_name: "Colins vindue"
+          unique_id: 37919a9252ed43e58ef2a899f2eb5487
+          device_class: window
+          value_template: "{{ states('binary_sensor.private_colins_vindue') }}"
+          icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_colins_vindue', 'on') else 'closed' }}-variant"
 
-    - platform: mqtt
-      name: "PRIVATE Cornelies vindue"
-      unique_id: 2a3dec1038084981b6f786b54a28c17b
-      device_class: window
-      state_topic: "tele/tasmota/RESULT"
-      value_template: "{{ value_json.RfReceived.Data }} "
-      payload_on: "181F0A"
-      payload_off: "181F0E"
+        studievaerelse_vindue:
+          friendly_name: "Studieværelse vindue"
+          unique_id: 183b245222ea431c9c127b28da2dc45f
+          device_class: window
+          value_template: "{{ states('binary_sensor.private_studievaerelse_vindue') }}"
+          icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_studievaerelse_vindue', 'on') else 'closed' }}-variant"
+
+  script:
+    reload_mqtt_sensors:
+      alias: "Genindlæs MQTT sensorer"
+      icon: mdi:reload
+      description: "Genindlæs MQTT, Grupper, Templates og Scripts"
+      mode: single
+      sequence:
+        - service: mqtt.reload
+        - service: template.reload
+        - service: group.reload
