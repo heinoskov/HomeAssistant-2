@@ -10,6 +10,14 @@
 ################################################################################
 windows_doors:
   group:
+    open_sensors:
+      name: "Vinduer og døre med åbn sensor"
+      icon: mdi:window-open-variant
+      all: true
+      entities:
+        - binary_sensor.havelaage
+        - binary_sensor.hoveddoer
+
     open_close_sensors:
       name: "Vinduer og døre med åbn/luk sensor"
       icon: mdi:window-closed-variant

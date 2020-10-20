@@ -79,6 +79,17 @@
 {{ print_banner() }}
 windows_doors:
   group:
+    open_sensors:
+      name: "Vinduer og døre med åbn sensor"
+      icon: mdi:window-open-variant
+      all: true
+      entities:
+{%- for sensor in on_sensors %}
+  {%- set entity_id = entity_name (on_sensors[sensor][0]) %}
+  {%- set sensor_id = "binary_sensor.private_"~entity_id %}
+        - binary_sensor.{{ entity_id }}
+{%- endfor %}
+
     open_close_sensors:
       name: "Vinduer og døre med åbn/luk sensor"
       icon: mdi:window-closed-variant
