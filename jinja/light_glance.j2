@@ -1,5 +1,8 @@
 {# @Author: Jacob Lindvig Henriksen (J-Lindvig) #}
 
+{# Group containing groups(rooms) with lights #}
+{%- set main_group = "group.alle_rum" %}
+
 {# PRIVATE BEGIN #}
 {# BANNER IN YAML WITH SIGNATURE #}
 {% set signature = "by J-Lindvig" %}
@@ -28,9 +31,6 @@
 
 {%- endmacro %}
 {# PRIVATE END #}
-
-{# Group containing groups(rooms) with lights #}
-{%- set main_group = "group.alle_rum" %}
 
 {%- macro glance(group) %}
         type: glance
