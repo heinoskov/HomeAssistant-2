@@ -6,7 +6,7 @@
 #    /_/  /_/\___\_\/_/   /_/     /____/\___/_/ /_/____/\____/_/  /____/       #
 #                                                             by J-Lindvig     #
 ################################################################################
-# Created: 20/10/2020                                                          #
+# Created: 21/10/2020                                                          #
 ################################################################################
 windows_doors:
   group:
@@ -35,6 +35,8 @@ windows_doors:
         - binary_sensor.emilios_vindue
         - binary_sensor.colins_vindue
         - binary_sensor.studievaerelse_vindue
+        - binary_sensor.lille_badevaerelse_vindue_2
+        - binary_sensor.stort_badevaerelse_vindue_3
 
   binary_sensor:
     - platform: mqtt
@@ -163,6 +165,24 @@ windows_doors:
       payload_on: "9B9B0A"
       payload_off: "9B9B0E"
 
+    - platform: mqtt
+      name: "PRIVATE Lille badeværelse vindue 2"
+      unique_id: private_3d0e098c5daa4cd2ae195493f2fba33c
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "E32A0A"
+      payload_off: "E32A0E"
+
+    - platform: mqtt
+      name: "PRIVATE Stort badeværelse vindue 3"
+      unique_id: private_e499fb9750a342b3a3139115b9c4fbbd
+      device_class: window
+      state_topic: "tele/tasmota/RESULT"
+      value_template: "{{ value_json.RfReceived.Data }}"
+      payload_on: "ACB90A"
+      payload_off: "ACB90E"
+
     - platform: template
       sensors:
         sovevaerelse_vindue:
@@ -241,6 +261,20 @@ windows_doors:
           device_class: window
           value_template: "{{ states('binary_sensor.private_studievaerelse_vindue') }}"
           icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_studievaerelse_vindue', 'on') else 'closed' }}-variant"
+
+        lille_badevaerelse_vindue_2:
+          friendly_name: "Lille badeværelse vindue 2"
+          unique_id: 3d0e098c5daa4cd2ae195493f2fba33c
+          device_class: window
+          value_template: "{{ states('binary_sensor.private_lille_badevaerelse_vindue_2') }}"
+          icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_lille_badevaerelse_vindue_2', 'on') else 'closed' }}-variant"
+
+        stort_badevaerelse_vindue_3:
+          friendly_name: "Stort badeværelse vindue 3"
+          unique_id: e499fb9750a342b3a3139115b9c4fbbd
+          device_class: window
+          value_template: "{{ states('binary_sensor.private_stort_badevaerelse_vindue_3') }}"
+          icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_stort_badevaerelse_vindue_3', 'on') else 'closed' }}-variant"
 
   script:
     reload_mqtt_sensors:

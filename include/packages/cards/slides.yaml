@@ -4,6 +4,8 @@ slides:
       name: "Kort til skifte mellem"
       options:
         - birthday
+        - christmas
+        - new_year
 
   automation:
     - alias: Next slide

@@ -50,8 +50,6 @@ vacuum:
     - platform: xiaomi_miio
       host: !secret S6_IP
       token: !secret S6_TOKEN
-      # host: !secret S50_IP
-      # token: !secret S50_TOKEN
       name: Lynet McClean
 
   var:
@@ -135,9 +133,9 @@ vacuum:
         # Placeholder for the suction setting
         # Friendly_name as the current suction
         vacuum_fan_speed:
-          friendly_name_template: "{{ state_attr('sensor.vacuum_r2_d2', 'fan_speed') }}"
+          friendly_name_template: "{{ state_attr('sensor.vacuum_lynet_mcclean', 'fan_speed') }}"
           unique_id: 12e771786a844e569559a546f287a637
-          value_template: "{{ state_attr('sensor.vacuum_r2_d2', 'fan_speed_index') }}"
+          value_template: "{{ state_attr('sensor.vacuum_lynet_mcclean', 'fan_speed_index') }}"
 
         # Very large and complex template which stores values
         # and helper attributes
