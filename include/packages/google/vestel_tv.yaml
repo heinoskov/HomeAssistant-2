@@ -7,7 +7,7 @@ vestel_tv_commands:
       sequence:
         - service: remote.send_command
           data:
-            entity_id: remote.stuen_rm_mini
+            entity_id: remote.stuen_ir
             device: Vestel TV
             delay_secs: 1
             command:
@@ -21,7 +21,7 @@ vestel_tv_commands:
       sequence:
         - service: remote.send_command
           data:
-            entity_id: remote.stuen_rm_mini
+            entity_id: remote.stuen_ir
             device: Vestel TV
             delay_secs: 1
             command:
@@ -35,7 +35,7 @@ vestel_tv_commands:
       sequence:
         - service: remote.send_command
           data:
-            entity_id: remote.stuen_rm_mini
+            entity_id: remote.stuen_ir
             device: Vestel TV
             delay_secs: 1
             command:
@@ -49,7 +49,7 @@ vestel_tv_commands:
       sequence:
         - service: remote.send_command
           data:
-            entity_id: remote.stuen_rm_mini
+            entity_id: remote.stuen_ir
             device: Vestel TV
             delay_secs: 1
             command:

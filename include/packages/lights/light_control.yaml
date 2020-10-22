@@ -112,16 +112,20 @@ light_control:
         - platform: state
           entity_id:
             - light.havegang
-          from: "off"
           to: "on"
+          for:
+            minutes: "{{ states('input_number.timeout_forgotten_light') | int }}"
+        - platform: template
+          value_template: "{{ is_state('binary_sensor.night', 'off') }}"
+      condition: "{{ is_state('binary_sensor.night', 'off') }}"
       action:
-        - service: "light.turn_{{ 'off' if is_state('binary_sensor.night', 'off') else 'on' }}"
+        - service: light.turn_off
           entity_id:
             - light.havegang
 
     - alias: "Husnummer - tænd/sluk"
       id: 4dd4e912f11642f2be65b7223a7708fe
-      description: "Tænd lyset ved husnummeret når solen er unde "
+      description: "Tænd lyset ved husnummeret når solen er under horisonten"
       initial_state: true
       mode: single
       trigger:
@@ -154,17 +158,8 @@ light_control:
             entity_id:
               - light.havegangen
               - light.husnummer
+              - light.indgang
             brightness: '255'
-
-        - choose:
-            - conditions:
-                - condition: state
-                  entity_id: light.indgang
-                  state: "off"
-              sequence:
-                - service: light.turn_on
-                  data:
-                    entity_id: light.indgang
 
         - delay: "{{ states('input_number.timeout_arrived_night') | multiply(60) | int }}"
 

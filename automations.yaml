@@ -12,12 +12,7 @@
 
         {{ trigger.data.run_token }}
 
-        {{ trigger.data.data_ready }}
-
-
-        {% set start_value = trigger.data.start_value | from_json %}
-
-        {{ start_value.mail }}
+        {{ (trigger.data.start_value | from_json).entity_id }}
 
 
         {{ trigger.data }}
