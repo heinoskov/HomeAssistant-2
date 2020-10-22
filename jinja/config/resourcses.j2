@@ -4,30 +4,30 @@
   2D array with plugin-file as key and a custom subpath as value
 #}
 {% set plugins = {
-  "auto-entities.js": ["lovelace-auto-entities"],
-  "bar-card.js": [],
-  "card-mod.js": ["lovelace-card-mod"],
-  "clock-card.js": ["lovelace-clock-card"],
-  "custom-header.js": [],
-  "fold-entity-row.js": ["lovelace-fold-entity-row"],
-  "fullscreen-card.js": [],
-  "gap-card.js": ["lovelace-gap-card"],
-  "gauge-card.js": [],
-  "gui-sandbox.js": ["lovelace-gui-sandbox"],
-  "layout-card.js": ["lovelace-layout-card"],
-  "lovelace-card-templater.js": [],
-  "mini-graph-card-bundle.js": ["mini-graph-card"],
-  "multiple-entity-row.js": ["lovelace-multiple-entity-row"],
-  "restriction-card.js": [],
-  "select-list-card.js": [],
-  "slider-entity-row.js": ["lovelace-slider-entity-row"],
-  "stack-in-card.js": [],
-  "state-attribute-element.js": [],
-  "state-switch.js": ["lovelace-state-switch"],
-  "text-element.js": [],
-  "time-picker-card.js": ["lovelace-time-picker-card"],
-  "tv-card.js": [],
-  "weather-card.js": []
+  "auto-entities.js": "lovelace-auto-entities",
+  "bar-card.js": "",
+  "card-mod.js": "lovelace-card-mod",
+  "clock-card.js": "lovelace-clock-card",
+  "custom-header.js": "",
+  "fold-entity-row.js": "lovelace-fold-entity-row",
+  "fullscreen-card.js": "",
+  "gap-card.js": "lovelace-gap-card",
+  "gauge-card.js": "",
+  "gui-sandbox.js": "lovelace-gui-sandbox",
+  "layout-card.js": "lovelace-layout-card",
+  "lovelace-card-templater.js": "",
+  "mini-graph-card-bundle.js": "mini-graph-card",
+  "multiple-entity-row.js": "lovelace-multiple-entity-row",
+  "restriction-card.js": "",
+  "select-list-card.js": "",
+  "slider-entity-row.js": "lovelace-slider-entity-row",
+  "stack-in-card.js": "",
+  "state-attribute-element.js": "",
+  "state-switch.js": "lovelace-state-switch",
+  "text-element.js": "",
+  "time-picker-card.js": "lovelace-time-picker-card",
+  "tv-card.js": "",
+  "weather-card.js": ""
 } %}
 
 {% set type = "module" %}
@@ -58,7 +58,6 @@
 {{ "#".ljust(80, "#") }}
 # {{ stamp.ljust(76," ") }} #
 {{ "#".ljust(80, "#") }}
-
 {%- endmacro %}
 {# PRIVATE END #}
 
@@ -89,9 +88,9 @@
   "Y": ["  __  __","  \ \/ /","   \  /","   / /","  /_/",""],
   "Z": ["   _____","  /__  /","    / /","   / /__","  /____/",""]
 } %}
-{% set ns = namespace(prev_char = "") %}
 
 {{ print_banner() }}
+{% set ns = namespace(prev_char = "") %}
 {% for plugin in plugins | sort %}
 {%- set char = plugin[:1].upper() %}
 {%- set name = plugin[:-3] %}
@@ -102,5 +101,9 @@
 {% endfor -%}
 {% endif -%}
 - type: {{ type }}
-  url: {{ path }}{{ "/"~plugins[plugin][0] if plugins[plugin][0] is defined else "/"~name }}/{{ plugin }}
+  url: {{ path }}{{ ("/"~plugins[plugin]) if plugins[plugin] != "" else "/"~name }}/{{ plugin }}
 {% endfor %}
+
+{{ "#".ljust(80, "#") }}
+#### {{ "End of file".center(70) }} ####
+{{ "#".ljust(80, "#") }}

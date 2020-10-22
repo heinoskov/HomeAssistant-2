@@ -46,7 +46,7 @@ cards:
   - type: picture-entity
     entity: {{ person }}
     image: {{ state_attr(person, 'entity_picture') }}
-    {{ 'name: '~state_attr(person, 'friendly_name') if show_name}}
+    {{ 'name: '~state_attr(person, 'friendly_name') if show_name }}
     {{ 'show_name: '~show_name if not show_name }}
     {{ 'show_state: '~show_state if not show_state }}
     state_filter:

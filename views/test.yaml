@@ -22,6 +22,81 @@ cards:
     max_width: 99%
     cards:
 
+      - type: sensor
+        entity: sensor.processor_use
+        graph: line
+        hours_to_show: 24
+
+      - type: custom:stack-in-card
+        title: System
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: gauge
+                entity: sensor.processor_use
+                name: CPU
+                min: 0
+                max: 100
+                severity:
+                  green: 30
+                  yellow: 50
+                  red: 75
+              - type: gauge
+                entity: sensor.processor_temperature
+                name: Temperature
+                min: 0
+                max: 100
+                severity:
+                  green: 30
+                  yellow: 50
+                  red: 75
+              - type: gauge
+                entity: sensor.memory_use_percent
+                name: Memory
+                min: 0
+                max: 100
+                severity:
+                  green: 30
+                  yellow: 50
+                  red: 75
+          - type: sensor
+            entity: sensor.processor_use
+            graph: line
+            detail: 2
+            hours_to_show: 1
+      - type: custom:stack-in-card
+        title: System
+        mode: horizontal
+        cards:
+          - type: gauge
+            entity: sensor.processor_use
+            name: CPU
+            min: 0
+            max: 100
+            severity:
+              green: 30
+              yellow: 50
+              red: 75
+          - type: gauge
+            entity: sensor.processor_temperature
+            name: Temperature
+            min: 0
+            max: 100
+            severity:
+              green: 30
+              yellow: 50
+              red: 75
+          - type: gauge
+            entity: sensor.memory_use_percent
+            name: Memory
+            min: 0
+            max: 100
+            severity:
+              green: 30
+              yellow: 50
+              red: 75
+
       - type: custom:stack-in-card
         mode: horizontal
         cards:
