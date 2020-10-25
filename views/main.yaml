@@ -24,7 +24,7 @@ cards:
     cards:
       - !include cards/main/transport.yaml
 #      - !include cards/main/library.yaml
-      - !include cards/room_lights/glance_new.yaml
+      - !include cards/room_lights/glance.yaml
       - break
 
       - !include cards/main/people_home.yaml

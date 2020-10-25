@@ -76,7 +76,6 @@ room_groups_lights:
         - light.sofalamper
         - light.stuelamper
         - light.lille_sofa
-        - light.stuen_gulvlampe
 
     williams_vaerelse:
       name: Williams værelse

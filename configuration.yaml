@@ -96,6 +96,8 @@ panel_iframe:
     url: https://www.guidgenerator.com/online-guid-generator.aspx
     icon: mdi:barcode
 
+python_script:
+
 #      ____ 
 #     / __ \
 #    / /_/ /

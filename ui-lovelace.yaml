@@ -1,26 +1,30 @@
-############################################################
-####           ui-lovelace.yaml by J-Lindvig            ####
-############################################################
-
-#### PLUGINS NEEDED ####
-# Custom Header, https://github.com/maykar/custom-header
+################################################################################
+#                       __                    __                               #
+#                      / /   ____ _   _____  / /___ _________                  #
+#                     / /   / __ \ | / / _ \/ / __ `/ ___/ _ \                 #
+#                    / /___/ /_/ / |/ /  __/ / /_/ / /__/  __/                 #
+#                   /_____/\____/|___/\___/_/\__,_/\___/\___/                  #
+#                                                 by J-Lindvig                 #
+################################################################################
+# Created: 23/10/2020                                                          #
+################################################################################
 
 custom_header:
   locale: da-DK
-  compact_mode: true
-
+  compact_mode: True
+  
 title: Skovtrolden
 
 views:
   - !include views/main.yaml
-#  - !include views/calendar.yaml
   - !include views/room_lights.yaml
-#  - !include views/living_room.yaml
   - !include views/movies.yaml
-#  - !include views/media.yaml
-#  - !include views/light_admin.yaml
   - !include views/light_control.yaml
   - !include views/system.yaml
   - !include views/gauges.yaml
   - !include views/weather.yaml
   - !include views/test.yaml
+
+################################################################################
+####                              End of file                               ####
+################################################################################
