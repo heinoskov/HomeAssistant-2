@@ -23,13 +23,17 @@ card:
 filter:
   include:
     - entity_id: "sensor.bil_mod_*"
+      attributes:
+        days: "=0"
       sort:
         method: attribute
         numeric: true
         attribute: sort_value_minutes
-    - type: section
     - entity_id: "sensor.bus_mod_*"
+      attributes:
+        sort_value_minutes: "<240"
       sort:
+        count: 2
         method: attribute
         numeric: true
         attribute: sort_value_minutes

@@ -12,9 +12,7 @@
 # Entities, a 2D list of rows containing lights
 type: custom:stack-in-card
 # Have we provided a title, then state it
-{% if title | length %}
-title: {{ title }}
-{% endif %}
+{{ 'title: '~title if title | length }}
 cards:
   # Loop through the rows in the list
   {% for entity_row in entities %}

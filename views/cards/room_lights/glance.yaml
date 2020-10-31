@@ -6,7 +6,7 @@
 #    /_____/_/\__, /_/ /_/\__/      \____/\____/_/ /_/\__/_/   \____/_/        #
 #            /____/                                           by J-Lindvig     #
 ################################################################################
-# Created: 20/10/2020                                                          #
+# Created: 27/10/2020                                                          #
 ################################################################################
 
 type: custom:stack-in-card
@@ -400,9 +400,6 @@ cards:
                     - type: custom:slider-entity-row
                       entity: light.stuelamper
                       toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.stuen_gulvlampe
-                      toggle: true
             double_tap_action:
               action: call-service
               service: browser_mod.popup
@@ -425,9 +422,6 @@ cards:
                       toggle: true
                     - type: custom:slider-entity-row
                       entity: light.stuelamper
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.stuen_gulvlampe
                       toggle: true
           - entity: light.sofalamper
             tap_action:
@@ -455,9 +449,6 @@ cards:
                     - type: custom:slider-entity-row
                       entity: light.stuelamper
                       toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.stuen_gulvlampe
-                      toggle: true
             double_tap_action:
               action: call-service
               service: browser_mod.popup
@@ -480,9 +471,6 @@ cards:
                       toggle: true
                     - type: custom:slider-entity-row
                       entity: light.stuelamper
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.stuen_gulvlampe
                       toggle: true
           - entity: light.stuelamper
             tap_action:
@@ -510,9 +498,6 @@ cards:
                     - type: custom:slider-entity-row
                       entity: light.stuelamper
                       toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.stuen_gulvlampe
-                      toggle: true
             double_tap_action:
               action: call-service
               service: browser_mod.popup
@@ -535,64 +520,6 @@ cards:
                       toggle: true
                     - type: custom:slider-entity-row
                       entity: light.stuelamper
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.stuen_gulvlampe
-                      toggle: true
-          - entity: light.stuen_gulvlampe
-            tap_action:
-              action: toggle
-            hold_action:
-              action: call-service
-              service: browser_mod.popup
-              service_data:
-                title: Indstilling af lys
-                style:
-                  border-radius: 20px
-                  --ha-card-border-radius: 20px
-                card:
-                  type: entities
-                  # The title of the room
-                  title: Stuen
-                  show_header_toggle: true
-                  entities:
-                    - type: custom:slider-entity-row
-                      entity: light.lille_sofa
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.sofalamper
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.stuelamper
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.stuen_gulvlampe
-                      toggle: true
-            double_tap_action:
-              action: call-service
-              service: browser_mod.popup
-              service_data:
-                title: Indstilling af lys
-                style:
-                  border-radius: 20px
-                  --ha-card-border-radius: 20px
-                card:
-                  type: entities
-                  # The title of the room
-                  title: Stuen
-                  show_header_toggle: true
-                  entities:
-                    - type: custom:slider-entity-row
-                      entity: light.lille_sofa
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.sofalamper
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.stuelamper
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.stuen_gulvlampe
                       toggle: true
     
       Williams værelse:
@@ -1313,3 +1240,8 @@ cards:
                     - type: custom:slider-entity-row
                       entity: light.nathalies_sengelamper
                       toggle: true
+    
+
+################################################################################
+####                              End of file                               ####
+################################################################################

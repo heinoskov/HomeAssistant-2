@@ -182,10 +182,10 @@ movies:
           data:
             haystack: "input_select.movie_chapters"
             result_list: "input_select.movie_timecodes"
-        - service: media_player.media_seek
-          data:
-            entity_id: "{{ states('input_select.chromecasts_entities') }}"
-            seek_position: "{{ states('input_select.movie_timecodes') }}"
+        # - service: media_player.media_seek
+        #   data:
+        #     entity_id: "{{ states('input_select.chromecasts_entities') }}"
+        #     seek_position: "{{ states('input_select.movie_timecodes') }}"
 
     # Chromecasts choosen
     # Synchronize the list with entities

@@ -17,16 +17,9 @@ panel: true
 cards:
   - type: custom:layout-card
     layout: auto
-    max_columns: 3
-    min_width: 33%
-    max_width: 99%
+    column_num: 3
+    column_width: 33%
     cards:
-
-      - type: sensor
-        entity: sensor.processor_use
-        graph: line
-        hours_to_show: 24
-
       - type: custom:stack-in-card
         title: System
         cards:
@@ -60,62 +53,23 @@ cards:
                   green: 30
                   yellow: 50
                   red: 75
-          - type: sensor
-            entity: sensor.processor_use
-            graph: line
-            detail: 2
-            hours_to_show: 1
-      - type: custom:stack-in-card
-        title: System
-        mode: horizontal
-        cards:
-          - type: gauge
-            entity: sensor.processor_use
-            name: CPU
-            min: 0
-            max: 100
-            severity:
-              green: 30
-              yellow: 50
-              red: 75
-          - type: gauge
-            entity: sensor.processor_temperature
-            name: Temperature
-            min: 0
-            max: 100
-            severity:
-              green: 30
-              yellow: 50
-              red: 75
-          - type: gauge
-            entity: sensor.memory_use_percent
-            name: Memory
-            min: 0
-            max: 100
-            severity:
-              green: 30
-              yellow: 50
-              red: 75
-
-      - type: custom:stack-in-card
-        mode: horizontal
-        cards:
-          - type: custom:stack-in-card
-            cards:
-              - type: button
-                entity: light.husnummer
-              - type: custom:slider-entity-row
-                entity: light.husnummer
-                hide_state: true
-                full_row: true
-          - type: custom:stack-in-card
-            cards:
-              - type: button
-                entity: light.indgang
-              - type: custom:slider-entity-row
-                entity: light.indgang
-                hide_state: true
-                full_row: true
+          - type: custom:mini-graph-card
+            name: System
+            icon: mdi:raspberry-pi
+            hours_to_show: 2
+            hour24: true
+            points_per_hour: 12
+            animate: true
+            line_width: 2
+            show:
+              labels: false
+            entities:
+              - entity: sensor.memory_use_percent
+                name: Memory
+              - entity: sensor.processor_use
+                name: CPU
+              - entity: sensor.processor_temperature
+                name: Temperature
 
       # Default view
       - type: entities

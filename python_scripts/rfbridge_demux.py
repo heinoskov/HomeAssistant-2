@@ -37,6 +37,8 @@ sensors = {
   "E46B0E": ["Pigernes indgang", "OFF", "true"],
   "E2B70A": ["Køkkendør", "ON", "true"],
   "E2B70E": ["Køkkendør", "OFF", "true"],
+  "ABE70A": ["Køkkenvindue 1", "ON", "true"],
+  "ABE70E": ["Køkkenvindue 1", "OFF", "true"],
   "99A10A": ["Stuevindue 1", "ON", "true"],
   "99A10E": ["Stuevindue 1", "OFF", "true"],
   "E2D60A": ["Stuevindue 2", "ON", "true"],
@@ -50,7 +52,6 @@ payload = data.get("payload")
 
 if payload is not None:
   if payload in sensors.keys():
-    logger.warning("<rfbridge_demux> Debug: {}".format(payload))
     service_data = {"topic": "home/{}".format(sensors[payload][0]), "payload":"{}".format(sensors[payload][1]), "qos":0, "retain":"{}".format(sensors[payload][2])}
   else:
     service_data = {"topic":"home/unknown", "payload":"{}".format(payload), "qos":0, "retain":"false"}

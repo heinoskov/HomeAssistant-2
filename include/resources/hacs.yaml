@@ -6,8 +6,9 @@
 #  /_/ /_/_/  |_\____//____/  /_/  |_\__,_/\__,_/      \____/_/ /_/ /____/     #
 #                                                               by J-Lindvig   #
 ################################################################################
-# Created: 22/10/2020                                                          #
+# Created: 29/10/2020                                                          #
 ################################################################################
+
 
 #       ___
 #      /   |
@@ -26,6 +27,8 @@
 # 
 - type: module
   url: /hacsfiles/bar-card/bar-card.js
+- type: module
+  url: /hacsfiles/button-card/button-card.js
 
 #      ______
 #     / ____/
@@ -37,8 +40,6 @@
   url: /hacsfiles/lovelace-card-mod/card-mod.js
 - type: module
   url: /hacsfiles/lovelace-clock-card/clock-card.js
-- type: module
-  url: /hacsfiles/custom-header/custom-header.js
 
 #       ______
 #      / ____/
@@ -133,6 +134,7 @@
 # 
 - type: module
   url: /hacsfiles/weather-card/weather-card.js
+
 
 ################################################################################
 ####                              End of file                               ####

@@ -1,5 +1,10 @@
 room_groups_lights:
 
+  homeassistant:
+    customize:
+      light.indgang_loftlampe:
+        friendly_name: Loftlampe
+
   input_select:
     room_light:
       name: "Vælg rum"
@@ -22,6 +27,14 @@ room_groups_lights:
 
   light:
     - platform: switch
+      name: Lys over skabe Højre
+      entity_id: switch.lys_over_skabe_hojre
+
+    - platform: switch
+      name: Lys over skabe Venstre
+      entity_id: switch.lys_over_skabe_venstre
+
+    - platform: switch
       name: Colins månelampe
       entity_id: switch.colins_maanelampe
 
@@ -36,7 +49,63 @@ room_groups_lights:
     - platform: switch
       name: Nathalies sengelamper
       entity_id: switch.nathalies_sengelamper
-      
+
+    - platform: group
+      name: Indgang Loftlampe
+      entities:
+        - light.indgang_loftlampe_1
+        - light.indgang_loftlampe_2
+        - light.indgang_loftlampe_3
+
+    - platform: group
+      name: Gangen 1-3
+      entities:
+        - light.gangen_1
+        - light.gangen_2
+        - light.gangen_3
+
+    - platform: group
+      name: Gangen 4-6
+      entities:
+        - light.gangen_4
+        - light.gangen_5
+        - light.gangen_6
+
+    - platform: group
+      name: Gangen 7-10
+      entities:
+        - light.gangen_7
+        - light.gangen_8
+        - light.gangen_9
+        - light.gangen_10
+
+    - platform: group
+      name: Gangen 11-14
+      entities:
+        - light.gangen_11
+        - light.gangen_12
+        - light.gangen_13
+        - light.gangen_14
+
+    - platform: group
+      name: Havegang start
+      entities:
+        - light.havegangen_1
+        - light.havegangen_2
+        - light.havegangen_3
+        - light.havegangen_4
+        - light.havegangen_5
+        - light.havegangen_6
+
+    - platform: group
+      name: Havegang slut
+      entities:
+        - light.havegangen_7
+        - light.havegangen_8
+        - light.havegangen_9
+        - light.havegangen_10
+        - light.havegangen_11
+        
   group:
     alle_rum:
       name: Alle rum
@@ -49,12 +118,12 @@ room_groups_lights:
         - group.indgang
         - group.hjaltes_vaerelse
         - group.colins_vaerelse
-        - group.lille_badevaerelse
-        - group.stort_badevaerelse
+        - group.badevaerelser
         - group.emilios_vaerelse
         - group.pigernes_stue
         - group.cornelies_vaerelse
         - group.nathalies_vaerelse
+        - group.havegangen
 
     koekken:
       name: Køkken
@@ -87,13 +156,18 @@ room_groups_lights:
       name: Gangen
       icon: mdi:track-light
       entities:
-        - light.gangen
-
+        - light.gangen_1_3
+        - light.gangen_4_6
+        - light.gangen_7_10
+        - light.gangen_11_14
+    
     indgang:
       name: Indgang
       icon: mdi:track-light
       entities:
-        - light.indgang
+        - light.lys_over_skabe_hojre
+        - light.lys_over_skabe_venstre
+        - light.indgang_loftlampe
 
     hjaltes_vaerelse:
       name: Hjaltes værelse
@@ -107,6 +181,12 @@ room_groups_lights:
         - light.colins_manelampe
         - light.colins_lampe
         - light.colins_loftlampe
+
+    badevaerelser:
+      name: Badeværelser
+      entities:
+        - light.lille_badevarelse
+        - light.stort_badevarelse
 
     lille_badevaerelse:
       name: Lille badeværelse
@@ -147,7 +227,8 @@ room_groups_lights:
       name: Havegangen
       icon: mdi:wall-sconce-round
       entities:
-        - light.havegangen
+        - light.havegang_start
+        - light.havegang_slut        
 
     husnummer:
       name: Husnummer

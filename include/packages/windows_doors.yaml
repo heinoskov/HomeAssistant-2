@@ -6,7 +6,7 @@
 #    /_/  /_/\___\_\/_/   /_/     /____/\___/_/ /_/____/\____/_/  /____/       #
 #                                                             by J-Lindvig     #
 ################################################################################
-# Created: 25/10/2020                                                          #
+# Created: 27/10/2020                                                          #
 ################################################################################
 windows_doors:
   group:
@@ -41,6 +41,7 @@ windows_doors:
         - binary_sensor.stuedoer
         - binary_sensor.pigernes_indgang
         - binary_sensor.koekkendoer
+        - binary_sensor.koekkenvindue_1
         - binary_sensor.stuevindue_1
         - binary_sensor.stuevindue_2
         - binary_sensor.stuevindue_3
@@ -185,6 +186,12 @@ windows_doors:
       state_topic: "home/Køkkendør"
 
     - platform: mqtt
+      name: "PRIVATE Koekkenvindue_1"
+      unique_id: private_0e8df701761a4684bb5ddbc2b6a89d3b
+      device_class: window
+      state_topic: "home/Køkkenvindue 1"
+
+    - platform: mqtt
       name: "PRIVATE Stuevindue_1"
       unique_id: private_41e1209797804d348118bf6b3c9e78fa
       device_class: window
@@ -307,6 +314,13 @@ windows_doors:
           device_class: window
           value_template: "{{ states('binary_sensor.private_kontor') }}"
           icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_kontor', 'on') else 'closed' }}-variant"
+
+        koekkenvindue_1:
+          friendly_name: "Køkkenvindue 1"
+          unique_id: 0e8df701761a4684bb5ddbc2b6a89d3b
+          device_class: window
+          value_template: "{{ states('binary_sensor.private_koekkenvindue_1') }}"
+          icon_template: "mdi:window-{{ 'open' if is_state('binary_sensor.private_koekkenvindue_1', 'on') else 'closed' }}-variant"
 
         stuevindue_1:
           friendly_name: "Stuevindue 1"

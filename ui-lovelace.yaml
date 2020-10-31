@@ -9,12 +9,6 @@
 # Created: 23/10/2020                                                          #
 ################################################################################
 
-custom_header:
-  locale: da-DK
-  compact_mode: True
-  
-title: Skovtrolden
-
 views:
   - !include views/main.yaml
   - !include views/room_lights.yaml
@@ -24,7 +18,6 @@ views:
   - !include views/gauges.yaml
   - !include views/weather.yaml
   - !include views/test.yaml
-
 ################################################################################
 ####                              End of file                               ####
 ################################################################################

@@ -59,6 +59,9 @@ transport:
             {{ states('sensor.margarita_og_rolf') }} minutter ({{ state_attr('sensor.margarita_og_rolf', 'distance' ) | round }} km. af {{ state_attr('sensor.margarita_og_rolf', 'route') }})
           attribute_templates:
             sort_value_minutes: "{{ states('sensor.margarita_og_rolf') }}"
+            days: >-
+              {% set ts = as_timestamp(state_attr('calendar.farmor_og_farfar', 'start_time')) | int %}
+              {{ ((ts - as_timestamp(now()) | int) / ( 60 * 60 * 24 )) | round(0, 'ceil') }}
 
         bil_mod_herstedvester:
           friendly_name_template: "{{ state_attr('sensor.herstedvester_faengsel', 'friendly_name' ) }}:"
@@ -68,6 +71,9 @@ transport:
             {{ states('sensor.herstedvester_faengsel') }} minutter ({{ state_attr('sensor.herstedvester_faengsel', 'distance' ) | round }} km. af {{ state_attr('sensor.herstedvester_faengsel', 'route') }})
           attribute_templates:
             sort_value_minutes: "{{ states('sensor.herstedvester_faengsel') }}"
+            days: >-
+              {% set ts = as_timestamp(state_attr('calendar.herstedvester', 'start_time')) | int %}
+              {{ ((ts - as_timestamp(now()) | int) / ( 60 * 60 * 24 )) | round(0, 'ceil') }}
 
         ##### BUSSER #####
         bus_mod_glamsbjerg:

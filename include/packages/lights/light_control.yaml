@@ -1,4 +1,5 @@
 light_control:
+
   input_number:
     light_timeout_day:
       name: Lys timeout dag
@@ -32,22 +33,6 @@ light_control:
       max: 15
       step: 1
     
-    timeout_arrived_night:
-      name: Sluk lyset ved ankomst
-      icon: mdi:timer
-      initial: 5
-      min: 1
-      max: 15
-      step: 1
-
-    sun_elevation_light:
-      name: Under horisonten
-      initial: 4
-      min: 0
-      max: 6
-      step: 1
-      icon: mdi:weather-sunset-down
-
     dim_high:
       name: Normal lysstyrke
       icon: mdi:weather-sunny
@@ -65,12 +50,6 @@ light_control:
       step: 1
 
   input_datetime:
-    dim_time:
-      name: Dæmp lyset tidligst
-      icon: mdi:clock
-      has_date: false
-      has_time: true
-
     morningbath_start:
       name: Badetid start
       icon: mdi:clock
@@ -85,116 +64,21 @@ light_control:
       has_time: true
       initial: "07:45:00"
 
-  binary_sensor:
-    - platform: template
-      sensors:
-        night:
-          friendly_name: "Det er nat"
-          unique_id: a81c57bfb0e241c3a02338c3929bb3d8
-          value_template: >-
-            {{
-              state_attr('sun.sun', 'elevation') <= (0 - states('input_number.sun_elevation_light') | float )
-              and
-              (
-                states('sensor.time') >= state_attr("input_datetime.dim_time", "timestamp") | int | timestamp_custom('%H:%M', false)
-                or
-                states('sensor.time') <= "12:00"
-              )
-            }}
-
   automation:
-    - alias: "Havegang - autosluk dag"
-      id: 2ca6894f0f314a8a8b3d3297500c7c95
-      description: "Der er nogen som har tændt lyset i havegangen, hvis det er dag - så sluk det"
-      initial_state: true
-      mode: single
-      trigger:
-        - platform: state
-          entity_id:
-            - light.havegang
-          to: "on"
-          for:
-            minutes: "{{ states('input_number.timeout_forgotten_light') | int }}"
-        - platform: template
-          value_template: "{{ is_state('binary_sensor.night', 'off') }}"
-      condition: "{{ is_state('binary_sensor.night', 'off') }}"
-      action:
-        - service: light.turn_off
-          entity_id:
-            - light.havegang
-
-    - alias: "Husnummer - tænd/sluk"
-      id: 4dd4e912f11642f2be65b7223a7708fe
-      description: "Tænd lyset ved husnummeret når solen er under horisonten"
-      initial_state: true
-      mode: single
-      trigger:
-        - platform: state
-          entity_id: sun.sun
-      action:
-        - service: "light.turn_{{ 'on' if is_state('sun.sun', 'below_horizon') else 'off' }}"
-          entity_id:
-            - light.husnummer
-
-    - alias: "Havelåge/hoveddør - tænd lys"
-      id: eac2ec3db544404ea24ba0f3884ca2eb
-      description: "Tænd lyset ved husnummeret og havegangen når havelågen eller døren åbnes når det er mørkt"
-      initial_state: true
-      mode: restart
-      trigger:
-        - platform: state
-          entity_id:
-            - binary_sensor.havelage
-            - binary_sensor.hoveddor
-          from: "off"
-          to: "on"
-      condition: "{{ is_state('sun.sun', 'below_horizon') }}"
-      variables:
-        husnummer_state: "{{ states('light.husnummer') }}"
-        indgang_state: "{{ states('light.indgang') }}"
-      action:
-        - service: light.turn_on
-          data:
-            entity_id:
-              - light.havegangen
-              - light.husnummer
-              - light.indgang
-            brightness: '255'
-
-        - delay: "{{ states('input_number.timeout_arrived_night') | multiply(60) | int }}"
-
-        - service: light.turn_off
-          data:
-            entity_id:
-              - light.havegangen
-
-        - service: "light.turn_{{ husnummer_state }}"
-          data:
-            entity_id:
-              - light.havegangen
-        - service: "light.turn_{{ indgang_state }}"
-          data:
-            entity_id:
-              - light.indgang
-
     - alias: "Værelser - autosluk"
       id: 53526ee5c3134c5988dcfdad30406892
       description: "Sluk lyset på værelser efter timeout"
       initial_state: true
       mode: parallel
       trigger:
-        # Trigger - state of the group of lights i the wanted rooms
         - platform: state
           entity_id:
             - group.colins_vaerelse
             - group.emilios_vaerelse
-          from: "off"
           to: "on"
-          # Timeout value
           for:
             minutes: "{{ states('input_number.timeout_forgotten_light') | int }}"
       action:
         service: light.turn_off
-        # Turn the entity that was the trigger
         data:
           entity_id: "{{ trigger.entity_id }}"

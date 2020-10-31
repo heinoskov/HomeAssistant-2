@@ -1,0 +1,34 @@
+night_sensor:
+
+  input_number:
+    sun_elevation_light:
+      name: Under horisonten
+      initial: 4
+      min: 0
+      max: 6
+      step: 1
+      icon: mdi:weather-sunset-down
+
+  input_datetime:
+    dim_time:
+      name: Dæmp lyset tidligst
+      icon: mdi:clock
+      has_date: false
+      has_time: true
+
+  binary_sensor:
+    - platform: template
+      sensors:
+        night:
+          friendly_name: "Det er nat"
+          unique_id: a81c57bfb0e241c3a02338c3929bb3d8
+          value_template: >-
+            {{
+              state_attr('sun.sun', 'elevation') <= (0 - states('input_number.sun_elevation_light') | float )
+              and
+              (
+                states('sensor.time') >= state_attr("input_datetime.dim_time", "timestamp") | int | timestamp_custom('%H:%M', false)
+                or
+                states('sensor.time') <= "12:00"
+              )
+            }}

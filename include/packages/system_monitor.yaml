@@ -1,5 +1,40 @@
 systemmonitor:
 
+  automation:
+    - alias: "AP down - power cycle"
+      id: c142c04781d045a199fbd9dfd866dac0
+      description: "Hjaltes AP er gået død - genstart det med en powercycle"
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.ap_hjalte
+          from: "on"
+          for: "00:02:00"
+      action:
+        - service: switch.turn_off
+          data:
+            entity_id: switch.hjaltes_ap
+        - delay: 5
+        - service: switch.turn_on
+          data:
+            entity_id: switch.hjaltes_ap
+        - wait_template: "{{ is_state('binary_sensor.ap_hjalte', 'on') }}"
+          timeout: "00:05:00"
+        - choose:
+          - conditions:
+              - condition: template
+                value_template: "{{ not wait.completed }}"
+            sequence:
+              - service: notify.mobile_app_motorola_one_action
+                data:
+                  title: "AP nede"
+                  message: >
+                    Hjaltes AP er nede
+                  data:
+                    channel: Network
+                    importance: high
+
   group:
     access_points:
       name: Access Points
@@ -220,6 +255,7 @@ systemmonitor:
   sensor:
     - platform: systemmonitor
       resources:
+        - type: last_boot
         - type: processor_use
         - type: processor_temperature
         - type: memory_use_percent

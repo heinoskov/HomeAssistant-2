@@ -1,133 +1,498 @@
+################################################################################
+#          ____        __  __              ___          ___     __             #
+#         / __ )__  __/ /_/ /_____  ____  ( _ )   _____/ (_)___/ /__  _____    #
+#        / __  / / / / __/ __/ __ \/ __ \/ __ \/|/ ___/ / / __  / _ \/ ___/    #
+#       / /_/ / /_/ / /_/ /_/ /_/ / / / / /_/  <(__  ) / / /_/ /  __/ /        #
+#      /_____/\__,_/\__/\__/\____/_/ /_/\____/\/____/_/_/\__,_/\___/_/         #
+#                                                              by J-Lindvig    #
+################################################################################
+# Created: 31/10/2020                                                          #
+################################################################################
+
 title: Lys
 icon: mdi:lightbulb
-panel: true
+panel: True
 cards:
   - type: custom:layout-card
-    layout: vertical
-    max_columns: 2
-    min_width: 49%
-    max_width: 99%
+    layout: auto
+    column_num: 4
+    column_width: 24.75%
     cards:
-      - type: horizontal-stack
-        cards:
-        - type: custom:stack-in-card
-          title: Hjaltes værelse
-          mode: horizontal
-          cards:
-            - type: light
-              entity: light.hjaltes_loftlampe
-            - type: light
-              entity: light.hjaltes_nanoleaf
-        - type: custom:stack-in-card
-          title: Emilios værelse
-          mode: horizontal
-          cards:
-            - type: light
-              entity: light.emilios_loftlampe
-            - type: light
-              entity: light.emilios_stjernelampe
-              name: Stjernelampe
-              icon: mdi:star-face
       - type: custom:stack-in-card
-        title: Køkken
+        title: "Køkken"
         cards:
           - type: custom:stack-in-card
             mode: horizontal
             cards:
-              - type: light
-                entity: light.spisebord
-              - type: light
-                entity: light.bloklys_kokken
-                name: Bloklys
-                icon: mdi:candle
-              - type: light
-                entity: light.kaffebar
-              - type: light
-                entity: light.kokkenbord
-              - type: light
-                entity: light.maleri
-              - type: light
-                entity: light.tavle
-      - type: horizontal-stack
-        cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.spisebord
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.spisebord
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.kaffebar
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.kaffebar
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.kokkenbord
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.kokkenbord
+                        hide_state: true
+                        full_row: true
           - type: custom:stack-in-card
-            title: Colins værelse
             mode: horizontal
             cards:
-              - type: light
-                entity: light.colins_manelampe
-                name: Månelampe
-                icon: mdi:weather-night
-              - type: light
-                entity: light.colins_lampe
-              - type: light
-                entity: light.colins_loftlampe
-          - type: custom:stack-in-card
-            title: Badeværelser
-            mode: horizontal
-            cards:
-              - type: light
-                entity: light.lille_badevarelse
-              - type: custom:gap-card
-              - type: light
-                entity: light.stort_badevarelse
-      - break
-      
-      - type: horizontal-stack
-        cards:
-          - type: custom:stack-in-card
-            title: Nathalies værelse
-            mode: horizontal
-            cards:
-              - type: light
-                entity: light.nathalies_loftlamper
-              - type: light
-                entity: light.nathalies_sengelamper
-                name: Sengelamper
-                icon: mdi:bed
-          - type: custom:stack-in-card
-            title: Cornelies værelse
-            mode: horizontal
-            cards:
-              - type: light
-                entity: light.cornelies_gulvlampe
-              - type: custom:gap-card
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.maleri
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.maleri
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.tavle
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.tavle
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+    
+
       - type: custom:stack-in-card
-        title: Stuen
+        title: "Kontor"
         cards:
           - type: custom:stack-in-card
             mode: horizontal
             cards:
-              - type: light
-                entity: light.sofalamper
-              - type: light
-                entity: light.lille_sofa
-              - type: light
-                entity: light.bloklys_stuen
-                name: Bloklys
-                icon: mdi:candle
-              - type: light
-                entity: light.stuelamper
-              - type: light
-                entity: light.stuen_gulvlampe
-              - type: custom:gap-card
-      - type: horizontal-stack
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.sandbox_bulb
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.sandbox_bulb
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+              - type: custom:button-card
+                color_type: blank-card
+    
+
+      - type: custom:stack-in-card
+        title: "Stuen"
         cards:
           - type: custom:stack-in-card
-            title: Gangarealer
             mode: horizontal
             cards:
-              - type: light
-                entity: light.indgang
-              - type: custom:gap-card
-              - type: light
-                entity: light.gangen
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.sofalamper
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.sofalamper
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.stuelamper
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.stuelamper
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.lille_sofa
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.lille_sofa
+                        hide_state: true
+                        full_row: true
+
+      - type: custom:stack-in-card
+        title: "Williams værelse"
+        cards:
           - type: custom:stack-in-card
-            title: Udendørs
             mode: horizontal
             cards:
-              - type: light
-                entity: light.husnummer
-              - type: custom:gap-card
-              - type: light
-                entity: light.havegangen
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.williams_gulvlampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.williams_gulvlampe
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.williams_uplight
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.williams_uplight
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+    
+
+      - type: custom:stack-in-card
+        title: "Gangen"
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.gangen_1_3
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.gangen_1_3
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.gangen_4_6
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.gangen_4_6
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.gangen_7_10
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.gangen_7_10
+                        hide_state: true
+                        full_row: true
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.gangen_11_14
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.gangen_11_14
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+              - type: custom:button-card
+                color_type: blank-card
+    
+
+      - type: custom:stack-in-card
+        title: "Indgang"
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.lys_over_skabe_hojre
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.lys_over_skabe_hojre
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.lys_over_skabe_venstre
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.lys_over_skabe_venstre
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.indgang_loftlampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.indgang_loftlampe
+                        hide_state: true
+                        full_row: true
+
+      - type: custom:stack-in-card
+        title: "Hjaltes værelse"
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.hjaltes_loftlampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.hjaltes_loftlampe
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.hjaltes_nanoleaf
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.hjaltes_nanoleaf
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+    
+
+      - type: custom:stack-in-card
+        title: "Colins værelse"
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.colins_manelampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.colins_manelampe
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.colins_lampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.colins_lampe
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.colins_loftlampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.colins_loftlampe
+                        hide_state: true
+                        full_row: true
+
+      - type: custom:stack-in-card
+        title: "Badeværelser"
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.lille_badevarelse
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.lille_badevarelse
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.stort_badevarelse
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.stort_badevarelse
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+    
+
+      - type: custom:stack-in-card
+        title: "Emilios værelse"
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.emilios_stjernelampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.emilios_stjernelampe
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.emilios_loftlampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.emilios_loftlampe
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+    
+
+      - type: custom:stack-in-card
+        title: "Pigernes stue"
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.pigernes_stue_kuglelampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.pigernes_stue_kuglelampe
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+              - type: custom:button-card
+                color_type: blank-card
+    
+
+      - type: custom:stack-in-card
+        title: "Cornelies værelse"
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.cornelies_gulvlampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.cornelies_gulvlampe
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+              - type: custom:button-card
+                color_type: blank-card
+    
+
+      - type: custom:stack-in-card
+        title: "Nathalies værelse"
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.nathalies_sengelamper
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.nathalies_sengelamper
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.nathalies_loftslamper
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.nathalies_loftslamper
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+    
+
+      - type: custom:stack-in-card
+        title: "Havegangen"
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.havegang_start
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.havegang_start
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.havegang_slut
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.havegang_slut
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+    
+
+################################################################################
+####                              End of file                               ####
+################################################################################
