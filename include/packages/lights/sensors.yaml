@@ -74,41 +74,16 @@ gangen:
           data:
             entity_id: input_boolean.private_taking_bath_large
 
-    - alias: "Badeværelser - ON"
-      id: 842314a739f34574add293107176baca
+    - alias: "Lille badeværelse ON"
+      id: c1c994c1fce94f869022d98a8f228174
       initial_state: true
-      mode: parallel
+      mode: single
       trigger:
         - platform: state
-          entity_id:
-#            - binary_sensor.stort_badevarelse_sensor
-            - binary_sensor.lille_badevarelse_sensor
+          entity_id: binary_sensor.lille_badevarelse_sensor
           to: "on"
-      condition: >-
-        {%- if trigger == "binary_sensor.lille_badevarelse_sensor" %}
-          {{ is_state('light.lille_badevarelse', 'off') }}
-        {% else %}
-          {{ is_state('light.stort_badevarelse', 'off') }}
-        {% endif %}
-      variables:
-        light: ""
-        switch: ""
+      condition: "{{ is_state('light.lille_badevarelse', 'off') }}"
       action:
-        # Set some variables based on trigger
-        - variables:
-            light: >-
-              {%- if trigger.entity_id == "binary_sensor.lille_badevarelse_sensor" %}
-                light.lille_badevarelse
-              {%- else %}
-                light.stort_badevarelse
-              {% endif %}
-            switch: >-
-              {%- if trigger.entity_id == "binary_sensor.lille_badevarelse_sensor" %}
-                input_boolean.private_taking_bath_small
-              {%- else %}
-                input_boolean.private_taking_bath_large
-              {% endif %}
-
         - choose:
             - conditions:
                 - condition: time
@@ -117,11 +92,10 @@ gangen:
               sequence:
                 - service: input_boolean.turn_on
                   data:
-                    entity_id: "{{ switch }}"
-
+                    entity_id: input_boolean.private_taking_bath_small
         - service: light.turn_on
           data:
-            entity_id: "{{ light }}"
+            entity_id: light.lille_badevarelse
             brightness: >-
               {%- if is_state("binary_sensor.night", "on") %}
                 {{ states("input_number.dim_low") | int }}
@@ -129,45 +103,21 @@ gangen:
                 {{ states("input_number.dim_high") | int }}
               {%- endif %}
 
-    - alias: "Badeværelser - OFF"
-      id: bc6279f87e4740619aa1a1be306f92eb
+    - alias: "lille badeværelse OFF"
+      id: 527a4e38261747c4b0485a149ad0b141
       initial_state: true
-      mode: parallel
+      mode: single
       trigger:
         - platform: state
-          entity_id:
-#            - binary_sensor.stort_badevarelse_sensor
-            - binary_sensor.lille_badevarelse_sensor
+          entity_id: binary_sensor.lille_badevarelse_sensor
           to: "off"
-      condition: >-
-        {%- if trigger == "binary_sensor.lille_badevarelse_sensor" %}
-          {{ is_state('light.lille_badevarelse', 'on') }}
-        {% else %}
-          {{ is_state('light.stort_badevarelse', 'on') }}
-        {% endif %}
-      variables:
-        light: ""
-        switch: ""
+      condition: "{{ is_state('light.lille_badevarelse', 'on') }}"
       action:
-        # Set some variables based on trigger
-        - variables:
-            light: >-
-              {%- if trigger.entity_id == "binary_sensor.lille_badevarelse_sensor" %}
-                light.lille_badevarelse
-              {%- else %}
-                light.stort_badevarelse
-              {% endif %}
-            switch: >-
-              {%- if trigger.entity_id == "binary_sensor.lille_badevarelse_sensor" %}
-                input_boolean.private_taking_bath_small
-              {%- else %}
-                input_boolean.private_taking_bath_large
-              {% endif %}
-
         - choose:
             - conditions:
-                - condition: template
-                  value_template: "{{ is_state(switch, 'on') }}"
+                - condition: state
+                  entity_id: input_boolean.private_taking_bath_small
+                  state: "on"
               sequence:
                 - delay: "{{ states('input_number.morningbath_length') | multiply(60) | int }}"
           default:
@@ -180,10 +130,10 @@ gangen:
 
         - service: light.turn_off
           data:
-            entity_id: "{{ light }}"
+            entity_id: light.lille_badevarelse
         - service: input_boolean.turn_off
           data:
-            entity_id: "{{ switch }}"
+            entity_id: input_boolean.private_taking_bath_small
 
     - alias: "Tænd lyset ved bevægelse"
       id: 20c269830c7c4b2a81b65ef5e82dbca1
@@ -193,8 +143,6 @@ gangen:
         - platform: state
           entity_id:
             - binary_sensor.sandbox_sensor
-            # - binary_sensor.lille_badevarelse_sensor
-            # - binary_sensor.stort_badevarelse_sensor
             - group.sensors_gangen
             - binary_sensor.camera_indgang
           from: "off"

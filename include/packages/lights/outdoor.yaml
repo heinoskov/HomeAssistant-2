@@ -30,7 +30,7 @@ outdoor:
       trigger:
         - platform: state
           entity_id:
-            - light.havegang
+            - light.havegangen
           to: "on"
         - platform: state
           entity_id: binary_sensor.night
@@ -39,7 +39,7 @@ outdoor:
       action:
         - service: light.turn_off
           entity_id:
-            - light.havegang
+            - light.havegangen
 
     - alias: "Husnummer - tænd/sluk"
       id: 4dd4e912f11642f2be65b7223a7708fe
@@ -62,14 +62,24 @@ outdoor:
       trigger:
         - platform: state
           entity_id:
-            - group.outdoor_sensors
+            - binary_sensor.havelage
+            - binary_sensor.hoveddor
+            - binary_sensor.pigernes_indgang
           to: "on"
       condition: "{{ is_state('sun.sun', 'below_horizon') }}"
       action:
         - service: light.turn_on
           data:
+            entity_id: >
+              {% if trigger.entity_id == "binary_sensor.hoveddor" %}
+                light.havegang_start
+              {% else %}
+                light.havegangen
+              {% endif %}
+            brightness: '255'
+        - service: light.turn_on
+          data:
             entity_id:
-              - light.havegangen
               - light.husnummer
               - light.indgang
             brightness: '255'

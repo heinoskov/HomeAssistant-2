@@ -6,7 +6,7 @@
 #      /_____/\__,_/\__/\__/\____/_/ /_/\____/\/____/_/_/\__,_/\___/_/         #
 #                                                              by J-Lindvig    #
 ################################################################################
-# Created: 31/10/2020                                                          #
+# Created: 1/11/2020                                                           #
 ################################################################################
 
 title: Lys
@@ -171,7 +171,7 @@ cards:
     
 
       - type: custom:stack-in-card
-        title: "Gangen"
+        title: "Fælles"
         cards:
           - type: custom:stack-in-card
             mode: horizontal
@@ -179,86 +179,31 @@ cards:
               - type: custom:stack-in-card
                 cards:
                   - type: custom:button-card
-                    entity: light.gangen_1_3
+                    entity: light.gangen
                   - type: entities
                     entities:
                       - type: custom:slider-entity-row
-                        entity: light.gangen_1_3
+                        entity: light.gangen
                         hide_state: true
                         full_row: true
               - type: custom:stack-in-card
                 cards:
                   - type: custom:button-card
-                    entity: light.gangen_4_6
+                    entity: light.indgang
                   - type: entities
                     entities:
                       - type: custom:slider-entity-row
-                        entity: light.gangen_4_6
+                        entity: light.indgang
                         hide_state: true
                         full_row: true
               - type: custom:stack-in-card
                 cards:
                   - type: custom:button-card
-                    entity: light.gangen_7_10
+                    entity: light.havegangen
                   - type: entities
                     entities:
                       - type: custom:slider-entity-row
-                        entity: light.gangen_7_10
-                        hide_state: true
-                        full_row: true
-          - type: custom:stack-in-card
-            mode: horizontal
-            cards:
-              - type: custom:stack-in-card
-                cards:
-                  - type: custom:button-card
-                    entity: light.gangen_11_14
-                  - type: entities
-                    entities:
-                      - type: custom:slider-entity-row
-                        entity: light.gangen_11_14
-                        hide_state: true
-                        full_row: true
-              - type: custom:button-card
-                color_type: blank-card
-              - type: custom:button-card
-                color_type: blank-card
-    
-
-      - type: custom:stack-in-card
-        title: "Indgang"
-        cards:
-          - type: custom:stack-in-card
-            mode: horizontal
-            cards:
-              - type: custom:stack-in-card
-                cards:
-                  - type: custom:button-card
-                    entity: light.lys_over_skabe_hojre
-                  - type: entities
-                    entities:
-                      - type: custom:slider-entity-row
-                        entity: light.lys_over_skabe_hojre
-                        hide_state: true
-                        full_row: true
-              - type: custom:stack-in-card
-                cards:
-                  - type: custom:button-card
-                    entity: light.lys_over_skabe_venstre
-                  - type: entities
-                    entities:
-                      - type: custom:slider-entity-row
-                        entity: light.lys_over_skabe_venstre
-                        hide_state: true
-                        full_row: true
-              - type: custom:stack-in-card
-                cards:
-                  - type: custom:button-card
-                    entity: light.indgang_loftlampe
-                  - type: entities
-                    entities:
-                      - type: custom:slider-entity-row
-                        entity: light.indgang_loftlampe
+                        entity: light.havegangen
                         hide_state: true
                         full_row: true
 
@@ -452,41 +397,11 @@ cards:
               - type: custom:stack-in-card
                 cards:
                   - type: custom:button-card
-                    entity: light.nathalies_loftslamper
+                    entity: light.nathalies_loftlamper
                   - type: entities
                     entities:
                       - type: custom:slider-entity-row
-                        entity: light.nathalies_loftslamper
-                        hide_state: true
-                        full_row: true
-              - type: custom:button-card
-                color_type: blank-card
-    
-
-      - type: custom:stack-in-card
-        title: "Havegangen"
-        cards:
-          - type: custom:stack-in-card
-            mode: horizontal
-            cards:
-              - type: custom:stack-in-card
-                cards:
-                  - type: custom:button-card
-                    entity: light.havegang_start
-                  - type: entities
-                    entities:
-                      - type: custom:slider-entity-row
-                        entity: light.havegang_start
-                        hide_state: true
-                        full_row: true
-              - type: custom:stack-in-card
-                cards:
-                  - type: custom:button-card
-                    entity: light.havegang_slut
-                  - type: entities
-                    entities:
-                      - type: custom:slider-entity-row
-                        entity: light.havegang_slut
+                        entity: light.nathalies_loftlamper
                         hide_state: true
                         full_row: true
               - type: custom:button-card

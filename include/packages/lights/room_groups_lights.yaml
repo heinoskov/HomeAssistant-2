@@ -1,9 +1,9 @@
 room_groups_lights:
 
-  homeassistant:
-    customize:
-      light.indgang_loftlampe:
-        friendly_name: Loftlampe
+  # homeassistant:
+  #   customize:
+  #     light.indgang_loftlampe:
+  #       friendly_name: Loftlampe
 
   input_select:
     room_light:
@@ -26,13 +26,13 @@ room_groups_lights:
         - Nathalies værelse
 
   light:
-    - platform: switch
-      name: Lys over skabe Højre
-      entity_id: switch.lys_over_skabe_hojre
+    # - platform: switch
+    #   name: Lys over skabe Højre
+    #   entity_id: switch.lys_over_skabe_hojre
 
-    - platform: switch
-      name: Lys over skabe Venstre
-      entity_id: switch.lys_over_skabe_venstre
+    # - platform: switch
+    #   name: Lys over skabe Venstre
+    #   entity_id: switch.lys_over_skabe_venstre
 
     - platform: switch
       name: Colins månelampe
@@ -50,56 +50,56 @@ room_groups_lights:
       name: Nathalies sengelamper
       entity_id: switch.nathalies_sengelamper
 
-    - platform: group
-      name: Indgang Loftlampe
-      entities:
-        - light.indgang_loftlampe_1
-        - light.indgang_loftlampe_2
-        - light.indgang_loftlampe_3
+    # - platform: group
+    #   name: Indgang Loftlampe
+    #   entities:
+    #     - light.indgang_loftlampe_1
+    #     - light.indgang_loftlampe_2
+    #     - light.indgang_loftlampe_3
 
-    - platform: group
-      name: Gangen 1-3
-      entities:
-        - light.gangen_1
-        - light.gangen_2
-        - light.gangen_3
+    # - platform: group
+    #   name: Gangen 1-3
+    #   entities:
+    #     - light.gangen_1
+    #     - light.gangen_2
+    #     - light.gangen_3
 
-    - platform: group
-      name: Gangen 4-6
-      entities:
-        - light.gangen_4
-        - light.gangen_5
-        - light.gangen_6
+    # - platform: group
+    #   name: Gangen 4-6
+    #   entities:
+    #     - light.gangen_4
+    #     - light.gangen_5
+    #     - light.gangen_6
 
-    - platform: group
-      name: Gangen 7-10
-      entities:
-        - light.gangen_7
-        - light.gangen_8
-        - light.gangen_9
-        - light.gangen_10
+    # - platform: group
+    #   name: Gangen 7-10
+    #   entities:
+    #     - light.gangen_7
+    #     - light.gangen_8
+    #     - light.gangen_9
+    #     - light.gangen_10
 
-    - platform: group
-      name: Gangen 11-14
-      entities:
-        - light.gangen_11
-        - light.gangen_12
-        - light.gangen_13
-        - light.gangen_14
+    # - platform: group
+    #   name: Gangen 11-14
+    #   entities:
+    #     - light.gangen_11
+    #     - light.gangen_12
+    #     - light.gangen_13
+    #     - light.gangen_14
 
-    - platform: group
-      name: Havegang start
-      entities:
-        - light.havegangen_1
-        - light.havegangen_2
-        - light.havegangen_3
-        - light.havegangen_4
-        - light.havegangen_5
-        - light.havegangen_6
+    # - platform: group
+    #   name: Havegang start
+    #   entities:
+    #     - light.havegangen_1
+    #     - light.havegangen_2
+    #     - light.havegangen_3
+    #     - light.havegangen_4
+    #     - light.havegangen_5
 
     - platform: group
       name: Havegang slut
       entities:
+        - light.havegangen_6
         - light.havegangen_7
         - light.havegangen_8
         - light.havegangen_9
@@ -114,8 +114,7 @@ room_groups_lights:
         - group.kontor
         - group.stuen
         - group.williams_vaerelse
-        - group.gangen
-        - group.indgang
+        - group.faelles
         - group.hjaltes_vaerelse
         - group.colins_vaerelse
         - group.badevaerelser
@@ -123,7 +122,6 @@ room_groups_lights:
         - group.pigernes_stue
         - group.cornelies_vaerelse
         - group.nathalies_vaerelse
-        - group.havegangen
 
     koekken:
       name: Køkken
@@ -152,22 +150,19 @@ room_groups_lights:
         - light.williams_gulvlampe
         - light.williams_uplight
 
-    gangen:
-      name: Gangen
+    faelles:
+      name: Fælles
       icon: mdi:track-light
       entities:
-        - light.gangen_1_3
-        - light.gangen_4_6
-        - light.gangen_7_10
-        - light.gangen_11_14
+        - light.gangen
+        - light.indgang
+        - light.havegangen
     
-    indgang:
-      name: Indgang
-      icon: mdi:track-light
-      entities:
-        - light.lys_over_skabe_hojre
-        - light.lys_over_skabe_venstre
-        - light.indgang_loftlampe
+    # indgang:
+    #   name: Indgang
+    #   icon: mdi:track-light
+    #   entities:
+    #     - light.indgang
 
     hjaltes_vaerelse:
       name: Hjaltes værelse
@@ -221,7 +216,7 @@ room_groups_lights:
       name: Nathalies værelse
       entities:
         - light.nathalies_sengelamper
-        - light.nathalies_loftslamper
+        - light.nathalies_loftlamper
 
     havegangen:
       name: Havegangen
