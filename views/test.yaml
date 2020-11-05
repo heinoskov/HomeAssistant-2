@@ -27,7 +27,7 @@ cards:
             mode: horizontal
             cards:
               - type: gauge
-                entity: sensor.processor_use
+                entity: sensor.processor_use_percent
                 name: CPU
                 min: 0
                 max: 100
@@ -66,10 +66,62 @@ cards:
             entities:
               - entity: sensor.memory_use_percent
                 name: Memory
-              - entity: sensor.processor_use
+              - entity: sensor.processor_use_percent
                 name: CPU
               - entity: sensor.processor_temperature
                 name: Temperature
+
+      - type: custom:stack-in-card
+        title: System - Service HA
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: gauge
+                entity: sensor.service_ha_processor_use_percent
+                name: CPU
+                min: 0
+                max: 100
+                severity:
+                  green: 30
+                  yellow: 50
+                  red: 75
+              - type: gauge
+                entity: sensor.service_ha_processor_temperature
+                name: Temperature
+                min: 0
+                max: 100
+                severity:
+                  green: 30
+                  yellow: 50
+                  red: 75
+              - type: gauge
+                entity: sensor.service_ha_memory_use_percent
+                name: Memory
+                min: 0
+                max: 100
+                severity:
+                  green: 30
+                  yellow: 50
+                  red: 75
+          - type: custom:mini-graph-card
+            name: System
+            icon: mdi:raspberry-pi
+            hours_to_show: 2
+            hour24: true
+            points_per_hour: 12
+            animate: true
+            line_width: 2
+            show:
+              labels: false
+            entities:
+              - entity: sensor.service_ha_memory_use_percent
+                name: Memory
+              - entity: sensor.service_ha_processor_use_percent
+                name: CPU
+              - entity: sensor.service_ha_processor_temperature
+                name: Temperature
+                
 
       # Default view
       - type: entities

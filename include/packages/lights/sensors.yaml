@@ -156,10 +156,6 @@ gangen:
               light: >-
                 {%- if trigger.entity_id == "binary_sensor.sandbox_sensor" %}
                   light.sandbox_bulb
-                {%- elif trigger.entity_id == "binary_sensor.lille_badevarelse_sensor" %}
-                  light.lille_badevarelse
-                {%- elif trigger.entity_id == "binary_sensor.stort_badevarelse_sensor" %}
-                  light.stort_badevarelse
                 {%- elif trigger.entity_id == "group.sensors_gangen" %}
                   light.gangen
                 {%- elif trigger.entity_id == "binary_sensor.camera_indgang" %}

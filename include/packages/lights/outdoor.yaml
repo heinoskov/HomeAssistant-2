@@ -35,7 +35,7 @@ outdoor:
         - platform: state
           entity_id: binary_sensor.night
           to: "off"
-      condition: "{{ is_state('binary_sensor.night', 'off') }}"
+      condition: "{{ is_state('sun.sun', 'above_horizon') }}"
       action:
         - service: light.turn_off
           entity_id:
@@ -62,24 +62,14 @@ outdoor:
       trigger:
         - platform: state
           entity_id:
-            - binary_sensor.havelage
-            - binary_sensor.hoveddor
-            - binary_sensor.pigernes_indgang
+            - group.outdoor_sensors
           to: "on"
       condition: "{{ is_state('sun.sun', 'below_horizon') }}"
       action:
         - service: light.turn_on
           data:
-            entity_id: >
-              {% if trigger.entity_id == "binary_sensor.hoveddor" %}
-                light.havegang_start
-              {% else %}
-                light.havegangen
-              {% endif %}
-            brightness: '255'
-        - service: light.turn_on
-          data:
             entity_id:
+              - light.havegangen
               - light.husnummer
               - light.indgang
             brightness: '255'

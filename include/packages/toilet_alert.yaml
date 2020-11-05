@@ -26,8 +26,3 @@ toilet_alert:
             media_player: media_player.kokken
             volume: "{{ (states('input_number.announce_volume') | float) / 100 }}"
             message: "{{ states('input_text.toilet_string') }}"
-
-  homeassistant:
-    customize:
-      automation.toilet_meddelse:
-        icon: mdi:toilet

@@ -56,7 +56,6 @@ garbage:
         affald_hentes:
           friendly_name: "Affald:"
           unique_id: 99ac661f0f7142a19afecee966b75c42
-          icon_template: mdi:trash-can
           value_template: >-
             {% if state_attr('sensor.affald', 'days') == 0 %}
               i dag
@@ -74,7 +73,6 @@ garbage:
         genbrug_hentes:
           friendly_name: "Genbrug:"
           unique_id: 940bacc51362404ebbcb48e2c1f1ea63
-          icon_template: mdi:recycle
           value_template: >-
             {% if state_attr('sensor.genbrug', 'days') == 0 %}
               i dag

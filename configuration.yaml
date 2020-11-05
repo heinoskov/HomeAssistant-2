@@ -109,6 +109,22 @@ recorder:
   purge_keep_days: 7
   auto_purge: true
 
+remote_homeassistant:
+  instances:
+  - host: 192.168.0.11
+    access_token: !secret HA_SERVICES_TOKEN
+    exclude:
+      domains:
+        - person
+      entities:
+        - binary_sensor.updater
+        - sensor.last_boot
+        - sensor.processor_use_percent
+        - sensor.processor_temperature
+        - sensor.memory_use_percent
+        - sensor.disk_use_percent
+        - sensor.swap_use_percent
+
 rest_command: !include_dir_merge_named include/rest_commands/
 
 #     _____
@@ -122,10 +138,6 @@ sensor:
     username: !secret 17TRACK_USER
     password: !secret 17TRACK_PASSWORD
 shell_command: !include_dir_merge_named include/shell_commands/
-
-spotify:
-  client_id: !secret SPOTIFY_CLIENT_ID
-  client_secret: !secret SPOTIFY_CLIENT_SECRET
 
 #    ______
 #   /_  __/

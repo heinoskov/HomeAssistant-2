@@ -59,10 +59,3 @@ persons:
                 entity_id:
                   - switch.pump
                   - light.touchpanel
-
-  homeassistant:
-    customize:
-      automation.sluk_lys_tomt_vaerelse:
-        icon: mdi:account-multiple-minus
-      automation.sluk_lys_tomt_hus:
-        icon: mdi:home-floor-0

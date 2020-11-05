@@ -69,10 +69,3 @@ browsers:
           deviceID: TouchPanel
           navigation_path: >-
             {{ states('input_text.default_view_path') }}
-
-  homeassistant:
-    customize:
-      automation.private_update_prev_path_touchpanel:
-        icon: mdi:do-not-disturb
-      automation.retur_til_default_view:
-        icon: mdi:home-heart

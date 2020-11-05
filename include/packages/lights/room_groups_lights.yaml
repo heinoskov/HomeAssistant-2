@@ -8,7 +8,7 @@ room_groups_lights:
         - Køkken
         - Kontor
         - Stuen
-        - Williams værelse
+        - Studieværelse
         - Gangen
         - Indgang
         - Hjaltes værelse
@@ -85,11 +85,13 @@ room_groups_lights:
         - light.stuelamper
         - light.lille_sofa
 
-    williams_vaerelse:
+    studie_vaerelse:
       name: Williams værelse
       entities:
-        - light.williams_gulvlampe
-        - light.williams_uplight
+        - light.studievarelse_gulvlampe
+        - light.studievarelse_uplight
+        - light.cornelies_skrivebordslampe
+        - light.nathalies_skrivebordslampe
 
     faelles:
       name: Fælles
