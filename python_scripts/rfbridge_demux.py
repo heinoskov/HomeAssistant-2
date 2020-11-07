@@ -1,6 +1,7 @@
 sensors = {
   "3C003A": ["Havelåge", "ON", "false"],
   "C0E3DA": ["Hoveddør", "ON", "false"],
+  "791D5A": ["TESTER", "ON", "false"],
   "45400A": ["Dobbelt terrassedør", "ON", "true"],
   "45400E": ["Dobbelt terrassedør", "OFF", "true"],
   "B1C40A": ["Soveværelse vindue", "ON", "true"],
@@ -21,10 +22,10 @@ sensors = {
   "0D510E": ["Hjaltes vindue vejen", "OFF", "true"],
   "E1220A": ["Emilios vindue", "ON", "true"],
   "E1220E": ["Emilios vindue", "OFF", "true"],
-  "E0DC0A": ["Colins vindue", "ON", "true"],
-  "E0DC0E": ["Colins vindue", "OFF", "true"],
-  "9B9B0A": ["Studieværelse vindue", "ON", "true"],
-  "9B9B0E": ["Studieværelse vindue", "OFF", "true"],
+  "E0DC0A": ["Williams vindue", "ON", "true"],
+  "E0DC0E": ["Williams vindue", "OFF", "true"],
+  "9B9B0A": ["Colins vindue", "ON", "true"],
+  "9B9B0E": ["Colins vindue", "OFF", "true"],
   "E32A0A": ["Lille badeværelse vindue 2", "ON", "true"],
   "E32A0E": ["Lille badeværelse vindue 2", "OFF", "true"],
   "ACB90A": ["Stort badeværelse vindue 3", "ON", "true"],
@@ -37,8 +38,6 @@ sensors = {
   "E46B0E": ["Pigernes indgang", "OFF", "true"],
   "E2B70A": ["Køkkendør", "ON", "true"],
   "E2B70E": ["Køkkendør", "OFF", "true"],
-  "ABE70A": ["Køkkenvindue 1", "ON", "true"],
-  "ABE70E": ["Køkkenvindue 1", "OFF", "true"],
   "99A10A": ["Stuevindue 1", "ON", "true"],
   "99A10E": ["Stuevindue 1", "OFF", "true"],
   "E2D60A": ["Stuevindue 2", "ON", "true"],
@@ -49,7 +48,7 @@ sensors = {
   "E5B50E": ["Soveværelsesdør", "OFF", "true"]
 }
 payload = data.get("payload")
-
+ 
 if payload is not None:
   if payload in sensors.keys():
     service_data = {"topic": "home/{}".format(sensors[payload][0]), "payload":"{}".format(sensors[payload][1]), "qos":0, "retain":"{}".format(sensors[payload][2])}

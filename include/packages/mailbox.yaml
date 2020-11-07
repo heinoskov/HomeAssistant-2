@@ -1,4 +1,5 @@
 mailbox:
+  # Timer for how long the mailbox must be held open to avoid false positives
   input_number:
     mailbox_time_open:
       name: Åben tid
@@ -7,12 +8,14 @@ mailbox:
       max: 5
       step: 1
 
+  # The switch controlling whether we have emptied the mailbox
   input_boolean:
     private_mailbox:
       name: Postkasse boolean
       initial: off
       icon: mdi:mailbox-up
 
+  # Template to make the input_boolean a binary_sensor - primarly for the GUI
   binary_sensor:
     - platform: template
       sensors:
@@ -22,6 +25,8 @@ mailbox:
           value_template: "{{ states('input_boolean.private_mailbox') }}"
           icon_template: "mdi:mailbox{{ '-up' if is_state('input_boolean.private_mailbox', 'on') }}"
 
+  # The sensor in the mailbox is ON and have been for the time in input_number.mailbox_time_open
+  # Condition: only fire when the "seitch" is OFF
   automation:
     - alias: "Postkasse"
       id: 7937fdac601d4ee6b5a33932cf92d8cd

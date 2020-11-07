@@ -12,18 +12,19 @@ room_groups_lights:
         - Gangen
         - Indgang
         - Hjaltes værelse
-        - Colins værelse
+        - Williams værelse
         - Lille badeværelse
         - Stort badeværelse
         - Emilios værelse
+        - Colins værelse
         - Pigernes stue
         - Cornelies værelse
         - Nathalies værelse
 
   light:
     - platform: switch
-      name: Colins månelampe
-      entity_id: switch.colins_maanelampe
+      name: Colins skylampe
+      entity_id: switch.colins_skylampe
 
     - platform: switch
       name: Emilios stjernelampe
@@ -54,12 +55,13 @@ room_groups_lights:
         - group.koekken
         - group.kontor
         - group.stuen
-        - group.williams_vaerelse
+        - group.studie_vaerelse
         - group.faelles
         - group.hjaltes_vaerelse
-        - group.colins_vaerelse
+        - group.williams_vaerelse
         - group.badevaerelser
         - group.emilios_vaerelse
+        - group.colins_vaerelse
         - group.pigernes_stue
         - group.cornelies_vaerelse
         - group.nathalies_vaerelse
@@ -86,7 +88,7 @@ room_groups_lights:
         - light.lille_sofa
 
     studie_vaerelse:
-      name: Williams værelse
+      name: Studieværelse
       entities:
         - light.studievarelse_gulvlampe
         - light.studievarelse_uplight
@@ -107,12 +109,11 @@ room_groups_lights:
         - light.hjaltes_loftlampe
         - light.hjaltes_nanoleaf
 
-    colins_vaerelse:
-      name: Colins værelse
+    williams_vaerelse:
+      name: Williams værelse
       entities:
-        - light.colins_manelampe
-        - light.colins_lampe
-        - light.colins_loftlampe
+        - light.williams_loftlampe
+        - light.williams_lampe
 
     badevaerelser:
       name: Badeværelser
@@ -137,6 +138,12 @@ room_groups_lights:
       entities:
         - light.emilios_stjernelampe
         - light.emilios_loftlampe
+
+    colins_vaerelse:
+      name: Colins værelse
+      entities:
+        - light.colins_skylampe
+        - light.colins_loftlampe
 
     pigernes_stue:
       name: Pigernes stue

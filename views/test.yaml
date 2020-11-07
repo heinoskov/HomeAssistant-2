@@ -219,10 +219,7 @@ cards:
             - entity_id: "group.rf_bridges"
               options:
                 type: custom:fold-entity-row
-            - entity_id: "group.ir_bridges"
-              options:
-                type: custom:fold-entity-row
-    
+
       - type: custom:clock-card
     
       - !include cards/test/flag_card.yaml

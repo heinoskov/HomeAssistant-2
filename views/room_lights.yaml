@@ -6,7 +6,7 @@
 #      /_____/\__,_/\__/\__/\____/_/ /_/\____/\/____/_/_/\__,_/\___/_/         #
 #                                                              by J-Lindvig    #
 ################################################################################
-# Created: 1/11/2020                                                           #
+# Created: 6/11/2020                                                           #
 ################################################################################
 
 title: Lys
@@ -141,7 +141,7 @@ cards:
                         full_row: true
 
       - type: custom:stack-in-card
-        title: "Williams værelse"
+        title: "Studieværelse"
         cards:
           - type: custom:stack-in-card
             mode: horizontal
@@ -149,23 +149,48 @@ cards:
               - type: custom:stack-in-card
                 cards:
                   - type: custom:button-card
-                    entity: light.williams_gulvlampe
+                    entity: light.studievarelse_gulvlampe
                   - type: entities
                     entities:
                       - type: custom:slider-entity-row
-                        entity: light.williams_gulvlampe
+                        entity: light.studievarelse_gulvlampe
                         hide_state: true
                         full_row: true
               - type: custom:stack-in-card
                 cards:
                   - type: custom:button-card
-                    entity: light.williams_uplight
+                    entity: light.studievarelse_uplight
                   - type: entities
                     entities:
                       - type: custom:slider-entity-row
-                        entity: light.williams_uplight
+                        entity: light.studievarelse_uplight
                         hide_state: true
                         full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.cornelies_skrivebordslampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.cornelies_skrivebordslampe
+                        hide_state: true
+                        full_row: true
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.nathalies_skrivebordslampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.nathalies_skrivebordslampe
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
               - type: custom:button-card
                 color_type: blank-card
     
@@ -238,7 +263,7 @@ cards:
     
 
       - type: custom:stack-in-card
-        title: "Colins værelse"
+        title: "Williams værelse"
         cards:
           - type: custom:stack-in-card
             mode: horizontal
@@ -246,33 +271,26 @@ cards:
               - type: custom:stack-in-card
                 cards:
                   - type: custom:button-card
-                    entity: light.colins_manelampe
+                    entity: light.williams_loftlampe
                   - type: entities
                     entities:
                       - type: custom:slider-entity-row
-                        entity: light.colins_manelampe
+                        entity: light.williams_loftlampe
                         hide_state: true
                         full_row: true
               - type: custom:stack-in-card
                 cards:
                   - type: custom:button-card
-                    entity: light.colins_lampe
+                    entity: light.williams_lampe
                   - type: entities
                     entities:
                       - type: custom:slider-entity-row
-                        entity: light.colins_lampe
+                        entity: light.williams_lampe
                         hide_state: true
                         full_row: true
-              - type: custom:stack-in-card
-                cards:
-                  - type: custom:button-card
-                    entity: light.colins_loftlampe
-                  - type: entities
-                    entities:
-                      - type: custom:slider-entity-row
-                        entity: light.colins_loftlampe
-                        hide_state: true
-                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+    
 
       - type: custom:stack-in-card
         title: "Badeværelser"
@@ -328,6 +346,36 @@ cards:
                     entities:
                       - type: custom:slider-entity-row
                         entity: light.emilios_loftlampe
+                        hide_state: true
+                        full_row: true
+              - type: custom:button-card
+                color_type: blank-card
+    
+
+      - type: custom:stack-in-card
+        title: "Colins værelse"
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.colins_skylampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.colins_skylampe
+                        hide_state: true
+                        full_row: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.colins_loftlampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.colins_loftlampe
                         hide_state: true
                         full_row: true
               - type: custom:button-card

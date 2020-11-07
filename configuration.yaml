@@ -96,6 +96,11 @@ panel_iframe:
     url: https://www.guidgenerator.com/online-guid-generator.aspx
     icon: mdi:barcode
 
+  tasmoadmin:
+    title: TasmoAdmin
+    icon: mdi:radio-tower
+    url: !secret TASMO_ADMIN_URL
+
 python_script:
 
 #      ____ 
@@ -137,6 +142,7 @@ sensor:
   - platform: seventeentrack
     username: !secret 17TRACK_USER
     password: !secret 17TRACK_PASSWORD
+
 shell_command: !include_dir_merge_named include/shell_commands/
 
 #    ______

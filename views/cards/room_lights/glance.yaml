@@ -6,7 +6,7 @@
 #    /_____/_/\__, /_/ /_/\__/      \____/\____/_/ /_/\__/_/   \____/_/        #
 #            /____/                                           by J-Lindvig     #
 ################################################################################
-# Created: 27/10/2020                                                          #
+# Created: 6/11/2020                                                           #
 ################################################################################
 
 type: custom:stack-in-card
@@ -526,7 +526,7 @@ cards:
         type: glance
         show_state: false
         entities:
-          - entity: light.williams_gulvlampe
+          - entity: light.williams_lampe
             tap_action:
               action: toggle
             hold_action:
@@ -544,10 +544,10 @@ cards:
                   show_header_toggle: true
                   entities:
                     - type: custom:slider-entity-row
-                      entity: light.williams_gulvlampe
+                      entity: light.williams_lampe
                       toggle: true
                     - type: custom:slider-entity-row
-                      entity: light.williams_uplight
+                      entity: light.williams_loftlampe
                       toggle: true
             double_tap_action:
               action: call-service
@@ -564,12 +564,12 @@ cards:
                   show_header_toggle: true
                   entities:
                     - type: custom:slider-entity-row
-                      entity: light.williams_gulvlampe
+                      entity: light.williams_lampe
                       toggle: true
                     - type: custom:slider-entity-row
-                      entity: light.williams_uplight
+                      entity: light.williams_loftlampe
                       toggle: true
-          - entity: light.williams_uplight
+          - entity: light.williams_loftlampe
             tap_action:
               action: toggle
             hold_action:
@@ -587,10 +587,10 @@ cards:
                   show_header_toggle: true
                   entities:
                     - type: custom:slider-entity-row
-                      entity: light.williams_gulvlampe
+                      entity: light.williams_lampe
                       toggle: true
                     - type: custom:slider-entity-row
-                      entity: light.williams_uplight
+                      entity: light.williams_loftlampe
                       toggle: true
             double_tap_action:
               action: call-service
@@ -607,13 +607,13 @@ cards:
                   show_header_toggle: true
                   entities:
                     - type: custom:slider-entity-row
-                      entity: light.williams_gulvlampe
+                      entity: light.williams_lampe
                       toggle: true
                     - type: custom:slider-entity-row
-                      entity: light.williams_uplight
+                      entity: light.williams_loftlampe
                       toggle: true
     
-      Gangen:
+      Fælles:
         type: glance
         show_state: false
         entities:
@@ -631,51 +631,15 @@ cards:
                 card:
                   type: entities
                   # The title of the room
-                  title: Gangen
+                  title: Fælles
                   show_header_toggle: true
                   entities:
                     - type: custom:slider-entity-row
                       entity: light.gangen
                       toggle: true
-            double_tap_action:
-              action: call-service
-              service: browser_mod.popup
-              service_data:
-                title: Indstilling af lys
-                style:
-                  border-radius: 20px
-                  --ha-card-border-radius: 20px
-                card:
-                  type: entities
-                  # The title of the room
-                  title: Gangen
-                  show_header_toggle: true
-                  entities:
                     - type: custom:slider-entity-row
-                      entity: light.gangen
+                      entity: light.havegangen
                       toggle: true
-    
-      Indgang:
-        type: glance
-        show_state: false
-        entities:
-          - entity: light.indgang
-            tap_action:
-              action: toggle
-            hold_action:
-              action: call-service
-              service: browser_mod.popup
-              service_data:
-                title: Indstilling af lys
-                style:
-                  border-radius: 20px
-                  --ha-card-border-radius: 20px
-                card:
-                  type: entities
-                  # The title of the room
-                  title: Indgang
-                  show_header_toggle: true
-                  entities:
                     - type: custom:slider-entity-row
                       entity: light.indgang
                       toggle: true
@@ -690,9 +654,113 @@ cards:
                 card:
                   type: entities
                   # The title of the room
-                  title: Indgang
+                  title: Fælles
                   show_header_toggle: true
                   entities:
+                    - type: custom:slider-entity-row
+                      entity: light.gangen
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.havegangen
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.indgang
+                      toggle: true
+          - entity: light.havegangen
+            tap_action:
+              action: toggle
+            hold_action:
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Indstilling af lys
+                style:
+                  border-radius: 20px
+                  --ha-card-border-radius: 20px
+                card:
+                  type: entities
+                  # The title of the room
+                  title: Fælles
+                  show_header_toggle: true
+                  entities:
+                    - type: custom:slider-entity-row
+                      entity: light.gangen
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.havegangen
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.indgang
+                      toggle: true
+            double_tap_action:
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Indstilling af lys
+                style:
+                  border-radius: 20px
+                  --ha-card-border-radius: 20px
+                card:
+                  type: entities
+                  # The title of the room
+                  title: Fælles
+                  show_header_toggle: true
+                  entities:
+                    - type: custom:slider-entity-row
+                      entity: light.gangen
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.havegangen
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.indgang
+                      toggle: true
+          - entity: light.indgang
+            tap_action:
+              action: toggle
+            hold_action:
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Indstilling af lys
+                style:
+                  border-radius: 20px
+                  --ha-card-border-radius: 20px
+                card:
+                  type: entities
+                  # The title of the room
+                  title: Fælles
+                  show_header_toggle: true
+                  entities:
+                    - type: custom:slider-entity-row
+                      entity: light.gangen
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.havegangen
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.indgang
+                      toggle: true
+            double_tap_action:
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Indstilling af lys
+                style:
+                  border-radius: 20px
+                  --ha-card-border-radius: 20px
+                card:
+                  type: entities
+                  # The title of the room
+                  title: Fælles
+                  show_header_toggle: true
+                  entities:
+                    - type: custom:slider-entity-row
+                      entity: light.gangen
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.havegangen
+                      toggle: true
                     - type: custom:slider-entity-row
                       entity: light.indgang
                       toggle: true
@@ -792,55 +860,6 @@ cards:
         type: glance
         show_state: false
         entities:
-          - entity: light.colins_lampe
-            tap_action:
-              action: toggle
-            hold_action:
-              action: call-service
-              service: browser_mod.popup
-              service_data:
-                title: Indstilling af lys
-                style:
-                  border-radius: 20px
-                  --ha-card-border-radius: 20px
-                card:
-                  type: entities
-                  # The title of the room
-                  title: Colins værelse
-                  show_header_toggle: true
-                  entities:
-                    - type: custom:slider-entity-row
-                      entity: light.colins_lampe
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.colins_loftlampe
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.colins_manelampe
-                      toggle: true
-            double_tap_action:
-              action: call-service
-              service: browser_mod.popup
-              service_data:
-                title: Indstilling af lys
-                style:
-                  border-radius: 20px
-                  --ha-card-border-radius: 20px
-                card:
-                  type: entities
-                  # The title of the room
-                  title: Colins værelse
-                  show_header_toggle: true
-                  entities:
-                    - type: custom:slider-entity-row
-                      entity: light.colins_lampe
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.colins_loftlampe
-                      toggle: true
-                    - type: custom:slider-entity-row
-                      entity: light.colins_manelampe
-                      toggle: true
           - entity: light.colins_loftlampe
             tap_action:
               action: toggle
@@ -859,13 +878,10 @@ cards:
                   show_header_toggle: true
                   entities:
                     - type: custom:slider-entity-row
-                      entity: light.colins_lampe
-                      toggle: true
-                    - type: custom:slider-entity-row
                       entity: light.colins_loftlampe
                       toggle: true
                     - type: custom:slider-entity-row
-                      entity: light.colins_manelampe
+                      entity: light.colins_skylampe
                       toggle: true
             double_tap_action:
               action: call-service
@@ -882,15 +898,12 @@ cards:
                   show_header_toggle: true
                   entities:
                     - type: custom:slider-entity-row
-                      entity: light.colins_lampe
-                      toggle: true
-                    - type: custom:slider-entity-row
                       entity: light.colins_loftlampe
                       toggle: true
                     - type: custom:slider-entity-row
-                      entity: light.colins_manelampe
+                      entity: light.colins_skylampe
                       toggle: true
-          - entity: light.colins_manelampe
+          - entity: light.colins_skylampe
             tap_action:
               action: toggle
             hold_action:
@@ -908,13 +921,10 @@ cards:
                   show_header_toggle: true
                   entities:
                     - type: custom:slider-entity-row
-                      entity: light.colins_lampe
-                      toggle: true
-                    - type: custom:slider-entity-row
                       entity: light.colins_loftlampe
                       toggle: true
                     - type: custom:slider-entity-row
-                      entity: light.colins_manelampe
+                      entity: light.colins_skylampe
                       toggle: true
             double_tap_action:
               action: call-service
@@ -931,16 +941,13 @@ cards:
                   show_header_toggle: true
                   entities:
                     - type: custom:slider-entity-row
-                      entity: light.colins_lampe
-                      toggle: true
-                    - type: custom:slider-entity-row
                       entity: light.colins_loftlampe
                       toggle: true
                     - type: custom:slider-entity-row
-                      entity: light.colins_manelampe
+                      entity: light.colins_skylampe
                       toggle: true
     
-      Lille badeværelse:
+      Badeværelser:
         type: glance
         show_state: false
         entities:
@@ -958,51 +965,12 @@ cards:
                 card:
                   type: entities
                   # The title of the room
-                  title: Lille badeværelse
+                  title: Badeværelser
                   show_header_toggle: true
                   entities:
                     - type: custom:slider-entity-row
                       entity: light.lille_badevarelse
                       toggle: true
-            double_tap_action:
-              action: call-service
-              service: browser_mod.popup
-              service_data:
-                title: Indstilling af lys
-                style:
-                  border-radius: 20px
-                  --ha-card-border-radius: 20px
-                card:
-                  type: entities
-                  # The title of the room
-                  title: Lille badeværelse
-                  show_header_toggle: true
-                  entities:
-                    - type: custom:slider-entity-row
-                      entity: light.lille_badevarelse
-                      toggle: true
-    
-      Stort badeværelse:
-        type: glance
-        show_state: false
-        entities:
-          - entity: light.stort_badevarelse
-            tap_action:
-              action: toggle
-            hold_action:
-              action: call-service
-              service: browser_mod.popup
-              service_data:
-                title: Indstilling af lys
-                style:
-                  border-radius: 20px
-                  --ha-card-border-radius: 20px
-                card:
-                  type: entities
-                  # The title of the room
-                  title: Stort badeværelse
-                  show_header_toggle: true
-                  entities:
                     - type: custom:slider-entity-row
                       entity: light.stort_badevarelse
                       toggle: true
@@ -1017,9 +985,55 @@ cards:
                 card:
                   type: entities
                   # The title of the room
-                  title: Stort badeværelse
+                  title: Badeværelser
                   show_header_toggle: true
                   entities:
+                    - type: custom:slider-entity-row
+                      entity: light.lille_badevarelse
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.stort_badevarelse
+                      toggle: true
+          - entity: light.stort_badevarelse
+            tap_action:
+              action: toggle
+            hold_action:
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Indstilling af lys
+                style:
+                  border-radius: 20px
+                  --ha-card-border-radius: 20px
+                card:
+                  type: entities
+                  # The title of the room
+                  title: Badeværelser
+                  show_header_toggle: true
+                  entities:
+                    - type: custom:slider-entity-row
+                      entity: light.lille_badevarelse
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.stort_badevarelse
+                      toggle: true
+            double_tap_action:
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Indstilling af lys
+                style:
+                  border-radius: 20px
+                  --ha-card-border-radius: 20px
+                card:
+                  type: entities
+                  # The title of the room
+                  title: Badeværelser
+                  show_header_toggle: true
+                  entities:
+                    - type: custom:slider-entity-row
+                      entity: light.lille_badevarelse
+                      toggle: true
                     - type: custom:slider-entity-row
                       entity: light.stort_badevarelse
                       toggle: true
@@ -1203,6 +1217,49 @@ cards:
         type: glance
         show_state: false
         entities:
+          - entity: light.nathalies_loftlamper
+            tap_action:
+              action: toggle
+            hold_action:
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Indstilling af lys
+                style:
+                  border-radius: 20px
+                  --ha-card-border-radius: 20px
+                card:
+                  type: entities
+                  # The title of the room
+                  title: Nathalies værelse
+                  show_header_toggle: true
+                  entities:
+                    - type: custom:slider-entity-row
+                      entity: light.nathalies_loftlamper
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.nathalies_sengelamper
+                      toggle: true
+            double_tap_action:
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Indstilling af lys
+                style:
+                  border-radius: 20px
+                  --ha-card-border-radius: 20px
+                card:
+                  type: entities
+                  # The title of the room
+                  title: Nathalies værelse
+                  show_header_toggle: true
+                  entities:
+                    - type: custom:slider-entity-row
+                      entity: light.nathalies_loftlamper
+                      toggle: true
+                    - type: custom:slider-entity-row
+                      entity: light.nathalies_sengelamper
+                      toggle: true
           - entity: light.nathalies_sengelamper
             tap_action:
               action: toggle
@@ -1221,6 +1278,9 @@ cards:
                   show_header_toggle: true
                   entities:
                     - type: custom:slider-entity-row
+                      entity: light.nathalies_loftlamper
+                      toggle: true
+                    - type: custom:slider-entity-row
                       entity: light.nathalies_sengelamper
                       toggle: true
             double_tap_action:
@@ -1237,6 +1297,9 @@ cards:
                   title: Nathalies værelse
                   show_header_toggle: true
                   entities:
+                    - type: custom:slider-entity-row
+                      entity: light.nathalies_loftlamper
+                      toggle: true
                     - type: custom:slider-entity-row
                       entity: light.nathalies_sengelamper
                       toggle: true

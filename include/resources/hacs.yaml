@@ -6,7 +6,7 @@
 #  /_/ /_/_/  |_\____//____/  /_/  |_\__,_/\__,_/      \____/_/ /_/ /____/     #
 #                                                               by J-Lindvig   #
 ################################################################################
-# Created: 29/10/2020                                                          #
+# Created: 6/11/2020                                                           #
 ################################################################################
 
 
@@ -123,8 +123,6 @@
   url: /hacsfiles/text-element/text-element.js
 - type: module
   url: /hacsfiles/lovelace-time-picker-card/time-picker-card.js
-- type: module
-  url: /hacsfiles/tv-card/tv-card.js
 
 #    _       __
 #   | |     / /
