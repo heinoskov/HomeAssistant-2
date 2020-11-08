@@ -1,0 +1,67 @@
+playtime:
+
+  input_boolean:
+    colin_legetid:
+      name: Colin legetid
+      icon: mdi:seesaw
+      initial: off
+
+    emilio_legetid:
+      name: Emilio legetid
+      icon: mdi:seesaw
+      initial: off
+
+  input_number:
+    timeout_forgotten_light:
+      name: Sluk glemt lys
+      icon: mdi:timer
+      initial: 10
+      min: 1
+      max: 15
+      step: 1
+
+  automation:
+    - alias: "Værelser - autosluk"
+      id: 53526ee5c3134c5988dcfdad30406892
+      description: "Sluk lyset på værelser efter timeout"
+      initial_state: true
+      mode: parallel
+      trigger:
+        - platform: state
+          entity_id:
+            - group.colins_vaerelse
+            - group.emilios_vaerelse
+          to: "on"
+          for:
+            minutes: "{{ states('input_number.timeout_forgotten_light') | int }}"
+      condition: >-
+        {%- if trigger.entity_id == "group.colins_vaerelse" %}
+          {{ is_state('input_boolean.colin_legetid', 'off') }}
+        {% elif trigger.entity_id == "group.emilios_vaerelse" %}
+          {{ is_state('input_boolean.emilio_legetid', 'off') }}
+        {% endif -%}
+      action:
+        service: light.turn_off
+        data:
+          entity_id: "{{ trigger.entity_id }}"
+
+    - alias: "Legetid slut"
+      id: bfff5158ee3944788410628ad5482c55
+      description: "Legetid er slut så sluk lyset"
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: state
+          entity_id:
+            - input_boolean.colin_legetid
+            - input_boolean.emilio_legetid
+          to: "off"
+      action:
+        - service: homeassistant.turn_off
+          data:
+            entity_id: >-
+              {%- if trigger.entity_id == "input_boolean.colin_legetid" %}
+                group.colins_vaerelse
+              {% elif trigger.entity_id == "input_boolean.emilio_legetid" %}
+                group.emilios_vaerelse
+              {% endif -%}

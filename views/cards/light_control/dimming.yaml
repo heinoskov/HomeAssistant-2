@@ -91,3 +91,12 @@ entities:
         entities:
           - type: custom:slider-entity-row
             entity: input_number.timeout_forgotten_light
+
+  - type: custom:fold-entity-row
+    head:
+      type: section
+      label: Legetid
+    padding: 0
+    entities:
+      - input_boolean.colin_legetid
+      - input_boolean.emilio_legetid

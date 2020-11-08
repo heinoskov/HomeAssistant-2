@@ -1,13 +1,4 @@
 candles:
-  input_boolean:
-    private_bloklys_stuen_state:
-      name: Bloklys stue state
-    private_bloklys_kokken_state:
-      name: Bloklys køkken state
-    private_bloklys_gangen_state:
-      name: Bloklys gangen state
-    private_bloklys_indgang_state:
-      name: Bloklys indgang state
 
   light:
     - platform: switch
@@ -18,113 +9,28 @@ candles:
       name: Bloklys køkken
       entity_id: switch.bloklys_kokken
 
+    - platform: switch
+      name: Bloklys gangen
+      entity_id: switch.bloklys_gangen
+
   switch:
-    - platform: template
+    - platform: broadlink
+      mac: "c8:f7:42:40:8d:03"
       switches:
-        bloklys_gangen:
-          friendly_name: "LED Bloklys i gangen"
-          unique_id: c5b6511af3b34cb2a74e22f59cc8730b
-          value_template: "{{ is_state('input_boolean.private_bloklys_gangen_state', 'on') }}"
-          turn_on:
-            service: script.bloklys_on_off
-            data:
-              remote: remote.gangen_ir
-              device: Bloklys
-              command: Turn on
-              boolean: input_boolean.private_bloklys_gangen_state
-          turn_off:
-            service: script.bloklys_on_off
-            data:
-              remote: remote.gangen_ir
-              device: Bloklys
-              command: Turn off
-              boolean: input_boolean.private_bloklys_gangen_state
+        - name: Bloklys køkken
+          command_on: JgBQAAABLZMUExQSFBIUEhQTFBIUEhQSFDYUNhQ1FDYUNRQ2FDYUNRQ2FBIUEhQTFBIUEhQSFBMUEhQ1FTUUNhQ1FDYUNhQ1FAAFDQABLkkUAA0FAAAAAAAAAAA=
+          command_off: JgBYAAABLZQTExQSExMUExQSFBIUExMTFDUUNhQ2FDUUNhQ2EzYUNhQ2FBIUEhQ2FBITExMUFBITExQ2FDUUExM2FDYUNRQ2FAAFDQABLkgUAAxMAAEtSBMADQU=
 
-        bloklys_indgang:
-          friendly_name: "LED Bloklys ved indgangen"
-          unique_id: 7830f943df1c4530a1c98dcea1e9dcf7
-          value_template: "{{ is_state('input_boolean.private_bloklys_indgang_state', 'on') }}"
-          turn_on:
-            service: script.bloklys_on_off
-            data:
-              remote: remote.indgang_ir
-              device: Bloklys
-              command: Turn on
-              boolean: input_boolean.private_bloklys_indgang_state
-          turn_off:
-            service: script.bloklys_on_off
-            data:
-              remote: remote.indgang_ir
-              device: Bloklys
-              command: Turn off
-              boolean: input_boolean.private_bloklys_indgang_state
+    - platform: broadlink
+      mac: "c8:f7:42:16:cb:ba"
+      switches:
+        - name: Bloklys stuen
+          command_on: JgBQAAABLZMUExQSFBIUEhQTFBIUEhQSFDYUNhQ1FDYUNRQ2FDYUNRQ2FBIUEhQTFBIUEhQSFBMUEhQ1FTUUNhQ1FDYUNhQ1FAAFDQABLkkUAA0FAAAAAAAAAAA=
+          command_off: JgBYAAABLZQTExQSExMUExQSFBIUExMTFDUUNhQ2FDUUNhQ2EzYUNhQ2FBIUEhQ2FBITExMUFBITExQ2FDUUExM2FDYUNRQ2FAAFDQABLkgUAAxMAAEtSBMADQU=
 
-        bloklys_stuen:
-          friendly_name: "LED Bloklys i stuen"
-          unique_id: c1cd94ec2ad44aeb9f52cf4a35a4dfaa
-          value_template: "{{ is_state('input_boolean.private_bloklys_stuen_state', 'on') }}"
-          turn_on:
-            service: script.bloklys_on_off
-            data:
-              remote: remote.stuen_ir
-              device: Bloklys
-              command: Turn on
-              boolean: input_boolean.private_bloklys_stuen_state
-          turn_off:
-            service: script.bloklys_on_off
-            data:
-              remote: remote.stuen_ir
-              device: Bloklys
-              command: Turn off
-              boolean: input_boolean.private_bloklys_stuen_state
-
-        bloklys_kokken:
-          friendly_name: "LED Bloklys i køkkenet"
-          unique_id: ef9eec5b0b7249828f85b4a2869a9545
-          value_template: "{{ is_state('input_boolean.private_bloklys_kokken_state', 'on') }}"
-          turn_on:
-            service: script.bloklys_on_off
-            data:
-              remote: remote.kokken_ir
-              device: Bloklys
-              command: Turn on
-              boolean: input_boolean.private_bloklys_kokken_state
-          turn_off:
-            service: script.bloklys_on_off
-            data:
-              remote: remote.kokken_ir
-              device: Bloklys
-              command: Turn off
-              boolean: input_boolean.private_bloklys_kokken_state
-
-  script:
-    bloklys_on_off:
-      alias: "Send kommando til bloklysene og opdater boolske input m.m."
-      icon: mdi:remote
-      description: "Sender en given kommando fra en given remote til et given bloklys og ændrer en given boolean"
-      fields:
-        remote:
-          description: "Fjernbetjeningen som kommandoen skal sendes fra"
-          example: "remote.hjaltes_rm_mini"
-        device:
-          description: "Enheden som kommandoen skal sendes til"
-          example: "Bloklys"
-        command:
-          description: "Kommandoen som skal sendes"
-          example: "Turn on"
-        boolean:
-          description: "Den booleske kontakt som skal ændres"
-          example: "input_boolean.private_bloklys_stuen_state"
-      mode: single
-      sequence:
-        - service: >-
-            input_boolean.turn_{{ 'on' if command == 'Turn on' else 'off' }}
-          data:
-            entity_id: "{{ boolean }}"
-
-        - service: remote.send_command
-          data:
-            entity_id: "{{ remote }}"
-            device: "{{ device }}"
-            command: "{{ command }}"
-            num_repeats: 5
+    - platform: broadlink
+      mac: "c8:f7:42:40:a6:ad"
+      switches:
+        - name: Bloklys gangen
+          command_on: JgBQAAABLZMUExQSFBIUEhQTFBIUEhQSFDYUNhQ1FDYUNRQ2FDYUNRQ2FBIUEhQTFBIUEhQSFBMUEhQ1FTUUNhQ1FDYUNhQ1FAAFDQABLkkUAA0FAAAAAAAAAAA=
+          command_off: JgBYAAABLZQTExQSExMUExQSFBIUExMTFDUUNhQ2FDUUNhQ2EzYUNhQ2FBIUEhQ2FBITExMUFBITExQ2FDUUExM2FDYUNRQ2FAAFDQABLkgUAAxMAAEtSBMADQU=
