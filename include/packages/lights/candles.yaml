@@ -15,22 +15,31 @@ candles:
 
   switch:
     - platform: broadlink
-      mac: "c8:f7:42:40:8d:03"
-      switches:
-        - name: Bloklys køkken
-          command_on: JgBQAAABLZMUExQSFBIUEhQTFBIUEhQSFDYUNhQ1FDYUNRQ2FDYUNRQ2FBIUEhQTFBIUEhQSFBMUEhQ1FTUUNhQ1FDYUNhQ1FAAFDQABLkkUAA0FAAAAAAAAAAA=
-          command_off: JgBYAAABLZQTExQSExMUExQSFBIUExMTFDUUNhQ2FDUUNhQ2EzYUNhQ2FBIUEhQ2FBITExMUFBITExQ2FDUUExM2FDYUNRQ2FAAFDQABLkgUAAxMAAEtSBMADQU=
-
-    - platform: broadlink
-      mac: "c8:f7:42:16:cb:ba"
+      mac: !secret STUEN_IR_MAC
       switches:
         - name: Bloklys stuen
           command_on: JgBQAAABLZMUExQSFBIUEhQTFBIUEhQSFDYUNhQ1FDYUNRQ2FDYUNRQ2FBIUEhQTFBIUEhQSFBMUEhQ1FTUUNhQ1FDYUNhQ1FAAFDQABLkkUAA0FAAAAAAAAAAA=
           command_off: JgBYAAABLZQTExQSExMUExQSFBIUExMTFDUUNhQ2FDUUNhQ2EzYUNhQ2FBIUEhQ2FBITExMUFBITExQ2FDUUExM2FDYUNRQ2FAAFDQABLkgUAAxMAAEtSBMADQU=
 
     - platform: broadlink
-      mac: "c8:f7:42:40:a6:ad"
+      mac: !secret KØKKEN_IR_MAC
+      switches:
+        - name: Bloklys køkken
+          command_on: JgBQAAABLZMUExQSFBIUEhQTFBIUEhQSFDYUNhQ1FDYUNRQ2FDYUNRQ2FBIUEhQTFBIUEhQSFBMUEhQ1FTUUNhQ1FDYUNhQ1FAAFDQABLkkUAA0FAAAAAAAAAAA=
+          command_off: JgBYAAABLZQTExQSExMUExQSFBIUExMTFDUUNhQ2FDUUNhQ2EzYUNhQ2FBIUEhQ2FBITExMUFBITExQ2FDUUExM2FDYUNRQ2FAAFDQABLkgUAAxMAAEtSBMADQU=
+
+    - platform: broadlink
+      mac: !secret GANGEN_IR_MAC
       switches:
         - name: Bloklys gangen
           command_on: JgBQAAABLZMUExQSFBIUEhQTFBIUEhQSFDYUNhQ1FDYUNRQ2FDYUNRQ2FBIUEhQTFBIUEhQSFBMUEhQ1FTUUNhQ1FDYUNhQ1FAAFDQABLkkUAA0FAAAAAAAAAAA=
           command_off: JgBYAAABLZQTExQSExMUExQSFBIUExMTFDUUNhQ2FDUUNhQ2EzYUNhQ2FBIUEhQ2FBITExMUFBITExQ2FDUUExM2FDYUNRQ2FAAFDQABLkgUAAxMAAEtSBMADQU=
+
+  homeassistant:
+    customize:
+      light.bloklys_kokken:
+        icon: mdi:candle
+      light.bloklys_stuen:
+        icon: mdi:candle
+      light.bloklys_indgang:
+        icon: mdi:candle

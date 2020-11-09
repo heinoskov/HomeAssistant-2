@@ -39,6 +39,7 @@
   "tele/indgang/RESULT",
   "tele/pigernes_stue/RESULT"
 ] %}
+{% set all = false %}
 {% set state_topic = "tele/tasmota/RESULT" %}
 {% set demux_topic = "home/" %}
 {% set payload = "{{ trigger.payload_json.RfReceived.Data }}" %}
@@ -130,7 +131,7 @@ windows_doors:
     open_sensors:
       name: "Vinduer og døre med åbn sensor"
       icon: mdi:window-open-variant
-      all: true
+      all: {{ all }}
       entities:
 {%- for sensor in on_sensors %}
   {%- set entity_id = entity_name (on_sensors[sensor][0]) %}
@@ -141,7 +142,7 @@ windows_doors:
     open_close_sensors:
       name: "Vinduer og døre med åbn/luk sensor"
       icon: mdi:window-closed-variant
-      all: true
+      all: {{ all }}
       entities:
 {%- for sensor in on_off_sensors %}
   {%- set entity_id = entity_name (on_off_sensors[sensor][0]) %}

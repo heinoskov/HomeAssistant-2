@@ -57,11 +57,38 @@ playtime:
             - input_boolean.emilio_legetid
           to: "off"
       action:
-        - service: homeassistant.turn_off
+        - service: light.turn_off
           data:
             entity_id: >-
               {%- if trigger.entity_id == "input_boolean.colin_legetid" %}
                 group.colins_vaerelse
               {% elif trigger.entity_id == "input_boolean.emilio_legetid" %}
                 group.emilios_vaerelse
+              {% endif -%}
+
+    - alias: "Nulstil legetid ved slukning af lys"
+      id: 6cf703a042034e1f954f9ded629bd7b6
+      description: "Hvis der slukkes for lyset inden legetid er slut, så slutter legetid"
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: state
+          entity_id:
+            - group.colins_vaerelse
+            - group.emilios_vaerelse
+          to: "off"
+      condition: >-
+        {%- if trigger.entity_id == "group.colins_vaerelse" %}
+          {{ is_state('input_boolean.colin_legetid', 'on') }}
+        {% elif trigger.entity_id == "group.emilios_vaerelse" %}
+          {{ is_state('input_boolean.emilio_legetid', 'on') }}
+        {% endif -%}
+      action:
+        - service: input_boolean.turn_off
+          data:
+            entity_id:  >-
+              {%- if trigger.entity_id == "group.colins_vaerelse" %}
+                input_boolean.colin_legetid
+              {% elif trigger.entity_id == "group.emilios_vaerelse" %}
+                input_boolean.emilio_legetid
               {% endif -%}

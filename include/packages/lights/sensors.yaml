@@ -11,6 +11,7 @@ gangen:
       entities:
         - binary_sensor.gangen_sensor_1
         - binary_sensor.gangen_sensor_2
+        - binary_sensor.gangen_sensor_3
 
   automation:
     - alias: "Stort badeværelse ON"
@@ -135,6 +136,48 @@ gangen:
           data:
             entity_id: input_boolean.private_taking_bath_small
 
+    - alias: "Tænd lys i gangen ved bevægelse"
+      id: c0584d9f00f3467684b2efc2ac09b015
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: state
+          entity_id:
+            - group.sensors_gangen
+          to: "on"
+      action:
+        - service: light.turn_on
+          data:
+            entity_id: light.gangen
+            brightness: >-
+              {%- if is_state("binary_sensor.night", "on") %}
+                {{ states("input_number.dim_low") | int }}
+              {%- else -%}
+                {{ states("input_number.dim_high") | int }}
+              {%- endif %}
+            transition: 1
+
+    - alias: "Sluk lys i gangen ved  ingen bevægelse"
+      id: 678abb2178d341f08c180e78ba5a8c0f
+      initial_state: true
+      mode: single
+      trigger:
+        - platform: state
+          entity_id:
+            - group.sensors_gangen
+          to: "off"
+          for:
+            seconds: >-
+              {%- if is_state('binary_sensor.night', 'off') %}
+                {{ states('input_number.light_timeout_day') | multiply(60) | int }}
+              {% else %}
+                {{ states('input_number.light_timeout_night') | multiply(60) | int }}
+              {% endif %}
+      action:
+        - service: light.turn_off
+          data:
+            entity_id: light.gangen
+
     - alias: "Tænd lyset ved bevægelse"
       id: 20c269830c7c4b2a81b65ef5e82dbca1
       initial_state: true
@@ -143,9 +186,7 @@ gangen:
         - platform: state
           entity_id:
             - binary_sensor.sandbox_sensor
-            - group.sensors_gangen
             - binary_sensor.camera_indgang
-          from: "off"
           to: "on"
       action:
         - service: script.turn_on
