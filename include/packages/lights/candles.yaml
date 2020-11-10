@@ -1,5 +1,20 @@
 candles:
 
+  homeassistant:
+    customize:
+      light.bloklys_kokken:
+        icon: mdi:candle
+      light.bloklys_stuen:
+        icon: mdi:candle
+      light.bloklys_indgang:
+        icon: mdi:candle
+
+      # Anchor nodes
+      package.node_anchors:
+        on_off_keys: &on_off_keys
+          command_on: JgBQAAABLZMUExQSFBIUEhQTFBIUEhQSFDYUNhQ1FDYUNRQ2FDYUNRQ2FBIUEhQTFBIUEhQSFBMUEhQ1FTUUNhQ1FDYUNhQ1FAAFDQABLkkUAA0FAAAAAAAAAAA=
+          command_off: JgBYAAABLZQTExQSExMUExQSFBIUExMTFDUUNhQ2FDUUNhQ2EzYUNhQ2FBIUEhQ2FBITExMUFBITExQ2FDUUExM2FDYUNRQ2FAAFDQABLkgUAAxMAAEtSBMADQU=
+
   light:
     - platform: switch
       name: Bloklys stuen
@@ -18,28 +33,16 @@ candles:
       mac: !secret STUEN_IR_MAC
       switches:
         - name: Bloklys stuen
-          command_on: JgBQAAABLZMUExQSFBIUEhQTFBIUEhQSFDYUNhQ1FDYUNRQ2FDYUNRQ2FBIUEhQTFBIUEhQSFBMUEhQ1FTUUNhQ1FDYUNhQ1FAAFDQABLkkUAA0FAAAAAAAAAAA=
-          command_off: JgBYAAABLZQTExQSExMUExQSFBIUExMTFDUUNhQ2FDUUNhQ2EzYUNhQ2FBIUEhQ2FBITExMUFBITExQ2FDUUExM2FDYUNRQ2FAAFDQABLkgUAAxMAAEtSBMADQU=
+          <<: *on_off_keys
 
     - platform: broadlink
       mac: !secret KØKKEN_IR_MAC
       switches:
         - name: Bloklys køkken
-          command_on: JgBQAAABLZMUExQSFBIUEhQTFBIUEhQSFDYUNhQ1FDYUNRQ2FDYUNRQ2FBIUEhQTFBIUEhQSFBMUEhQ1FTUUNhQ1FDYUNhQ1FAAFDQABLkkUAA0FAAAAAAAAAAA=
-          command_off: JgBYAAABLZQTExQSExMUExQSFBIUExMTFDUUNhQ2FDUUNhQ2EzYUNhQ2FBIUEhQ2FBITExMUFBITExQ2FDUUExM2FDYUNRQ2FAAFDQABLkgUAAxMAAEtSBMADQU=
+          <<: *on_off_keys
 
     - platform: broadlink
       mac: !secret GANGEN_IR_MAC
       switches:
         - name: Bloklys gangen
-          command_on: JgBQAAABLZMUExQSFBIUEhQTFBIUEhQSFDYUNhQ1FDYUNRQ2FDYUNRQ2FBIUEhQTFBIUEhQSFBMUEhQ1FTUUNhQ1FDYUNhQ1FAAFDQABLkkUAA0FAAAAAAAAAAA=
-          command_off: JgBYAAABLZQTExQSExMUExQSFBIUExMTFDUUNhQ2FDUUNhQ2EzYUNhQ2FBIUEhQ2FBITExMUFBITExQ2FDUUExM2FDYUNRQ2FAAFDQABLkgUAAxMAAEtSBMADQU=
-
-  homeassistant:
-    customize:
-      light.bloklys_kokken:
-        icon: mdi:candle
-      light.bloklys_stuen:
-        icon: mdi:candle
-      light.bloklys_indgang:
-        icon: mdi:candle
+          <<: *on_off_keys
