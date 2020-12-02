@@ -1,4 +1,7 @@
 sensors = {
+  "BE8612": ["alarm/command", "DISARM", "true"],
+  "BE8614": ["alarm/command", "ARM_HOME", "true"],
+  "BE8611": ["alarm/command", "ARM_AWAY", "true"],
   "3C003A": ["Havelåge", "ON", "false"],
   "C0E3DA": ["Hoveddør", "ON", "false"],
   "B0C30A": ["Indgang vindue haven", "ON", "true"],
@@ -56,10 +59,7 @@ sensors = {
   "E5B50A": ["Soveværelsesdør", "ON", "true"],
   "E5B50E": ["Soveværelsesdør", "OFF", "true"],
   "B1C40A": ["Soveværelse vindue", "ON", "true"],
-  "B1C40E": ["Soveværelse vindue", "OFF", "true"],
-  "BE8612": ["alarm/command", "DISARM", "true"],
-  "BE8614": ["alarm/command", "ARM_HOME", "true"],
-  "BE8611": ["alarm/command", "ARM_AWAY", "true"]
+  "B1C40E": ["Soveværelse vindue", "OFF", "true"]
 }
 payload = data.get("payload")
 
