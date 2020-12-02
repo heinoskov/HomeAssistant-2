@@ -45,7 +45,7 @@ mailbox:
           data:
             entity_id: input_boolean.private_mailbox
 
-        - service: notify.mobile_app_motorola_one_action
+        - service: notify.mobile_app_jacobs_moto
           data:
             title: "Postkasse"
             message: "Der er kommet post."

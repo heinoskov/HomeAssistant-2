@@ -24,6 +24,7 @@ garbage:
           - wed
         move_country_holidays: DK
         expire_after: "12:00"
+        hidden: true
 
       # Garbage extra summer pickup
       - name: Affald sommer
@@ -34,6 +35,7 @@ garbage:
           - wed
         move_country_holidays: DK
         expire_after: "12:00"
+        hidden: true
 
       # Garbage group
       - name: Affald

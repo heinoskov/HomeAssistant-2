@@ -93,13 +93,18 @@ lovelace_gen:
 panel_iframe:
   guid_generator:
     title: GUID Generator
-    url: https://www.guidgenerator.com/online-guid-generator.aspx
     icon: mdi:barcode
+    url: https://www.guidgenerator.com/online-guid-generator.aspx
 
   tasmoadmin:
     title: TasmoAdmin
     icon: mdi:radio-tower
     url: !secret TASMO_ADMIN_URL
+
+  service_ha:
+    title: Service HA
+    icon: mdi:home-assistant
+    url: !secret SERVICE_HA_URL
 
 python_script:
 

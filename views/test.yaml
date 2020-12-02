@@ -20,6 +20,81 @@ cards:
     column_num: 3
     column_width: 33%
     cards:
+
+      - type: custom:weather-card-chart
+        title: Brobyværk
+        weather: weather.brobyvaerk
+
+      - type: horizontal-stack
+        cards:
+          - type: grid
+            title: Lys
+            cards:
+            - type: button
+              entity: light.sofalamper
+            - type: button
+              entity: light.stuelamper
+            - type: button
+              entity: light.lille_sofa
+
+      - type: custom:auto-entities
+        card:
+          type: grid
+          columns: 4
+        card_param: cards
+        filter:
+          include:
+            - group: group.faelles
+              options:
+                type: button
+
+      - type: custom:stack-in-card
+        mode: horizontal
+        cards:
+          - type: conditional
+            conditions:
+              - entity: sensor.affald
+                state: "1"
+            card:
+              type: button
+              entity: sensor.affald_hentes
+              show_state: true
+              show_icon: true
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+          - type: conditional
+            conditions:
+              - entity: sensor.genbrug
+                state: "1"
+            card:
+              type: button
+              entity: sensor.genbrug_hentes
+              show_state: true
+              show_icon: true
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.mail
+            state: "on"
+        card:
+          type: button
+          entity: binary_sensor.mail
+          show_state: false
+          show_icon: true
+          show_name: false
+          tap_action:
+            action: none
+          hold_action:
+            action: call-service
+            service: script.reset_mailbox
+
+
       - type: custom:stack-in-card
         title: System
         cards:

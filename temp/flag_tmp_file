@@ -128,7 +128,7 @@ img.emoji {
 <link rel='stylesheet' id='avia-popup-css-css'  href='https://designflag.dk/wp-content/themes/enfold/js/aviapopup/magnific-popup.css?ver=4.6' type='text/css' media='screen' />
 <link rel='stylesheet' id='avia-lightbox-css'  href='https://designflag.dk/wp-content/themes/enfold/css/avia-snippet-lightbox.css?ver=4.6' type='text/css' media='screen' />
 <link rel='stylesheet' id='avia-widget-css-css'  href='https://designflag.dk/wp-content/themes/enfold/css/avia-snippet-widget.css?ver=4.6' type='text/css' media='screen' />
-<link rel='stylesheet' id='avia-dynamic-css'  href='https://designflag.dk/wp-content/uploads/dynamic_avia/enfold.css?ver=5fa3c74f53a1a' type='text/css' media='all' />
+<link rel='stylesheet' id='avia-dynamic-css'  href='https://designflag.dk/wp-content/uploads/dynamic_avia/enfold.css?ver=5fad2c79a8371' type='text/css' media='all' />
 <link rel='stylesheet' id='avia-custom-css'  href='https://designflag.dk/wp-content/themes/enfold/css/custom.css?ver=4.6' type='text/css' media='all' />
 <link rel='stylesheet' id='js_composer_front-css'  href='https://designflag.dk/wp-content/plugins/js_composer/assets/css/js_composer.min.css?ver=5.4.7' type='text/css' media='all' />
 <link rel='stylesheet' id='js_composer_custom_css-css'  href='//designflag.dk/wp-content/uploads/js_composer/custom.css?ver=5.4.7' type='text/css' media='all' />
@@ -145,7 +145,7 @@ var LS_Meta = {"v":"6.0.5"};
 <script type='text/javascript' src='https://designflag.dk/wp-content/plugins/responsive-lightbox/assets/infinitescroll/infinite-scroll.pkgd.min.js?ver=5.5.3' id='responsive-lightbox-infinite-scroll-js'></script>
 <script type='text/javascript' id='responsive-lightbox-js-extra'>
 /* <![CDATA[ */
-var rlArgs = {"script":"swipebox","selector":"lightbox","customEvents":"","activeGalleries":"1","animation":"1","hideCloseButtonOnMobile":"0","removeBarsOnMobile":"0","hideBars":"1","hideBarsDelay":"5000","videoMaxWidth":"1080","useSVG":"1","loopAtEnd":"0","woocommerce_gallery":"1","ajaxurl":"https:\/\/designflag.dk\/wp-admin\/admin-ajax.php","nonce":"5cdebd2384"};
+var rlArgs = {"script":"swipebox","selector":"lightbox","customEvents":"","activeGalleries":"1","animation":"1","hideCloseButtonOnMobile":"0","removeBarsOnMobile":"0","hideBars":"1","hideBarsDelay":"5000","videoMaxWidth":"1080","useSVG":"1","loopAtEnd":"0","woocommerce_gallery":"1","ajaxurl":"https:\/\/designflag.dk\/wp-admin\/admin-ajax.php","nonce":"a3f9c5345b"};
 /* ]]> */
 </script>
 <script type='text/javascript' src='https://designflag.dk/wp-content/plugins/responsive-lightbox/js/front.js?ver=2.2.3' id='responsive-lightbox-js'></script>
@@ -224,7 +224,7 @@ Installed: enfold
 AviaFramework Version: 5.0
 AviaBuilder Version: 0.9.5
 aviaElementManager Version: 1.0.1
-ML:256-PU:30-PLA:26
+ML:256-PU:26-PLA:26
 WP:5.5.3
 Compress: CSS:disabled - JS:disabled
 Updates: disabled
@@ -247,7 +247,7 @@ PLAu:23
 		<div id='header_meta' class='container_wrap container_wrap_meta  av_icon_active_main av_phone_active_right av_extra_header_active av_entry_id_56'>
 		
 			      <div class='container'>
-			      <div class='phone-info '><span>Ring til os på 70 44 41 39 | Fri fragt over 600 KR.</span></div>			      </div>
+			      <div class='phone-info '><span>Ring til os på 33 31 90 00</span></div>			      </div>
 		</div>
 
 		<div  id='header_main' class='container_wrap container_wrap_logo'>
@@ -504,20 +504,14 @@ PLAu:23
 
 					<div class='container'>
 
-						<div class='flex_column av_one_third  first el_before_av_one_third'><section id="custom_html-2" class="widget_text widget clearfix widget_custom_html"><h3 class="widgettitle">Om Os</h3><div class="textwidget custom-html-widget"><img alt="" src="https://designflag.dk/wp-content/uploads/2017/09/farve.png"><br> 
+						<div class='flex_column   first el_before_'><section id="custom_html-2" class="widget_text widget clearfix widget_custom_html"><h3 class="widgettitle">Om Os</h3><div class="textwidget custom-html-widget"><img alt="" src="https://designflag.dk/wp-content/uploads/2017/09/farve.png"><br> 
 Vi tilbyder produkter  i overensstemmelse med vores grundfilosofi: “det skal være god kvalitet”.
 <br>
 <br>
 info@designflag.dk<br>
 Axel Jarls Vej 43<br>
 3400 Hillerød<br><br>
-Tlf. 70 40 47 90</div><span class="seperator extralight-border"></span></section></div><div class='flex_column av_one_third  el_after_av_one_third  el_before_av_one_third '><section id="avia_mailchimp_widget-2" class="widget clearfix avia_mailchimp_widget"><h3 class="widgettitle">JA TAK!</h3><div class='av-mailchimp-widget av-mailchimp-widget-style- '><form action="https://designflag.dk/om-flag/flagdage/" method="post"  data-av-custom-send='mailchimp_send' class="avia_ajax_form av-form-labels-hidden    avia-mailchimp-form " data-avia-form-id="1" data-avia-redirect='' ><fieldset><p class=' first_form  form_element form_fullwidth' id='element_avia_0_1'><label for="avia_0_1">Emailadresse <abbr class="required" title="required">*</abbr></label> <input name="avia_0_1" class="text_input is_email" type="text" id="avia_0_1" value=""  placeholder='Emailadresse*'/></p><p class=' first_form  form_element form_fullwidth' id='element_avia_1_1'><label for="avia_1_1">Fornavn</label> <input name="avia_1_1" class="text_input " type="text" id="avia_1_1" value=""  placeholder='Fornavn'/></p><p class=' first_form  form_element form_fullwidth av-last-visible-form-element' id='element_avia_2_1'><label for="avia_2_1">Efternavn</label> <input name="avia_2_1" class="text_input " type="text" id="avia_2_1" value=""  placeholder='Efternavn'/></p><p class="hidden"><input type="text" name="avia_avia_username_1" class="hidden " id="avia_avia_username_1" value="" /></p><p class="form_element "><input type="hidden" value="1" name="avia_generated_form1" /><input type="submit" value="Tilmeld" class="button"  data-sending-label="Sending"/></p></fieldset><div class="avia-disabled-forn">This contact form is deactivated because you refused to accept Google reCaptcha service which is necessary to validate any messages sent by the form.</div></form><div id="ajaxresponse_1" class="ajaxresponse ajaxresponse_1 hidden"></div></div><span class="seperator extralight-border"></span></section></div><div class='flex_column av_one_third  el_after_av_one_third  el_before_av_one_third '><section id="nav_menu-3" class="widget clearfix widget_nav_menu"><h3 class="widgettitle">Kundeservice</h3><div class="menu-faq-container"><ul id="menu-faq" class="menu"><li id="menu-item-836" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-836"><a href="https://designflag.dk/handelsbetingelser/">Handelsbetingelser</a></li>
-<li id="menu-item-140" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-140"><a href="https://designflag.dk/persondata/">Persondata</a></li>
-<li id="menu-item-143" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-143"><a href="https://designflag.dk/kontakt/">Kontakt</a></li>
-</ul></div><span class="seperator extralight-border"></span></section><section id="text-2" class="widget clearfix widget_text">			<div class="textwidget"><img src="https://designflag.dk/wp-content/uploads/2016/12/Visa.png" style="width:40px"> <img src="https://designflag.dk/wp-content/uploads/2016/12/PayPal.png" style="width:40px"> <img src="https://designflag.dk/wp-content/uploads/2016/12/Master-Card.png" style="width:40px">  <img src="https://designflag.dk/wp-content/uploads/2016/12/JCB.png" style="width:40px">  <img src="https://designflag.dk/wp-content/uploads/2016/12/Maestro.png" style="width:40px">  <img src="https://designflag.dk/wp-content/uploads/2017/09/dankort.jpg" style="width:40px">
-
-</div>
-		<span class="seperator extralight-border"></span></section></div>
+Tlf. 33 31 90 00</div><span class="seperator extralight-border"></span></section></div>
 
 					</div>
 
@@ -613,7 +607,7 @@ var mailchimp_public_data = {"site_url":"https:\/\/designflag.dk","ajax_url":"ht
 <script type='text/javascript' src='https://designflag.dk/wp-content/themes/enfold/framework/js/conditional_load/avia_google_maps_front.js?ver=4.6' id='avia_google_maps_front_script-js'></script>
 <script type='text/javascript' id='avia_google_recaptcha_front_script-js-extra'>
 /* <![CDATA[ */
-var AviaReCAPTCHA_front = {"version":"avia_recaptcha_v3","site_key2":"6LcsFsUUAAAAALH5_sd6XcBxx9MjpDHplznI_5se","site_key3":"6Lc3FsUUAAAAAEA-VT7XRiJX91ItwY88bmlxHkND","api":"https:\/\/www.google.com\/recaptcha\/api.js","avia_api_script":"https:\/\/designflag.dk\/wp-content\/themes\/enfold\/framework\/js\/conditional_load\/avia_google_recaptcha_api.js","theme":"light","score":"0.5","verify_nonce":"b04fd307c7","cannot_use":"<h3 class=\"av-recaptcha-error-main\">Sorry, a problem occured trying to communicate with Google reCAPTCHA API. You are currently not able to submit the contact form. Please try again later - reload the page and also check your internet connection.<\/h3>","init_error_msg":"Initial setting failed. Sitekey 2 and\/or sitekey 3 missing in frontend.","v3_timeout_pageload":"Timeout occured connecting to V3 API on initial pageload","v3_timeout_verify":"Timeout occured connecting to V3 API on verifying submit","v2_timeout_verify":"Timeout occured connecting to V2 API on verifying you as human. Please try again and check your internet connection. It might be necessary to reload the page.","verify_msg":"Verify....","connection_error":"Could not connect to the internet. Please reload the page and try again.","validate_first":"Please validate that you are a human first","validate_submit":"Before submitting we validate that you are a human first.","no_token":"Missing internal token on valid submit - unable to proceed.","invalid_version":"Invalid reCAPTCHA version found.","api_load_error":"Google reCAPTCHA API could not be loaded."};
+var AviaReCAPTCHA_front = {"version":"avia_recaptcha_v3","site_key2":"6LcsFsUUAAAAALH5_sd6XcBxx9MjpDHplznI_5se","site_key3":"6Lc3FsUUAAAAAEA-VT7XRiJX91ItwY88bmlxHkND","api":"https:\/\/www.google.com\/recaptcha\/api.js","avia_api_script":"https:\/\/designflag.dk\/wp-content\/themes\/enfold\/framework\/js\/conditional_load\/avia_google_recaptcha_api.js","theme":"light","score":"0.5","verify_nonce":"cbc83a889e","cannot_use":"<h3 class=\"av-recaptcha-error-main\">Sorry, a problem occured trying to communicate with Google reCAPTCHA API. You are currently not able to submit the contact form. Please try again later - reload the page and also check your internet connection.<\/h3>","init_error_msg":"Initial setting failed. Sitekey 2 and\/or sitekey 3 missing in frontend.","v3_timeout_pageload":"Timeout occured connecting to V3 API on initial pageload","v3_timeout_verify":"Timeout occured connecting to V3 API on verifying submit","v2_timeout_verify":"Timeout occured connecting to V2 API on verifying you as human. Please try again and check your internet connection. It might be necessary to reload the page.","verify_msg":"Verify....","connection_error":"Could not connect to the internet. Please reload the page and try again.","validate_first":"Please validate that you are a human first","validate_submit":"Before submitting we validate that you are a human first.","no_token":"Missing internal token on valid submit - unable to proceed.","invalid_version":"Invalid reCAPTCHA version found.","api_load_error":"Google reCAPTCHA API could not be loaded."};
 /* ]]> */
 </script>
 <script type='text/javascript' src='https://designflag.dk/wp-content/themes/enfold/framework/js/conditional_load/avia_google_recaptcha_front.js?ver=4.6' id='avia_google_recaptcha_front_script-js'></script>
@@ -650,4 +644,4 @@ tvc_smd={"tvc_wcv":"3.9.2","tvc_wpv":"5.5.3","tvc_eev":"2.3.2","tvc_cnf":{"t_ee"
 </body>
 </html>
 
-<!-- Page generated by LiteSpeed Cache 3.2.3.1 on 2020-11-07 15:44:20 -->
+<!-- Page generated by LiteSpeed Cache 3.2.3.1 on 2020-12-01 17:43:57 -->

@@ -20,6 +20,7 @@ room_groups_lights:
         - Pigernes stue
         - Cornelies værelse
         - Nathalies værelse
+        - Bloklys
 
   light:
     - platform: switch
@@ -65,6 +66,7 @@ room_groups_lights:
         - group.pigernes_stue
         - group.cornelies_vaerelse
         - group.nathalies_vaerelse
+        - group.bloklys
 
     koekken:
       name: Køkken
@@ -174,3 +176,11 @@ room_groups_lights:
       icon: mdi:wall-sconce-round
       entities:
         - light.husnummer
+
+    bloklys:
+      name: Bloklys
+      icon: mdi:candle
+      entities:
+        - light.bloklys_gangen
+        - light.bloklys_kokken
+        - light.bloklys_stuen

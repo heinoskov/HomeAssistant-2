@@ -1,4 +1,12 @@
 uv_index:
+
+  binary_sensor:
+    - platform: template
+      sensors:
+        show_uv_graph:
+          friendly_name: "UV max over grænseværdi"
+          value_template: "{{ states('sensor.max_uv_index') | float > states('sensor.uv_sun') | float }}"
+
   sensor:
     - platform: template
       sensors:

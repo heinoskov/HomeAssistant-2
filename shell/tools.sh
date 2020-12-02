@@ -10,11 +10,6 @@ function file_exists_web() {
   fi
 }
 
-# DUCKDNS
-duckdns_update() {
-  curl "https://www.duckdns.org/update?domains=$DUCKDNS_DOMAINS&token=$DUCKDNS_TOKEN&ip="
-}
-
 # SCREEN FUNCTIONS
 screen_toggle() {
   ssh $TOUCHPANEL_SSH xset -display :0.0 dpms force $1
