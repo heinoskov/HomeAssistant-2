@@ -6,7 +6,7 @@
 #    /_/  /_/\___\_\/_/   /_/     /____/\___/_/ /_/____/\____/_/  /____/       #
 #                                                             by J-Lindvig     #
 ################################################################################
-# Created: 1/12/2020                                                           #
+# Created: 29/12/2020                                                          #
 ################################################################################
 windows_doors:
   group:
@@ -17,6 +17,12 @@ windows_doors:
       entities:
         - binary_sensor.havelage
         - binary_sensor.hoveddor
+        - binary_sensor.pengekasse
+        - binary_sensor.alarmpanel
+        - binary_sensor.remote_knap_a
+        - binary_sensor.remote_knap_b
+        - binary_sensor.remote_knap_c
+        - binary_sensor.remote_knap_d
 
     open_close_sensors:
       name: "Vinduer og døre med åbn/luk sensor"
@@ -83,43 +89,85 @@ windows_doors:
       off_delay: 15
 
     - platform: mqtt
-      name: "PRIVATE Indgang vindue haven"
+      name: "Pengekasse"
+      unique_id: d5182926870e47f69083b8eadf03df24
+      device_class: opening
+      state_topic: "home/Pengekasse"
+      off_delay: 15
+
+    - platform: mqtt
+      name: "Alarmpanel"
+      unique_id: b88c46f5344446b8ab8a8e944a1edee0
+      device_class: vibration
+      state_topic: "home/Alarmpanel"
+      off_delay: 30
+
+    - platform: mqtt
+      name: "Remote knap A"
+      unique_id: 074ff90c9ede43f9a64d2dfed107e10d
+      device_class: problem
+      state_topic: "home/Remote knap A"
+      off_delay: 15
+
+    - platform: mqtt
+      name: "Remote knap B"
+      unique_id: 3b061c7b9eb24898986b6ee209707354
+      device_class: problem
+      state_topic: "home/Remote knap B"
+      off_delay: 15
+
+    - platform: mqtt
+      name: "Remote knap C"
+      unique_id: a10820db6f7940ffb3b333c3488220d8
+      device_class: problem
+      state_topic: "home/Remote knap C"
+      off_delay: 15
+
+    - platform: mqtt
+      name: "Remote knap D"
+      unique_id: 080d674eabe5425a98ca8d6d7b820ce3
+      device_class: problem
+      state_topic: "home/Remote knap D"
+      off_delay: 15
+
+    - platform: mqtt
+      name: "Indgang vindue haven"
       unique_id: private_81f4a158a0444ea08b1fc8c1735bf28c
       device_class: window
       state_topic: "home/Indgang vindue haven"
 
     - platform: mqtt
-      name: "PRIVATE Indgang vindue vejen"
+      name: "Indgang vindue vejen"
       unique_id: private_a511afebaf48413f8ed5b126554dfd63
       device_class: window
       state_topic: "home/Indgang vindue vejen"
 
     - platform: mqtt
-      name: "PRIVATE Hjaltes vindue haven"
+      name: "Hjaltes vindue haven"
       unique_id: private_5e1f399a5d574e06a2b811b03d9127ed
       device_class: window
       state_topic: "home/Hjaltes vindue haven"
 
     - platform: mqtt
-      name: "PRIVATE Hjaltes vindue vejen"
+      name: "Hjaltes vindue vejen"
       unique_id: private_d127a2f135d4407289a40eddb6c88dd8
       device_class: window
       state_topic: "home/Hjaltes vindue vejen"
 
     - platform: mqtt
-      name: "PRIVATE Williams vindue"
+      name: "Williams vindue"
       unique_id: private_45c5aa1914c641f9903ea399343399f6
       device_class: window
       state_topic: "home/Williams vindue"
 
     - platform: mqtt
-      name: "PRIVATE Lille badeværelse vindue 2"
+      name: "Lille badeværelse vindue 2"
       unique_id: private_3d0e098c5daa4cd2ae195493f2fba33c
       device_class: window
       state_topic: "home/Lille badeværelse vindue 2"
 
     - platform: mqtt
-      name: "PRIVATE Stort badeværelse vindue 3"
+      name: "Stort badeværelse vindue 3"
       unique_id: private_e499fb9750a342b3a3139115b9c4fbbd
       device_class: window
       state_topic: "home/Stort badeværelse vindue 3"
@@ -131,31 +179,31 @@ windows_doors:
       state_topic: "home/Pigernes indgang"
 
     - platform: mqtt
-      name: "PRIVATE Cornelies vindue"
+      name: "Cornelies vindue"
       unique_id: private_2a3dec1038084981b6f786b54a28c17b
       device_class: window
       state_topic: "home/Cornelies vindue"
 
     - platform: mqtt
-      name: "PRIVATE Nathalies vindue"
+      name: "Nathalies vindue"
       unique_id: private_3ff715ed48204fce967b67fdc70fa692
       device_class: window
       state_topic: "home/Nathalies vindue"
 
     - platform: mqtt
-      name: "PRIVATE Pigernes stue vindue"
+      name: "Pigernes stue vindue"
       unique_id: private_7e3185c4aef2445a981583b736273364
       device_class: window
       state_topic: "home/Pigernes stue vindue"
 
     - platform: mqtt
-      name: "PRIVATE Colins vindue"
+      name: "Colins vindue"
       unique_id: private_37919a9252ed43e58ef2a899f2eb5487
       device_class: window
       state_topic: "home/Colins vindue"
 
     - platform: mqtt
-      name: "PRIVATE Emilios vindue"
+      name: "Emilios vindue"
       unique_id: private_f3e98ef3db904c0db1fd6ae165e4c251
       device_class: window
       state_topic: "home/Emilios vindue"
@@ -167,13 +215,13 @@ windows_doors:
       state_topic: "home/Dobbelt terrassedør"
 
     - platform: mqtt
-      name: "PRIVATE Stuevindue 1"
+      name: "Stuevindue 1"
       unique_id: private_41e1209797804d348118bf6b3c9e78fa
       device_class: window
       state_topic: "home/Stuevindue 1"
 
     - platform: mqtt
-      name: "PRIVATE Stuevindue 2"
+      name: "Stuevindue 2"
       unique_id: private_f12a36fa8df54d78b758c4dfe801427d
       device_class: window
       state_topic: "home/Stuevindue 2"
@@ -185,13 +233,13 @@ windows_doors:
       state_topic: "home/Stuedør"
 
     - platform: mqtt
-      name: "PRIVATE Stuevindue 3"
+      name: "Stuevindue 3"
       unique_id: private_b2fe2c7835554987864244d5484200e9
       device_class: window
       state_topic: "home/Stuevindue 3"
 
     - platform: mqtt
-      name: "PRIVATE Køkkenvindue 1"
+      name: "Køkkenvindue 1"
       unique_id: private_0e8df701761a4684bb5ddbc2b6a89d3b
       device_class: window
       state_topic: "home/Køkkenvindue 1"
@@ -203,37 +251,37 @@ windows_doors:
       state_topic: "home/Køkkendør"
 
     - platform: mqtt
-      name: "PRIVATE Køkkenvindue 2"
+      name: "Køkkenvindue 2"
       unique_id: private_b8d129e81eca41e98f1aface82724b99
       device_class: window
       state_topic: "home/Køkkenvindue 2"
 
     - platform: mqtt
-      name: "PRIVATE Køkkenvindue 3"
+      name: "Køkkenvindue 3"
       unique_id: private_1c78292266c54a05a0a1a2f5076cbfe3
       device_class: window
       state_topic: "home/Køkkenvindue 3"
 
     - platform: mqtt
-      name: "PRIVATE Køkkenvindue 4"
+      name: "Køkkenvindue 4"
       unique_id: private_15d663cd3e414c2990b7f6ffa92787bd
       device_class: window
       state_topic: "home/Køkkenvindue 4"
 
     - platform: mqtt
-      name: "PRIVATE Køkkenvindue 5"
+      name: "Køkkenvindue 5"
       unique_id: private_cbeddfe8610b48c0beb8948ae8857df6
       device_class: window
       state_topic: "home/Køkkenvindue 5"
 
     - platform: mqtt
-      name: "PRIVATE Kontor"
+      name: "Kontor"
       unique_id: private_a87374accbf64e1cb4a59e6d41f12917
       device_class: window
       state_topic: "home/Kontor"
 
     - platform: mqtt
-      name: "PRIVATE Studieværelse vindue"
+      name: "Studieværelse vindue"
       unique_id: private_32f41eb9bb7744f1a6666f624152b12a
       device_class: window
       state_topic: "home/Studieværelse vindue"
@@ -245,7 +293,7 @@ windows_doors:
       state_topic: "home/Soveværelsesdør"
 
     - platform: mqtt
-      name: "PRIVATE Soveværelse vindue"
+      name: "Soveværelse vindue"
       unique_id: private_48d246efd72c4485afca819baa59051b
       device_class: window
       state_topic: "home/Soveværelse vindue"

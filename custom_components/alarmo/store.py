@@ -24,6 +24,10 @@ from .const import (
     DOMAIN,
 )
 
+from .sensors import (
+    SENSOR_TYPE_OTHER,
+)
+
 _LOGGER = logging.getLogger(__name__)
 
 DATA_REGISTRY = f"{DOMAIN}_storage"
@@ -81,6 +85,7 @@ class SensorEntry:
 
     entity_id = attr.ib(type=str, default=None)
     name = attr.ib(type=str, default="")
+    type = attr.ib(type=str, default=SENSOR_TYPE_OTHER)
     modes = attr.ib(type=list, default=[])
     immediate = attr.ib(type=bool, default=False)
     always_on = attr.ib(type=bool, default=False)
@@ -154,6 +159,11 @@ class AlarmoStorage:
 
         if data is not None:
             config = Config(**data["config"])
+            modes = {}
+            for mode, mode_config in data["config"]["modes"].items():
+                modes[mode] = ModeEntry(**mode_config)
+
+            config = attr.evolve(config, **{"modes": modes})
             config = attr.evolve(config, **{"mqtt": MqttConfig(**data["config"]["mqtt"])})
 
             if "sensors" in data:
@@ -221,7 +231,7 @@ class AlarmoStorage:
 
         modes = self.config.modes
         old = (
-            ModeEntry(self.config.modes[mode])
+            self.config.modes[mode]
             if mode in self.config.modes
             else ModeEntry()
         )

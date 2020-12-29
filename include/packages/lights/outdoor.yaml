@@ -72,7 +72,7 @@ outdoor:
               - light.havegangen
               - light.husnummer
               - light.indgang
-            brightness: '255'
+            brightness: 255
 
         - service: timer.start
           data:

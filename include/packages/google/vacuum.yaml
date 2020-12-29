@@ -54,12 +54,12 @@ vacuum_commands:
           data:
             roomname: "Køkken"
 
-    vacuum_william:
-      alias: "Støvsug Williams værelse"
+    vacuum_studie:
+      alias: "Støvsug studie værelse"
       sequence:
         - service: script.vacuum_room_google
           data:
-            roomname: "Williams værelse"
+            roomname: "Studie værelse"
 
     vacuum_bedroom:
       alias: "Støvsug Soveværelse"
@@ -103,12 +103,12 @@ vacuum_commands:
           data:
             roomname: "Stort badeværelse"
 
-    vacuum_colin:
-      alias: "Støvsug Colins værelse"
+    vacuum_william:
+      alias: "Støvsug Willliams værelse"
       sequence:
         - service: script.vacuum_room_google
           data:
-            roomname: "Colins værelse"
+            roomname: "Willliams værelse"
 
     vacuum_emilio:
       alias: "Støvsug Emilios værelse"
@@ -116,6 +116,13 @@ vacuum_commands:
         - service: script.vacuum_room_google
           data:
             roomname: "Emilios værelse"
+
+    vacuum_colin:
+      alias: "Støvsug Colins værelse"
+      sequence:
+        - service: script.vacuum_room_google
+          data:
+            roomname: "Colins værelse"
 
     vacuum_room_google:
       alias: "Private start støvsugningen fra Google"

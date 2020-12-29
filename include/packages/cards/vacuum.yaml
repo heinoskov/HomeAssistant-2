@@ -55,12 +55,12 @@ vacuum:
   var:
     # String with room numbers sychronized with the list of roomnames
     vacuum_room_ids:
-      initial_value: "22,20,24,26,23,19,18,16,21,17"
+      initial_value: "16,20,21,18,17,23,27,19,22,26,24"
       restore: false
 
     # String with room sizes sychronized with the list of roomnames
     vacuum_room_size:
-      initial_value: "33,13,14,37,28,26,6,8,9,9"
+      initial_value: "33,13,14,37,28,26,6,8,9,9,9"
       restore: true
 
     # ID of the room being cleaned - MUST be 'null' if idle
@@ -79,15 +79,16 @@ vacuum:
       icon: mdi:floor-plan
       options:
         - Køkken
-        - Williams værelse
+        - Studie værelse
         - Soveværelse
         - Stuen
         - Indgang
         - Gangen
         - Lille badeværelse
         - Stort badeværelse
+        - Willliams værelse
+        - Emilios værelse
         - Colins værelse
-        - Emilios værelse      
 
     vacuum_power:
       name: "Vælg sugestyrke"
@@ -286,7 +287,7 @@ vacuum:
           data:
             entity_id: vacuum.lynet_mcclean
             command: app_goto_target
-            params: [20000,30500]
+            params: [19000,28900]
         - wait_template: "{{ is_state('vacuum.lynet_mcclean', 'idle') }}"
 
         - service: script.say_something

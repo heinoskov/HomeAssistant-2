@@ -95,7 +95,7 @@ flagdays_dk:
             entity_id: input_boolean.private_half_mast
 
         # Send a actionable notification to my phone
-        - service: notify.mobile_app_motorola_one_action
+        - service: notify.mobile_app_jacobs_moto
           data:
             title: "Besked fra din flagstang"
             message: >
@@ -127,7 +127,7 @@ flagdays_dk:
           data:
             entity_id: input_boolean.private_half_mast
 
-        - service: notify.mobile_app_motorola_one_action
+        - service: notify.mobile_app_jacobs_moto
           data:
             title: "Besked fra din flagstang"
             message: >
@@ -146,8 +146,7 @@ flagdays_dk:
           event: sunset
           offset: "-00:10:00"
       action:
-
-        - service: notify.mobile_app_motorola_one_action
+        - service: notify.mobile_app_jacobs_moto
           data:
             title: "Besked fra din flagstang"
             message: >

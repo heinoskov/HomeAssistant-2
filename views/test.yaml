@@ -21,6 +21,13 @@ cards:
     column_width: 33%
     cards:
 
+      - type: alarm-panel
+        states:
+          - arm_home
+          - arm_away
+        entity: alarm_control_panel.alarmo
+        name: Alarmen
+
       - type: custom:weather-card-chart
         title: Brobyværk
         weather: weather.brobyvaerk

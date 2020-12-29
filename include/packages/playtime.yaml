@@ -29,21 +29,26 @@ playtime:
       trigger:
         - platform: state
           entity_id:
-            - group.colins_vaerelse
-            - group.emilios_vaerelse
+            - light.colins_loftlampe
+            - light.emilios_loftlampe
           to: "on"
           for:
             minutes: "{{ states('input_number.timeout_forgotten_light') | int }}"
       condition: >-
-        {%- if trigger.entity_id == "group.colins_vaerelse" %}
+        {%- if trigger.entity_id == "light.colins_loftlampe" %}
           {{ is_state('input_boolean.colin_legetid', 'off') }}
-        {% elif trigger.entity_id == "group.emilios_vaerelse" %}
+        {% elif trigger.entity_id == "light.emilios_loftlampe" %}
           {{ is_state('input_boolean.emilio_legetid', 'off') }}
         {% endif -%}
       action:
         service: light.turn_off
-        data:
-          entity_id: "{{ trigger.entity_id }}"
+        target:
+          area_id: >-
+            {%- if trigger.entity_id == "light.colins_loftlampe" %}
+              colins_vaerelse
+            {% elif trigger.entity_id == "light.emilios_loftlampe" %}
+              emilios_vaerelse
+            {% endif -%}
 
     - alias: "Legetid slut"
       id: bfff5158ee3944788410628ad5482c55
@@ -58,12 +63,12 @@ playtime:
           to: "off"
       action:
         - service: light.turn_off
-          data:
-            entity_id: >-
+          target:
+            area_id: >-
               {%- if trigger.entity_id == "input_boolean.colin_legetid" %}
-                group.colins_vaerelse
+                colins_vaerelse
               {% elif trigger.entity_id == "input_boolean.emilio_legetid" %}
-                group.emilios_vaerelse
+                emilios_vaerelse
               {% endif -%}
 
     - alias: "Nulstil legetid ved slukning af lys"
@@ -74,21 +79,21 @@ playtime:
       trigger:
         - platform: state
           entity_id:
-            - group.colins_vaerelse
-            - group.emilios_vaerelse
+            - light.colins_loftlampe
+            - light.emilios_loftlampe
           to: "off"
       condition: >-
-        {%- if trigger.entity_id == "group.colins_vaerelse" %}
+        {%- if trigger.entity_id == "light.colins_loftlampe" %}
           {{ is_state('input_boolean.colin_legetid', 'on') }}
-        {% elif trigger.entity_id == "group.emilios_vaerelse" %}
+        {% elif trigger.entity_id == "light.emilios_loftlampe" %}
           {{ is_state('input_boolean.emilio_legetid', 'on') }}
         {% endif -%}
       action:
         - service: input_boolean.turn_off
           data:
             entity_id:  >-
-              {%- if trigger.entity_id == "group.colins_vaerelse" %}
+              {%- if trigger.entity_id == "light.colins_loftlampe" %}
                 input_boolean.colin_legetid
-              {% elif trigger.entity_id == "group.emilios_vaerelse" %}
+              {% elif trigger.entity_id == "light.emilios_loftlampe" %}
                 input_boolean.emilio_legetid
               {% endif -%}

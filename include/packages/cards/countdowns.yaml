@@ -97,16 +97,3 @@ countdowns:
                 {{ state_attr(ns.entity_id, "years_at_next_anniversary") }}
               {% endif %}
             hide_in_list: "true"
-
-  automation:
-    - alias: Birthday Update
-      id: b99d39af9a9242fe9aee2536b64f1892
-      description: Opdater nedtællingen til næste fødselsdag
-      initial_state: true
-      mode: single
-      trigger:
-      - platform: time
-        at: 00:01:00
-      action:
-      - service: homeassistant.update_entity
-        entity_id: sensor.next_birthday

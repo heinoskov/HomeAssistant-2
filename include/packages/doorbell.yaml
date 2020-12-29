@@ -28,7 +28,7 @@ doorbell:
             entity_id: camera.indgang_sd
             media_player: media_player.kokken_skaerm
             format: hls
-        - service: homeassistant.turn_on
+        - service: light.turn_on
           data:
             entity_id: light.husnummer
             brightness: "{{ 254 if is_state('binary_sensor.night', 'on') else 0 }}"

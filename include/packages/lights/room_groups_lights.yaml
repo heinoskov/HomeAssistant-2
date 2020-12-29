@@ -28,6 +28,10 @@ room_groups_lights:
       entity_id: switch.colins_skylampe
 
     - platform: switch
+      name: Colins lampe
+      entity_id: switch.colins_lampe
+
+    - platform: switch
       name: Emilios stjernelampe
       entity_id: switch.emilios_stjernelampe
 
@@ -39,16 +43,6 @@ room_groups_lights:
       name: Nathalies sengelamper
       entity_id: switch.nathalies_sengelamper
 
-    - platform: group
-      name: Havegang slut
-      entities:
-        - light.havegangen_6
-        - light.havegangen_7
-        - light.havegangen_8
-        - light.havegangen_9
-        - light.havegangen_10
-        - light.havegangen_11
-        
   group:
     alle_rum:
       name: Alle rum
@@ -68,35 +62,6 @@ room_groups_lights:
         - group.nathalies_vaerelse
         - group.bloklys
 
-    koekken:
-      name: Køkken
-      entities:
-        - light.spisebord
-        - light.kaffebar
-        - light.kokkenbord
-        - light.maleri
-        - light.tavle
-
-    kontor:
-      name: Kontor
-      entities:
-        - light.sandbox_bulb
-
-    stuen:
-      name: Stuen
-      entities:
-        - light.sofalamper
-        - light.stuelamper
-        - light.lille_sofa
-
-    studie_vaerelse:
-      name: Studieværelse
-      entities:
-        - light.studievarelse_gulvlampe
-        - light.studievarelse_uplight
-        - light.cornelies_skrivebordslampe
-        - light.nathalies_skrivebordslampe
-
     faelles:
       name: Fælles
       icon: mdi:track-light
@@ -104,78 +69,6 @@ room_groups_lights:
         - light.gangen
         - light.indgang
         - light.havegangen
-
-    hjaltes_vaerelse:
-      name: Hjaltes værelse
-      entities:
-        - light.hjaltes_loftlampe
-        - light.hjaltes_nanoleaf
-
-    williams_vaerelse:
-      name: Williams værelse
-      entities:
-        - light.williams_loftlampe
-        - light.williams_lampe
-
-    badevaerelser:
-      name: Badeværelser
-      entities:
-        - light.lille_badevarelse
-        - light.stort_badevarelse
-
-    lille_badevaerelse:
-      name: Lille badeværelse
-      icon: mdi:shower-head
-      entities:
-        - light.lille_badevarelse
-
-    stort_badevaerelse:
-      name: Stort badeværelse
-      icon: mdi:shower
-      entities:
-        - light.stort_badevarelse
-
-    emilios_vaerelse:
-      name: Emilios værelse
-      entities:
-        - light.emilios_stjernelampe
-        - light.emilios_loftlampe
-
-    colins_vaerelse:
-      name: Colins værelse
-      entities:
-        - light.colins_skylampe
-        - light.colins_loftlampe
-
-    pigernes_stue:
-      name: Pigernes stue
-      icon: mdi:crystal-ball
-      entities:
-        - light.pigernes_stue_kuglelampe
-
-    cornelies_vaerelse:
-      name: Cornelies værelse
-      entities:
-        - light.cornelies_gulvlampe
-
-    nathalies_vaerelse:
-      name: Nathalies værelse
-      entities:
-        - light.nathalies_sengelamper
-        - light.nathalies_loftlamper
-
-    havegangen:
-      name: Havegangen
-      icon: mdi:wall-sconce-round
-      entities:
-        - light.havegang_start
-        - light.havegang_slut        
-
-    husnummer:
-      name: Husnummer
-      icon: mdi:wall-sconce-round
-      entities:
-        - light.husnummer
 
     bloklys:
       name: Bloklys

@@ -6,7 +6,7 @@
 #      /_____/\__,_/\__/\__/\____/_/ /_/\____/\/____/_/_/\__,_/\___/_/         #
 #                                                              by J-Lindvig    #
 ################################################################################
-# Created: 10/11/2020                                                          #
+# Created: 9/12/2020                                                           #
 ################################################################################
 
 title: Lys
@@ -378,9 +378,16 @@ cards:
                         entity: light.colins_loftlampe
                         hide_state: true
                         full_row: true
-              - type: custom:button-card
-                color_type: blank-card
-    
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:button-card
+                    entity: light.colins_lampe
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.colins_lampe
+                        hide_state: true
+                        full_row: true
 
       - type: custom:stack-in-card
         title: "Pigernes stue"

@@ -19,16 +19,18 @@ garbage:
     sensors:
       # Garbage ordinary pickup
       - name: Affald normal
-        frequency: even-weeks
+        frequency: odd-weeks
         collection_days:
           - wed
         move_country_holidays: DK
         expire_after: "12:00"
         hidden: true
+        exclude_dates:
+          - "2020-12-30"
 
       # Garbage extra summer pickup
       - name: Affald sommer
-        frequency: odd-weeks
+        frequency: even-weeks
         first_month: jul
         last_month: aug
         collection_days:
@@ -51,6 +53,10 @@ garbage:
           - thu
         move_country_holidays: DK
         expire_after: "16:00"
+        exclude_dates:
+          - "2020-12-31"
+        include_dates:
+          - "2020-12-30"
 
   sensor:
     - platform: template

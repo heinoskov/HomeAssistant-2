@@ -17,7 +17,7 @@ gangen:
     - alias: "Stort badeværelse ON"
       id: c71a6a3d1a7c44ae9ac4c4baba2c3555
       initial_state: true
-      mode: single
+      mode: restart
       trigger:
         - platform: state
           entity_id: binary_sensor.stort_badevarelse_sensor
@@ -46,7 +46,7 @@ gangen:
     - alias: "Stort badeværelse OFF"
       id: a02b36fa7a7640b8acedb3a40de7616a
       initial_state: true
-      mode: single
+      mode: restart
       trigger:
         - platform: state
           entity_id: binary_sensor.stort_badevarelse_sensor
@@ -78,7 +78,7 @@ gangen:
     - alias: "Lille badeværelse ON"
       id: c1c994c1fce94f869022d98a8f228174
       initial_state: true
-      mode: single
+      mode: restart
       trigger:
         - platform: state
           entity_id: binary_sensor.lille_badevarelse_sensor
@@ -107,7 +107,7 @@ gangen:
     - alias: "lille badeværelse OFF"
       id: 527a4e38261747c4b0485a149ad0b141
       initial_state: true
-      mode: single
+      mode: restart
       trigger:
         - platform: state
           entity_id: binary_sensor.lille_badevarelse_sensor
@@ -139,7 +139,7 @@ gangen:
     - alias: "Tænd lys i gangen ved bevægelse"
       id: c0584d9f00f3467684b2efc2ac09b015
       initial_state: true
-      mode: single
+      mode: restart
       trigger:
         - platform: state
           entity_id:
@@ -160,7 +160,7 @@ gangen:
     - alias: "Sluk lys i gangen ved  ingen bevægelse"
       id: 678abb2178d341f08c180e78ba5a8c0f
       initial_state: true
-      mode: single
+      mode: restart
       trigger:
         - platform: state
           entity_id:
@@ -178,30 +178,30 @@ gangen:
           data:
             entity_id: light.gangen
 
-    - alias: "Tænd lyset ved bevægelse"
-      id: 20c269830c7c4b2a81b65ef5e82dbca1
-      initial_state: true
-      mode: parallel
-      trigger:
-        - platform: state
-          entity_id:
-            - binary_sensor.sandbox_sensor
-            - binary_sensor.camera_indgang
-          to: "on"
-      action:
-        - service: script.turn_on
-          data:
-            entity_id: script.generic_sensor_dimmer
-            variables:
-              sensor: "{{ trigger.entity_id }}"
-              light: >-
-                {%- if trigger.entity_id == "binary_sensor.sandbox_sensor" %}
-                  light.sandbox_bulb
-                {%- elif trigger.entity_id == "group.sensors_gangen" %}
-                  light.gangen
-                {%- elif trigger.entity_id == "binary_sensor.camera_indgang" %}
-                  light.indgang
-                {% endif %}
+    # - alias: "Tænd lyset ved bevægelse"
+    #   id: 20c269830c7c4b2a81b65ef5e82dbca1
+    #   initial_state: true
+    #   mode: restart
+    #   trigger:
+    #     - platform: state
+    #       entity_id:
+    #         - binary_sensor.sandbox_sensor
+    #         - binary_sensor.camera_indgang
+    #       to: "on"
+    #   action:
+    #     - service: script.turn_on
+    #       data:
+    #         entity_id: script.generic_sensor_dimmer
+    #         variables:
+    #           sensor: "{{ trigger.entity_id }}"
+    #           light: >-
+    #             {%- if trigger.entity_id == "binary_sensor.sandbox_sensor" %}
+    #               light.sandbox_bulb
+    #             {%- elif trigger.entity_id == "group.sensors_gangen" %}
+    #               light.gangen
+    #             {%- elif trigger.entity_id == "binary_sensor.camera_indgang" %}
+    #               light.indgang
+    #             {% endif %}
 
   script:
     generic_sensor_dimmer:

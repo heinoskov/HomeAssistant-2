@@ -1,27 +1,172 @@
-- id: '1601206498993'
-  alias: webhook
+- id: '1608410519916'
+  alias: CCTV Motion - Tænd lys
   description: ''
   trigger:
   - platform: webhook
-    webhook_id: parsehub_library
+    webhook_id: d718eb3cc3fa4b089aa71c37fbbb4373
   condition: []
   action:
-  - service: persistent_notification.create
+  - service: light.turn_on
+    data: {}
+    entity_id: light.indgang
+  mode: restart
+- id: '1608411733721'
+  alias: Birthday Update
+  description: Opdater nedtællingen til kommende fødselsdage én gang i døgnet
+  trigger:
+  - platform: time
+    at: 00:01:00
+  condition: []
+  action:
+  - service: homeassistant.update_entity
+    data: {}
+    entity_id: sensor.next_birthday
+  mode: single
+- id: '1608991948003'
+  alias: Tag Test Sandbox is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 2e3cbe3e-7026-4e27-ae9c-f00e50c20135
+  condition: []
+  action:
+  - service: light.toggle
+    data: {}
+    entity_id: light.sandbox
+  mode: single
+- id: '1608992157017'
+  alias: Tag Test Sandbox is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 4d9eed58-54c3-4558-9b98-c89b7dd57095
+  condition: []
+  action:
+  - service: light.toggle
+    data: {}
+    entity_id: light.sandbox
+  mode: single
+- id: '1608992583482'
+  alias: Tag Alarmtag - køkken is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: fae3f646-4877-40c4-b0f3-55011cd3f834
+  condition: []
+  action:
+  - service: alarm_control_panel.alarm_disarm
+    data: {}
+    entity_id: alarm_control_panel.alarmo
+  mode: single
+- id: '1609256711013'
+  alias: Alarm - Sirene
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.alarmo
+    to: triggered
+  condition: []
+  action:
+  - service: media_player.volume_set
     data:
-      message: '{{ trigger.data.status }}
-
-        {{ trigger.data.run_token }}
-
-        {{ (trigger.data.start_value | from_json).entity_id }}
-
-
-        {{ trigger.data }}
-
-        '
-  - service: shell_command.library_get
+      volume_level: 1
+    entity_id: media_player.kontor
+  - repeat:
+      while:
+      - condition: state
+        entity_id: alarm_control_panel.alarmo
+        state: triggered
+      sequence:
+      - service: media_player.play_media
+        data:
+          media_content_id: https://ha.skovtrolden.duckdns.org/local/audio/siren.mp3
+          media_content_type: music
+        entity_id: media_player.kontor
+      - wait_template: '{{ is_state("media_player.kontor", "playing") }}'
+      - wait_template: '{{ is_state("media_player.kontor", "idle") }}'
+  mode: single
+- id: '1609274966610'
+  alias: Alarm - Lys
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.alarmo
+    to: triggered
+  condition: []
+  action:
+  - service: light.turn_on
     data:
-      friendly_name: '{%- set start_value = trigger.data.start_value | from_json %}
-        {{ start_value.mail }}'
-      entity_id: '{%- set start_value = trigger.data.start_value | from_json %} {{
-        start_value.name }}'
+      brightness_pct: 100
+    entity_id: light.sandbox
+  - repeat:
+      while:
+      - condition: state
+        entity_id: alarm_control_panel.alarmo
+        state: triggered
+      sequence:
+      - delay: '1'
+      - service: light.toggle
+        data: {}
+        entity_id: light.sandbox
+  mode: single
+- id: '1609275894067'
+  alias: AP down - power cycle
+  description: Hjaltes AP er gået død - genstart det med en powercycle
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.ap_hjalte
+    from: 'on'
+    for: 00:02:00
+  condition: []
+  action:
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.hjaltes_ap
+  - delay: '5'
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.hjaltes_ap
+  - wait_template: '{{ is_state("binary_sensor.ap_hjalte", "on") }}'
+    timeout: 00:05:00
+    continue_on_timeout: true
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ not wait.completed }}'
+      sequence:
+      - service: notify.mobile_app_jacobs_moto
+        data:
+          title: AP nede
+          message: 'Hjaltes AP er nede
+
+            '
+          data:
+            channel: Network
+            importance: high
+    default: []
+  mode: single
+- id: '1609276615971'
+  alias: Boot
+  description: Indlæs diverse lister m.m. ved opstart
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: shell_command.var_set_values
+    data: {}
+  - service: shell_command.select_set_options
+    data: {}
+  - service: shell_command.text_set_values
+    data: {}
+  - service: rest_command.set_options_fix
+    data:
+      payload: "{\"entity_id\":\"input_select.chromecasts\",\"options\":[ {%- for\
+        \ chromecast in state_attr('group.chromecasts','entity_id') -%}\n  \"{{ state_attr(chromecast,\
+        \ 'friendly_name') }}\"\n  {{- ',' if not loop.last -}}\n{% endfor %}]}"
+  - service: rest_command.set_options_fix
+    data:
+      payload: "{\"entity_id\":\"input_select.chromecasts_entities\",\"options\":[\
+        \ {%- for chromecast in state_attr('group.chromecasts','entity_id') -%}\n\
+        \  \"{{ chromecast }}\"\n  {{- ',' if not loop.last -}}\n{% endfor %}]}"
   mode: single

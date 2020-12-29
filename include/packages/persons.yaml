@@ -24,22 +24,22 @@ persons:
           - person.hjalte
         to: "not_home"
       action:
-        - service: homeassistant.turn_off
-          data:
-            entity_id: >-
+        - service: light.turn_off
+          target:
+            area_id: >-
               {%- if trigger.entity_id == "person.jacob" %}
-                group.kontor
+                kontor
               {%- elif trigger.entity_id == "person.cornelie" %}
-                group.cornelies_vaerelse
+                cornelies_vaerelse
               {%- elif trigger.entity_id == "person.nathalie" %}
-                group.nathalies_vaerelse
+                nathalies_vaerelse
               {%- else %}
-                group.hjaltes_vaerelse
+                hjaltes_vaerelse
               {% endif %}
 
     - alias: "Sluk lys tomt hus"
       id: 58796333cd0b4e709b96f7da406bd57e
-      description: "Når alle er ude - sluk alt lys, cirkulationspumpen og touchkærm - mpdsat når der kommer nogen hjem"
+      description: "Når alle er ude - sluk alt lys, cirkulationspumpen og touchkærm - modsat når der kommer nogen hjem"
       trigger:
         - platform: state
           entity_id: group.family
@@ -48,12 +48,13 @@ persons:
             - conditions: "{{ is_state('group.family', 'not_home') }}"
               sequence:
                 # Sluk lyset
+                - service: light.turn_off
+                  data:
+                    entity_id: all
                 - service: homeassistant.turn_off
                   data:
                     entity_id:
-                      - group.alle_rum
                       - switch.pump
-                      - light.touchpanel
 
           default:
             - service: homeassistant.turn_on

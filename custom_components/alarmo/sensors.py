@@ -1,5 +1,6 @@
 import logging
 
+import homeassistant.util.dt as dt_util
 
 from homeassistant.core import (
     HomeAssistant,
@@ -8,6 +9,7 @@ from homeassistant.core import (
 
 from homeassistant.helpers.event import (
     async_track_state_change,
+    async_track_point_in_time,
 )
 
 from homeassistant.const import (
@@ -25,11 +27,11 @@ from homeassistant.const import (
 )
 
 from .const import (
-    EVENT_ENTRY,
     EVENT_LEAVE,
     EVENT_ARM,
     ARM_MODES,
     ATTR_MODES,
+    SENSOR_ARM_TIME,
 )
 
 from .automations import (
@@ -44,6 +46,22 @@ ATTR_TRIGGER_UNAVAILABLE = "trigger_unavailable"
 
 SENSOR_STATES_OPEN = [STATE_ON, STATE_OPEN, STATE_UNLOCKED]
 SENSOR_STATES_CLOSED = [STATE_OFF, STATE_CLOSED, STATE_LOCKED]
+
+
+SENSOR_TYPE_DOOR = "door"
+SENSOR_TYPE_WINDOW = "window"
+SENSOR_TYPE_MOTION = "motion"
+SENSOR_TYPE_TAMPER = "tamper"
+SENSOR_TYPE_ENVIRONMENTAL = "environmental"
+SENSOR_TYPE_OTHER = "other"
+SENSOR_TYPES = [
+    SENSOR_TYPE_DOOR,
+    SENSOR_TYPE_WINDOW,
+    SENSOR_TYPE_MOTION,
+    SENSOR_TYPE_TAMPER,
+    SENSOR_TYPE_ENVIRONMENTAL,
+    SENSOR_TYPE_OTHER,
+]
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -60,6 +78,7 @@ class SensorHandler:
         self._bypass_mode = False
         self._open_sensors = None
         self._bypassed_sensors = None
+        self._arm_timers = {}
 
     @property
     def open_sensors(self):
@@ -108,12 +127,26 @@ class SensorHandler:
     def async_load_config(self):
         self._config = self.coordinator.store.async_get_sensors()
 
-    def validate_event(self, event=None, state_filter=None, bypass_open_sensors=False) -> bool:
+    def parse_sensor_state(self, state):
+        if not state or not state.state:
+            return STATE_UNKNOWN
+        elif state.state == STATE_UNAVAILABLE:
+            return STATE_UNAVAILABLE
+        elif state.state in SENSOR_STATES_OPEN:
+            return STATE_OPEN
+        elif state.state in SENSOR_STATES_CLOSED:
+            return STATE_CLOSED
+        else:
+            return STATE_UNKNOWN
+
+    def validate_event(self, event=None, bypass_open_sensors=False) -> bool:
         """"check if sensors have correct state"""
         open_sensors = {}
 
         # store internally so we can take into account during leave time
-        self._bypass_mode = bypass_open_sensors
+        if bypass_open_sensors:
+            self._bypass_mode = True
+
         sensors_list = self.get_sensors_by_state(self.alarm_entity.arm_mode)
 
         for entity in sensors_list:
@@ -123,27 +156,13 @@ class SensorHandler:
             if event in [EVENT_LEAVE, EVENT_ARM] and sensor_config[ATTR_ALLOW_OPEN]:
                 continue
 
-            state = self.hass.states.get(entity)
+            state = self.parse_sensor_state(self.hass.states.get(entity))
 
-            if not state or not state.state:
-                # sensor state cannot be retrieved (it does not exist in HA)
-                if not state_filter or state_filter == STATE_UNKNOWN:
-                    open_sensors[entity] = STATE_UNKNOWN
-            elif state.state in SENSOR_STATES_OPEN:
-                # sensor is open
-                if not state_filter or state_filter == STATE_OPEN:
-                    open_sensors[entity] = state.state
-            elif state.state in [STATE_UNKNOWN, STATE_UNAVAILABLE]:
-                # sensor is unavailable/unknown
-                if (
-                    state_filter == STATE_UNKNOWN or
-                    (not state_filter and event != EVENT_ENTRY) or
-                    (not state_filter and event == EVENT_ENTRY and sensor_config[ATTR_TRIGGER_UNAVAILABLE])
-                ):
-                    open_sensors[entity] = state.state
-            elif state.state not in SENSOR_STATES_CLOSED:
-                if not state_filter or state_filter == STATE_UNKNOWN:
-                    open_sensors[entity] = state.state
+            if state == STATE_UNAVAILABLE and not sensor_config[ATTR_TRIGGER_UNAVAILABLE]:
+                continue
+            elif state in [STATE_OPEN, STATE_UNAVAILABLE, STATE_UNKNOWN]:
+                open_sensors[entity] = state
+
         if self._bypass_mode and event in [EVENT_LEAVE, EVENT_ARM]:
             if event == EVENT_ARM:
                 # store failed sensors
@@ -158,12 +177,24 @@ class SensorHandler:
     @callback
     async def async_sensor_state_changed(self, entity, old_state, new_state):
 
+        old_state = self.parse_sensor_state(old_state)
+        new_state = self.parse_sensor_state(new_state)
+        if old_state == new_state:
+            return
+
         _LOGGER.debug("entity {} changed: old_state={}, new_state={}".format(entity, old_state, new_state))
         sensor_config = self._config[entity]
 
+        if new_state == STATE_UNAVAILABLE and not sensor_config[ATTR_TRIGGER_UNAVAILABLE]:
+            _LOGGER.debug("Entity {} should not trigger on unavailable state, ignoring".format(entity))
+            return
+
         # immediate trigger due to always on sensor
-        if sensor_config[ATTR_ALWAYS_ON] and not self.validate_event(event=None, state_filter=STATE_OPEN):
-            _LOGGER.debug("Alarm is triggered due to an always-on sensor")
+        if sensor_config[ATTR_ALWAYS_ON] and new_state in [STATE_OPEN, STATE_UNKNOWN, STATE_UNAVAILABLE]:
+            _LOGGER.debug("Alarm is triggered due to an always-on sensor: {}".format(entity))
+            self.open_sensors = {
+                entity: new_state
+            }
             await self.alarm_entity.async_trigger(skip_delay=True)
 
         # initializing -> check if all sensors have a known state
@@ -175,22 +206,38 @@ class SensorHandler:
                 await self.alarm_entity.async_update_state(STATE_ALARM_DISARMED)
 
         # arming while immediate sensor is triggered -> cancel arm
-        elif self.alarm_entity.state == STATE_ALARM_ARMING and not self.validate_event(event=EVENT_LEAVE):
-            await self.alarm_entity.automations.async_handle_event(event=EVENT_ARM_FAILURE)
-            await self.alarm_entity.async_update_state(STATE_ALARM_DISARMED)
+        elif self.alarm_entity.state == STATE_ALARM_ARMING:
+            if (
+                new_state in [STATE_OPEN, STATE_UNKNOWN, STATE_UNAVAILABLE]
+                and sensor_config[ATTR_IMMEDIATE]
+                and not sensor_config[ATTR_ALLOW_OPEN]
+                and not self._bypass_mode
+            ):
+                await self.alarm_entity.automations.async_handle_event(event=EVENT_ARM_FAILURE)
+                await self.alarm_entity.async_update_state(STATE_ALARM_DISARMED)
+            elif sensor_config[ATTR_ARM_ON_CLOSE]:
+                if new_state == STATE_CLOSED:
+                    self.start_arm_timer(entity)
+                else:
+                    self.stop_arm_timer(entity)
+            else:
+                self.stop_arm_timer()
 
         # alarm is armed -> check if need to be triggered
         elif self.alarm_entity.state in ARM_MODES:
-            res = self.validate_event(event=EVENT_ENTRY)
-
-            if not res and sensor_config[ATTR_IMMEDIATE]:
-                await self.alarm_entity.async_trigger(skip_delay=True)
-            elif not res:
-                await self.alarm_entity.async_trigger()
+            if new_state in [STATE_OPEN, STATE_UNKNOWN, STATE_UNAVAILABLE]:
+                _LOGGER.debug("Alarm is triggered due to sensor: {}".format(entity))
+                self.open_sensors = {
+                    entity: new_state
+                }
+                if sensor_config[ATTR_IMMEDIATE]:
+                    await self.alarm_entity.async_trigger(skip_delay=True)
+                else:
+                    await self.alarm_entity.async_trigger()
 
         # alarm is in pending -> check if pending time needs to be aborted
         elif self.alarm_entity.state == STATE_ALARM_PENDING:
-            if new_state not in SENSOR_STATES_CLOSED and sensor_config[ATTR_IMMEDIATE]:
+            if new_state in [STATE_OPEN, STATE_UNKNOWN, STATE_UNAVAILABLE] and sensor_config[ATTR_IMMEDIATE]:
                 await self.alarm_entity.async_trigger(skip_delay=True)
 
     async def async_update_listener(self, state):
@@ -206,6 +253,9 @@ class SensorHandler:
                 self.hass, sensors_list, self.async_sensor_state_changed
             )
 
+        if state == STATE_ALARM_DISARMED:
+            self._bypass_mode = False
+
     def all_sensors_available_for_state(self, state):
         sensors_list = self.get_sensors_by_state(state)
         passed = True
@@ -220,3 +270,28 @@ class SensorHandler:
                 passed = False
 
         return passed
+
+    def start_arm_timer(self, entity):
+        """start timer for automatical arming"""
+
+        @callback
+        async def timer_finished(now):
+            _LOGGER.debug("timer finished")
+            await self.alarm_entity.async_arm(self.alarm_entity.arm_mode)
+        now = dt_util.utcnow()
+
+        if entity in self._arm_timers:
+            self.stop_arm_timer(entity)
+
+        self._arm_timers[entity] = async_track_point_in_time(
+            self.hass, timer_finished, now + SENSOR_ARM_TIME
+        )
+
+    def stop_arm_timer(self, entity=None):
+        """cancel timer(s) for automatical arming"""
+
+        if entity and entity in self._arm_timers:
+            self._arm_timers[entity]()
+        elif not entity:
+            for entity in self._arm_timers.keys():
+                self._arm_timers[entity]()
